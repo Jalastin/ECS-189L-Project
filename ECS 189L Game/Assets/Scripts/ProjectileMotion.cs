@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class ProjectileMotion : MonoBehaviour
 {
-    [SerializeField] private Vector3 MuzzleVelocity = new Vector2(-200.0f, 0f);
+    [SerializeField] private Vector3 MuzzleVelocity = new Vector2(0.1f, 0f);
 
     public void Fire()
     {

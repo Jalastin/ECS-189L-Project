@@ -2,16 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileSpec : MonoBehaviour
+// ShieldSpec creates a random shield according to the specifications.
+public class ProjectileSpec : Spec
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
+    // Constructor to make a random projectile.
+    public ProjectileSpec()
     {
         
     }
