@@ -100,7 +100,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0.01
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 934a4f5936d9acc4d8b28076123dbac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MuzzleVelocity: {x: 0.1, y: 0, z: 0}
+  _velocity: {x: 0.1, y: 0}
 --- !u!114 &1764567822714234833
 MonoBehaviour:
   m_ObjectHideFlags: 0

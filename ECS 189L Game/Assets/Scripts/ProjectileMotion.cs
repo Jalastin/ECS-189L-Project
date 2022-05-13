@@ -16,7 +16,6 @@ public class ProjectileMotion : MonoBehaviour
     public void Fire()
     {
         this.GetComponent<Rigidbody2D>().AddForce(this.Velocity);
-        Debug.Log(this.Velocity);
     }
 
     private void OnTriggerEnter(Collider other)

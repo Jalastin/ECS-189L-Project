@@ -21,15 +21,12 @@ public class PlayerController : MonoBehaviour
         // Continue to charge force while the main fire button is being held down.
         if (Input.GetButton("Fire1"))
         {
-            Debug.Log("charging");
             this.force += this.forceCharge;
         }
         // Create the projectile with the specified force.
         if (Input.GetButtonUp("Fire1"))
         {
-            Debug.Log(this.force);
             this.GetComponent<ProjectileFactory>().Build(new ProjectileSpec(this.force));
-            Debug.Log("boom");
             this.force = 0;
         }
     }
