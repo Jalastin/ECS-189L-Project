@@ -4,18 +4,33 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // forceCharge specifies how much force should be added
+    // per frame while Fire1 is being held.
+    [SerializeField] private float forceCharge = 0.01f;
+
+    // force is how much force the new projectile should have.
+    private float force;
+
     void Start()
     {
-        
+        this.force = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
+        // Continue to charge force while the main fire button is being held down.
+        if (Input.GetButton("Fire1"))
         {
-            this.GetComponent<ProjectileFactory>().Build(new ProjectileSpec());
+            Debug.Log("charging");
+            this.force += this.forceCharge;
+        }
+        // Create the projectile with the specified force.
+        if (Input.GetButtonUp("Fire1"))
+        {
+            Debug.Log(this.force);
+            this.GetComponent<ProjectileFactory>().Build(new ProjectileSpec(this.force));
+            Debug.Log("boom");
+            this.force = 0;
         }
     }
 }

@@ -19,7 +19,8 @@ public class ProjectileFactory : Factory
 
         // Set the specs of the newly instantiated newGameObject
         // to the specs specified within newSpec.
-        var projectileController = projectile.GetComponent<ProjectileController>();
+        var projectileMotion = projectile.GetComponent<ProjectileMotion>();
+        projectileMotion.Velocity = new Vector2(newSpec.Force, 0f);
         return projectile;
     }
     public GameObject GenerateRandomProjectile()
