@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // update MousePosition to wherever the mouse currently is
+        // Update MousePosition to wherever the mouse currently is.
         MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 }
