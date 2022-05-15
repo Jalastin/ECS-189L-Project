@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
         // Create the projectile with the specified force.
         if (Input.GetButtonUp("Fire1"))
         {
-            Debug.Log(this.force);
             this.GetComponent<ProjectileFactory>().Build(new ProjectileSpec(this.force));
             this.force = 0;
         }

@@ -22,22 +22,28 @@ public class ProjectileMotion : MonoBehaviour
 
     [SerializeField] private float gravity = -10f;
 
+    private bool hasFired;
+
     public void Fire()
     {
         var velocity = new Vector2(this.VelocityX, this.VelocityY);
         this.GetComponent<Rigidbody2D>().AddForce(velocity);
+        this.hasFired = true;
     }
 
-    private void OnTriggerEnter(Collider other)
+    void Start()
     {
-        Destroy(this.gameObject);
+        this.hasFired = false;
     }
 
     void Update()
     {
-        // Slowly decrease the Y velocity over time.
-        this.VelocityY -= this.gravity;
-        var velocity = new Vector2(this.VelocityX, this.VelocityY);
-        this.GetComponent<Rigidbody2D>().AddForce(velocity);
+        if (this.hasFired)
+        {
+            // Slowly decrease the Y velocity over time (for a gravity effect).
+            this.VelocityY -= this.gravity;
+            var velocity = new Vector2(this.VelocityX, this.VelocityY);
+            this.GetComponent<Rigidbody2D>().AddForce(velocity);
+        }
     }
 }

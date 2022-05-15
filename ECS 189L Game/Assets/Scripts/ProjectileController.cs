@@ -6,6 +6,11 @@ using UnityEngine;
 public class ProjectileController : MonoBehaviour
 {
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(this.gameObject);
+    }
+
     void Start()
     {
         
