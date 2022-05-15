@@ -10,6 +10,7 @@ public class ProjectileFactory : Factory
     {
         var spawnPlace = this.projectileSpawn.transform.position;
         GameObject newGameObject = Instantiate(this.prefab, spawnPlace, Quaternion.identity);
+        Destroy(newGameObject, 15f);
         return newGameObject;
     }
 
@@ -26,7 +27,8 @@ public class ProjectileFactory : Factory
         // to the specs specified within newSpec.
         var projectileMotion = projectile.GetComponent<ProjectileMotion>();
         // Multiply the Force by the direction it should go (ie. where the mouse is pointing).
-        projectileMotion.Velocity = new Vector2(newSpec.Force * mouseDirection.x, newSpec.Force * mouseDirection.y);
+        projectileMotion.VelocityX =  newSpec.Force * mouseDirection.x;
+        projectileMotion.VelocityY =  newSpec.Force * mouseDirection.y;
         return projectile;
     }
     public GameObject GenerateRandomProjectile()

@@ -5,17 +5,27 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class ProjectileMotion : MonoBehaviour
 {
-    [SerializeField] private Vector2 _velocity = new Vector2(0.1f, 0f);
+    private float _velocityX = 0f;
 
-    public Vector2 Velocity
+    public float VelocityX
     {
-        get => _velocity;
-        set => _velocity = value;
+        get => _velocityX;
+        set => _velocityX = value;
     }
+
+    private float _velocityY = 0f;
+    public float VelocityY
+    {
+        get => _velocityY;
+        set => _velocityY = value;
+    }
+
+    [SerializeField] private float gravity = -10f;
 
     public void Fire()
     {
-        this.GetComponent<Rigidbody2D>().AddForce(this.Velocity);
+        var velocity = new Vector2(this.VelocityX, this.VelocityY);
+        this.GetComponent<Rigidbody2D>().AddForce(velocity);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -23,4 +33,11 @@ public class ProjectileMotion : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    void Update()
+    {
+        // Slowly decrease the Y velocity over time.
+        this.VelocityY -= this.gravity;
+        var velocity = new Vector2(this.VelocityX, this.VelocityY);
+        this.GetComponent<Rigidbody2D>().AddForce(velocity);
+    }
 }
