@@ -444,7 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forceCharge: 0.1
   maxForce: 10
---- !u!1001 &5047475374021662514
+--- !u!1001 &1811064087
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -454,10 +454,6 @@ PrefabInstance:
     - target: {fileID: 5047475375365970612, guid: 61c0664fc6488094f96e45d9b98512a8, type: 3}
       propertyPath: m_Name
       value: Platform
-      objectReference: {fileID: 0}
-    - target: {fileID: 5047475375365970616, guid: 61c0664fc6488094f96e45d9b98512a8, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5047475375365970619, guid: 61c0664fc6488094f96e45d9b98512a8, type: 3}
       propertyPath: m_RootOrder
