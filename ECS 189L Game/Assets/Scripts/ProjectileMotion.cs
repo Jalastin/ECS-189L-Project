@@ -23,6 +23,12 @@ public class ProjectileMotion : MonoBehaviour
     [SerializeField] private float gravity = -10f;
 
     private bool hasFired;
+    private bool _hasCollided;
+    public bool HasCollided
+    {
+        get => _hasCollided;
+        set => _hasCollided = value;
+    }
 
     public void Fire()
     {
@@ -34,14 +40,24 @@ public class ProjectileMotion : MonoBehaviour
     void Start()
     {
         this.hasFired = false;
+        this.HasCollided = false;
     }
 
     void Update()
     {
         if (this.hasFired)
         {
-            // Slowly decrease the Y velocity over time (for a gravity effect).
-            this.VelocityY -= this.gravity;
+            if (this.HasCollided == false)
+            {
+                // Slowly decrease the Y velocity over time (for a gravity effect).
+                this.VelocityY -= this.gravity;
+            }
+            else
+            {
+                this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                this.GetComponent<Rigidbody2D>().angularVelocity = 0;
+                this.VelocityY = 0;
+            }
             var velocity = new Vector2(this.VelocityX, this.VelocityY);
             this.GetComponent<Rigidbody2D>().AddForce(velocity);
         }
