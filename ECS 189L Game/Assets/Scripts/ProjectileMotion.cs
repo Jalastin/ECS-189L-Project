@@ -23,6 +23,7 @@ public class ProjectileMotion : MonoBehaviour
     [SerializeField] private float gravity = -10f;
 
     private bool hasFired;
+    // HasCollided is set in ProjectileController.
     private bool _hasCollided;
     public bool HasCollided
     {
@@ -47,15 +48,19 @@ public class ProjectileMotion : MonoBehaviour
     {
         if (this.hasFired)
         {
+            // While the pearl is still mid-air / hasn't collided with anything yet.
             if (this.HasCollided == false)
             {
                 // Slowly decrease the Y velocity over time (for a gravity effect).
                 this.VelocityY -= this.gravity;
             }
+            // If the pearl has collided with something.
             else
             {
+                // Strip all velocity from the Rigidbody.
                 this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 this.GetComponent<Rigidbody2D>().angularVelocity = 0;
+                // Set VelocityY to 0, so that it only moves on the x-axis (ie. rolling).
                 this.VelocityY = 0;
             }
             var velocity = new Vector2(this.VelocityX, this.VelocityY);

@@ -5,12 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(ProjectileMotion))]
 public class ProjectileController : MonoBehaviour
 {
+    // teleportDelay is how much time the pearl should roll
+    // before the player gets teleported.
     [SerializeField] private float teleportDelay = 0.3f;
+    // Counter to keep track of timeElapsed since initial contact with a platform.
     private float timeElapsed;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Contact!");
         this.GetComponent<ProjectileMotion>().HasCollided = true;
     }
 
