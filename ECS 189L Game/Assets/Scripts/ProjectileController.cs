@@ -24,7 +24,7 @@ public class ProjectileController : MonoBehaviour
         set => _hasCollided = value;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         // Prevent the pearl from colliding with the Player itself.
         if (other.gameObject.tag != "Player")
@@ -40,11 +40,11 @@ public class ProjectileController : MonoBehaviour
         // Destroy the Pearl for a given amount of time,
         // Remove once testing is finished
         Destroy(this.gameObject, 5f);
+        this.GetComponent<ProjectileMotion>().Fire();
     }
 
     void Update()
     {
-        this.GetComponent<ProjectileMotion>().Fire();
         if (this.HasCollided)
         {
             if (this.timeElapsed >= this.teleportDelay)

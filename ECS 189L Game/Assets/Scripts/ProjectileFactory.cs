@@ -10,7 +10,6 @@ public class ProjectileFactory : Factory
     {
         var spawnPlace = this.projectileSpawn.transform.position;
         GameObject newGameObject = Instantiate(this.prefab, spawnPlace, Quaternion.identity);
-        Destroy(newGameObject, 15f);
         return newGameObject;
     }
 
