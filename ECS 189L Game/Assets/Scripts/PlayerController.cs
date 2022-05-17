@@ -32,8 +32,13 @@ public class PlayerController : MonoBehaviour
         // Create the projectile with the specified force.
         if (Input.GetButtonUp("Fire1"))
         {
-            this.GetComponent<ProjectileFactory>().Build(new ProjectileSpec(this.force));
-            this.force = 0;
+            // Only run this code if there is no Pearl currently active.
+            // This prevents multiple pearls from being thrown at once.
+            if (GameObject.Find("Pearl(Clone)") == null)
+            {
+                this.GetComponent<ProjectileFactory>().Build(new ProjectileSpec(this.force));
+                this.force = 0;
+            }
         }
     }
 }
