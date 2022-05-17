@@ -20,8 +20,12 @@ public class ProjectileController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Collision!");
-        this.HasCollided = true;
+        // Prevent the pearl from colliding with the Player itself.
+        if (other.gameObject.tag != "Player")
+        {
+            Debug.Log("Collision!");
+            this.HasCollided = true;
+        }
     }
 
     void Start()
