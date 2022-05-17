@@ -8,7 +8,7 @@ public class ProjectileController : MonoBehaviour
     // teleportDelay is how much time the pearl should roll
     // before the player gets teleported.
     [SerializeField] private float teleportDelay = 0.3f;
-    
+
     // playerOffset is how much higher the Player should be teleported
     // over the Pearl's original location.
     [SerializeField] private float playerOffset = 2f;
@@ -37,6 +37,9 @@ public class ProjectileController : MonoBehaviour
     {
         this.timeElapsed = 0;
         this.HasCollided = false;
+        // Destroy the Pearl for a given amount of time,
+        // Remove once testing is finished
+        Destroy(this.gameObject, 15f);
     }
 
     void Update()
