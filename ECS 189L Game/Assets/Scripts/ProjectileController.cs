@@ -8,9 +8,15 @@ public class ProjectileController : MonoBehaviour
     // teleportDelay is how much time the pearl should roll
     // before the player gets teleported.
     [SerializeField] private float teleportDelay = 0.3f;
+    
+    // playerOffset is how much higher the Player should be teleported
+    // over the Pearl's original location.
+    [SerializeField] private float playerOffset = 2f;
+
     // Counter to keep track of timeElapsed since initial contact with a platform.
     private float timeElapsed;
 
+    // Bool to check if the Pearl has collided with a GameObject.
     private bool _hasCollided;
     public bool HasCollided
     {
@@ -23,7 +29,6 @@ public class ProjectileController : MonoBehaviour
         // Prevent the pearl from colliding with the Player itself.
         if (other.gameObject.tag != "Player")
         {
-            Debug.Log("Collision!");
             this.HasCollided = true;
         }
     }
@@ -43,7 +48,10 @@ public class ProjectileController : MonoBehaviour
             {
                 this.HasCollided = false;
                 this.timeElapsed = 0;
-                // Debug.Log(this.transform.position);
+                var pearlPosition = this.transform.position;
+                // Set the Player's position to the Pearl's position,
+                // plus the playerOffset to make it teleport "above" the pearl.
+                GameObject.Find("Player").transform.position = new Vector2(pearlPosition.x, pearlPosition.y + this.playerOffset);
                 Destroy(this.gameObject);
             }
             this.timeElapsed += Time.deltaTime;
