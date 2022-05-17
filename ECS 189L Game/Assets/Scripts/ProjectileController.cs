@@ -13,6 +13,9 @@ public class ProjectileController : MonoBehaviour
     // over the Pearl's original location.
     [SerializeField] private float playerOffset = 2f;
 
+    // player just keeps track of the Player GameObject.
+    private GameObject player;
+
     // Counter to keep track of timeElapsed since initial contact with a platform.
     private float timeElapsed;
 
@@ -41,6 +44,9 @@ public class ProjectileController : MonoBehaviour
         // Remove once testing is finished
         Destroy(this.gameObject, 5f);
         this.GetComponent<ProjectileMotion>().Fire();
+        // Ensure that the Pearl does not collide with the player.
+        this.player = GameObject.Find("Player");
+        Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), this.player.GetComponent<Collider2D>());
     }
 
     void Update()
@@ -54,7 +60,7 @@ public class ProjectileController : MonoBehaviour
                 var pearlPosition = this.transform.position;
                 // Set the Player's position to the Pearl's position,
                 // plus the playerOffset to make it teleport "above" the pearl.
-                GameObject.Find("Player").transform.position = new Vector2(pearlPosition.x, pearlPosition.y + this.playerOffset);
+                this.player.transform.position = new Vector2(pearlPosition.x, pearlPosition.y + this.playerOffset);
                 Destroy(this.gameObject);
             }
             this.timeElapsed += Time.deltaTime;
