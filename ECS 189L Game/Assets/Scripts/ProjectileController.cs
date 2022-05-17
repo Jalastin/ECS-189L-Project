@@ -11,25 +11,33 @@ public class ProjectileController : MonoBehaviour
     // Counter to keep track of timeElapsed since initial contact with a platform.
     private float timeElapsed;
 
+    private bool _hasCollided;
+    public bool HasCollided
+    {
+        get => _hasCollided;
+        set => _hasCollided = value;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("Collision!");
-        this.GetComponent<ProjectileMotion>().HasCollided = true;
+        this.HasCollided = true;
     }
 
     void Start()
     {
         this.timeElapsed = 0;
+        this.HasCollided = false;
     }
 
     void Update()
     {
         this.GetComponent<ProjectileMotion>().Fire();
-        if (this.GetComponent<ProjectileMotion>().HasCollided)
+        if (this.HasCollided)
         {
             if (this.timeElapsed >= this.teleportDelay)
             {
-                this.GetComponent<ProjectileMotion>().HasCollided = false;
+                this.HasCollided = false;
                 this.timeElapsed = 0;
                 // Debug.Log(this.transform.position);
                 Destroy(this.gameObject);
