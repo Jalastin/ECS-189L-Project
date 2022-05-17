@@ -13,6 +13,7 @@ public class ProjectileController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Collision!");
         this.GetComponent<ProjectileMotion>().HasCollided = true;
     }
 
@@ -30,7 +31,7 @@ public class ProjectileController : MonoBehaviour
             {
                 this.GetComponent<ProjectileMotion>().HasCollided = false;
                 this.timeElapsed = 0;
-                Debug.Log(this.transform.position);
+                // Debug.Log(this.transform.position);
                 Destroy(this.gameObject);
             }
             this.timeElapsed += Time.deltaTime;

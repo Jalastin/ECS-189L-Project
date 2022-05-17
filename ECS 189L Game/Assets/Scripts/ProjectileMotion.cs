@@ -48,21 +48,23 @@ public class ProjectileMotion : MonoBehaviour
     {
         if (this.hasFired)
         {
-            // While the pearl is still mid-air / hasn't collided with anything yet.
-            if (this.HasCollided == false)
-            {
-                // Slowly decrease the Y velocity over time (for a gravity effect).
-                this.VelocityY -= this.gravity;
-            }
-            // If the pearl has collided with something.
-            else
-            {
-                // Strip all velocity from the Rigidbody.
-                this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                this.GetComponent<Rigidbody2D>().angularVelocity = 0;
-                // Set VelocityY to 0, so that it only moves on the x-axis (ie. rolling).
-                this.VelocityY = 0;
-            }
+            // // While the pearl is still mid-air / hasn't collided with anything yet.
+            // if (this.HasCollided == false)
+            // {
+            //     // Slowly decrease the Y velocity over time (for a gravity effect).
+            //     this.VelocityY -= this.gravity;
+            // }
+            // // If the pearl has collided with something.
+            // else
+            // {
+            //     // Strip all velocity from the Rigidbody.
+            //     this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            //     this.GetComponent<Rigidbody2D>().angularVelocity = 0;
+            //     // Set VelocityY to 0, so that it only moves on the x-axis (ie. rolling).
+            //     this.VelocityY = 0;
+            // }
+            // Slowly decrease the Y velocity over time (for a gravity effect).
+            this.VelocityY -= this.gravity;
             var velocity = new Vector2(this.VelocityX, this.VelocityY);
             this.GetComponent<Rigidbody2D>().AddForce(velocity);
         }
