@@ -21,7 +21,7 @@ public class WindSpriteFactory : Factory
         var windSpriteMotion = windSprite.GetComponent<WindSpriteMotion>();
         // Set the velcoity to the same force as WindZone's windForce.
         var windForce = this.GetComponent<WindZoneController>().WindForce;
-        windSpriteMotion.VelocityX =  windForce;
+        windSpriteMotion.VelocityX =  windForce * 100;
         windSpriteMotion.VelocityY =  0f;
         return windSprite;
     }

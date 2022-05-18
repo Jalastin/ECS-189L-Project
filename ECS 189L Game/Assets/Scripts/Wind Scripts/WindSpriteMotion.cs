@@ -23,7 +23,6 @@ public class WindSpriteMotion : MonoBehaviour
     public void Fire()
     {
         var velocity = new Vector2(this.VelocityX, this.VelocityY);
-        Debug.Log(velocity);
         this.GetComponent<Rigidbody2D>().AddForce(velocity);
     }
 }
