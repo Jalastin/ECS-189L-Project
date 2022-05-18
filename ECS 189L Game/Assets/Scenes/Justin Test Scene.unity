@@ -291,6 +291,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5047475375365970612, guid: 61c0664fc6488094f96e45d9b98512a8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5047475375365970619, guid: 61c0664fc6488094f96e45d9b98512a8, type: 3}
       propertyPath: m_RootOrder
       value: 6

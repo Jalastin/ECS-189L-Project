@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ShieldSpec creates a random shield according to the specifications.
-public class PearlSpec : Spec
+public class WindSpriteSpec : Spec
 {
     private float _force;
     
@@ -13,14 +12,12 @@ public class PearlSpec : Spec
         set => _force = value;
     }
 
-    // Constructor to make a random pearl.
-    public PearlSpec()
+    public WindSpriteSpec()
     {
         this.Force = Random.Range(0.1f, 1f);
     }
     
-    // Constructor to make a pearl based on the specified newForce.
-    public PearlSpec(float newForce)
+    public WindSpriteSpec(float newForce)
     {
         this.Force = newForce;
     }
