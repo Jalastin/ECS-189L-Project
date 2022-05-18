@@ -42,7 +42,7 @@ public class ProjectileController : MonoBehaviour
         this.HasCollided = false;
         // Destroy the Pearl for a given amount of time,
         // Remove once testing is finished
-        Destroy(this.gameObject, 5f);
+        Destroy(this.gameObject, 3f);
         this.GetComponent<ProjectileMotion>().Fire();
         // Ensure that the Pearl does not collide with the player.
         this.player = GameObject.Find("Player");
