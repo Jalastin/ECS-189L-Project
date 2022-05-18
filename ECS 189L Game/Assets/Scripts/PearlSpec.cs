@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // ShieldSpec creates a random shield according to the specifications.
-public class ProjectileSpec : Spec
+public class PearlSpec : Spec
 {
     private float _force;
     
@@ -13,14 +13,14 @@ public class ProjectileSpec : Spec
         set => _force = value;
     }
 
-    // Constructor to make a random projectile.
-    public ProjectileSpec()
+    // Constructor to make a random pearl.
+    public PearlSpec()
     {
         this.Force = Random.Range(0.1f, 1f);
     }
     
-    // Constructor to make a projectile based on the specified newForce.
-    public ProjectileSpec(float newForce)
+    // Constructor to make a pearl based on the specified newForce.
+    public PearlSpec(float newForce)
     {
         this.Force = newForce;
     }

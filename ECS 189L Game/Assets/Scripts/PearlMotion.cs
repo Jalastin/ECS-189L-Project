@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class ProjectileMotion : MonoBehaviour
+public class PearlMotion : MonoBehaviour
 {
     private float _velocityX = 0f;
 

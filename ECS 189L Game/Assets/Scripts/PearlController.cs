@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ProjectileMotion))]
-public class ProjectileController : MonoBehaviour
+[RequireComponent(typeof(PearlMotion))]
+public class PearlController : MonoBehaviour
 {
     // teleportDelay is how much time the pearl should roll
     // before the player gets teleported.
@@ -42,8 +42,8 @@ public class ProjectileController : MonoBehaviour
         this.HasCollided = false;
         // Destroy the Pearl for a given amount of time,
         // Remove once testing is finished
-        Destroy(this.gameObject, 5f);
-        this.GetComponent<ProjectileMotion>().Fire();
+        Destroy(this.gameObject, 3f);
+        this.GetComponent<PearlMotion>().Fire();
         // Ensure that the Pearl does not collide with the player.
         this.player = GameObject.Find("Player");
         Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), this.player.GetComponent<Collider2D>());
