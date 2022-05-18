@@ -7,7 +7,8 @@ public class WindSpriteFactory : Factory
     [SerializeField] private GameObject prefab;
     public GameObject Make(WindSpriteSpec newSpec)
     {
-        var spawnPlace = this.transform.position; // change to random spawn
+        // spawnPlace should be the local position of the windZone plus the offset specified in newSpec.
+        var spawnPlace = (Vector2)this.transform.position + newSpec.Position;
         GameObject newGameObject = Instantiate(this.prefab, spawnPlace, Quaternion.identity);
         return newGameObject;
     }
@@ -19,7 +20,7 @@ public class WindSpriteFactory : Factory
         // Set the specs of the newly instantiated newGameObject
         // to the specs specified within newSpec.
         var windSpriteMotion = windSprite.GetComponent<WindSpriteMotion>();
-        // Set the velcoity to the same force as WindZone's windForce.
+        // Set the velcoity to the same force as WindZone's windForce * 100.
         var windForce = this.GetComponent<WindZoneController>().WindForce;
         windSpriteMotion.VelocityX =  windForce * 100;
         windSpriteMotion.VelocityY =  0f;
