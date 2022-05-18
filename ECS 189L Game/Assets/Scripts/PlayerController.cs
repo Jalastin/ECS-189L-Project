@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     // Restrict how high the force can become.
     [SerializeField] private float maxForce = 10f;
 
-    // force is how much force the new projectile should have.
+    // force is how much force the new pearl should have.
     private float force;
 
     void Start()
@@ -29,14 +29,14 @@ public class PlayerController : MonoBehaviour
                 this.force = this.maxForce;
             }
         }
-        // Create the projectile with the specified force.
+        // Create the pearl with the specified force.
         if (Input.GetButtonUp("Fire1"))
         {
             // Only run this code if there is no Pearl currently active.
             // This prevents multiple pearls from being thrown at once.
             if (GameObject.Find("Pearl(Clone)") == null)
             {
-                this.GetComponent<ProjectileFactory>().Build(new ProjectileSpec(this.force));
+                this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force));
                 this.force = 0;
             }
         }

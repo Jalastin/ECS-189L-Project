@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1839874637286700661}
   m_Layer: 0
-  m_Name: Projectile Spawn
+  m_Name: Pearl Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1764567822714234797, guid: b185ef7af8cf3374cb2c26c218dc03c7, type: 3}
-  projectileSpawn: {fileID: 1839874637286700660}
+  pearlSpawn: {fileID: 1839874637286700660}
 --- !u!50 &-7649985700195001600
 Rigidbody2D:
   serializedVersion: 4
