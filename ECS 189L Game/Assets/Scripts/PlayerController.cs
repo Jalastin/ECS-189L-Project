@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // forceCharge specifies how much force should be added
-    // per frame while Fire1 is being held.
-    [SerializeField] private float forceCharge = 0.1f;
     // Restrict how high the force can become.
     [SerializeField] private float maxForce = 10f;
 
     [SerializeField] private float forceMultipler = 10;
+
+    private Vector3 mouseDiff;
+    private float mouseDistance;
+    private Vector3 mouseDirection;
 
     // force is how much force the new pearl should have.
     private float force;
@@ -35,37 +36,38 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButton("Fire1"))
         {
             this.mousePositionEnd = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
-            var mouseDiff = this.mousePositionStart - this.mousePositionEnd;
-            var mouseDistance = mouseDiff.magnitude;
-            var mouseDirection = mouseDiff / mouseDistance;
-            this.force = mouseDistance * this.forceMultipler;
-            var pearlSpawnPosition = GameObject.Find("Pearl Spawn").transform.position;
-            this.pearlArcLine.enabled = true;
-            this.pearlArcLine.positionCount = 2;
-            this.pearlArcLine.useWorldSpace = true;
-			this.pearlArcLine.SetPosition(0, pearlSpawnPosition);
-            var arcX = pearlSpawnPosition.x + mouseDiff.x / this.forceMultipler * 2;
-            var arcY = pearlSpawnPosition.y + mouseDiff.y / this.forceMultipler * 2;
-            var arcZ = pearlSpawnPosition.z + mouseDiff.z / this.forceMultipler * 2;
-            this.pearlArcLine.SetPosition(1, new Vector3(arcX, arcY, arcZ));
+            this.mouseDiff = this.mousePositionStart - this.mousePositionEnd;
+            this.mouseDistance = this.mouseDiff.magnitude;
+            this.mouseDirection = this.mouseDiff / this.mouseDistance;
+            this.force = this.mouseDistance * this.forceMultipler;
+            
+            drawPearlArc();
         }
         // Create the pearl with the specified force.
         if (Input.GetButtonUp("Fire1"))
         {
             this.pearlArcLine.enabled = false;
-            this.mousePositionEnd = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
-            var mouseDiff = this.mousePositionStart - this.mousePositionEnd;
-            var mouseDistance = mouseDiff.magnitude;
-            var mouseDirection = mouseDiff / mouseDistance;
-            this.force = mouseDistance * this.forceMultipler;
 
             // Only run this code if there is no Pearl currently active.
             // This prevents multiple pearls from being thrown at once.
             if (GameObject.Find("Pearl(Clone)") == null)
             {
-                this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, mouseDirection));
+                this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                 this.force = 0;
             }
         }
+    }
+
+    void drawPearlArc() 
+    {
+        var pearlSpawnPosition = GameObject.Find("Pearl Spawn").transform.position;
+        this.pearlArcLine.enabled = true;
+        this.pearlArcLine.positionCount = 2;
+        this.pearlArcLine.useWorldSpace = true;
+        this.pearlArcLine.SetPosition(0, pearlSpawnPosition);
+        var arcX = pearlSpawnPosition.x + this.mouseDiff.x / this.forceMultipler * 2;
+        var arcY = pearlSpawnPosition.y + this.mouseDiff.y / this.forceMultipler * 2;
+        var arcZ = pearlSpawnPosition.z + this.mouseDiff.z / this.forceMultipler * 2;
+        this.pearlArcLine.SetPosition(1, new Vector3(arcX, arcY, arcZ));
     }
 }
