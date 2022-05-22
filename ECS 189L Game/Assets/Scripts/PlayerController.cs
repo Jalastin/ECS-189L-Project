@@ -16,12 +16,13 @@ public class PlayerController : MonoBehaviour
     private float force;
 
     private Vector3 mousePositionStart;
-
     private Vector3 mousePositionEnd;
+    private LineRenderer pearlArcLine;
 
     void Start()
     {
         this.force = 0;
+        this.pearlArcLine = this.gameObject.GetComponent<LineRenderer>();
     }
 
     void Update()
@@ -30,15 +31,28 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
-            // this.force += this.forceCharge;
-            // if (this.force >= this.maxForce)
-            // {
-            //     this.force = this.maxForce;
-            // }
+        }
+        if (Input.GetButton("Fire1"))
+        {
+            this.mousePositionEnd = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
+            var mouseDiff = this.mousePositionStart - this.mousePositionEnd;
+            var mouseDistance = mouseDiff.magnitude;
+            var mouseDirection = mouseDiff / mouseDistance;
+            this.force = mouseDistance * this.forceMultipler;
+            var pearlSpawnPosition = GameObject.Find("Pearl Spawn").transform.position;
+            this.pearlArcLine.enabled = true;
+            this.pearlArcLine.positionCount = 2;
+            this.pearlArcLine.useWorldSpace = true;
+			this.pearlArcLine.SetPosition(0, pearlSpawnPosition);
+            var arcX = pearlSpawnPosition.x + mouseDiff.x / this.forceMultipler * 2;
+            var arcY = pearlSpawnPosition.y + mouseDiff.y / this.forceMultipler * 2;
+            var arcZ = pearlSpawnPosition.z + mouseDiff.z / this.forceMultipler * 2;
+            this.pearlArcLine.SetPosition(1, new Vector3(arcX, arcY, arcZ));
         }
         // Create the pearl with the specified force.
         if (Input.GetButtonUp("Fire1"))
         {
+            this.pearlArcLine.enabled = false;
             this.mousePositionEnd = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
             var mouseDiff = this.mousePositionStart - this.mousePositionEnd;
             var mouseDistance = mouseDiff.magnitude;
