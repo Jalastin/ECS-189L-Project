@@ -17,17 +17,17 @@ public class PearlFactory : Factory
     {
         var pearl = Make();
 
-        // Get the vector between the pearlSpawn and the mouse.
-        var mouseDiff = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition - pearlSpawn.transform.position;
-        var mouseDistance = mouseDiff.magnitude;
-        var mouseDirection = mouseDiff / mouseDistance; 
+        // // Get the vector between the pearlSpawn and the mouse.
+        // var mouseDiff = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition - pearlSpawn.transform.position;
+        // var mouseDistance = mouseDiff.magnitude;
+        // var mouseDirection = mouseDiff / mouseDistance; 
 
         // Set the specs of the newly instantiated newGameObject
         // to the specs specified within newSpec.
         var pearlMotion = pearl.GetComponent<PearlMotion>();
         // Multiply the Force by the direction it should go (ie. where the mouse is pointing).
-        pearlMotion.VelocityX =  newSpec.Force * mouseDirection.x;
-        pearlMotion.VelocityY =  newSpec.Force * mouseDirection.y;
+        pearlMotion.VelocityX =  newSpec.Force * newSpec.Direction.x;
+        pearlMotion.VelocityY =  newSpec.Force * newSpec.Direction.y;
         return pearl;
     }
     public GameObject GenerateRandomPearl()
