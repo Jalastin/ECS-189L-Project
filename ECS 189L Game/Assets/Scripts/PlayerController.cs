@@ -5,10 +5,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Restrict how high the force can become.
-    [SerializeField] private float maxForce = 10f;
+    [SerializeField] private float forceMax = 100f;
 
     // forceMultiplier is a scalar on the force of the new pearl.
-    [SerializeField] private float forceMultipler = 10;
+    [SerializeField] private float forceMultipler = 10f;
 
     // Position of mouse when input button is first pressed;
     private Vector3 mousePositionStart;
@@ -30,11 +30,18 @@ public class PlayerController : MonoBehaviour
 
     // LineRenderer used to draw the pearl arc when throwing a new pearl.
     private LineRenderer pearlArcLine;
+    
+    // maxMagnitude is the maximum length the pearlArcLine can get.
+    private float maxMagnitude;
+    
+    // Flag to determine if the force has exceeded forceMax.
+    private bool maxForceReached;
 
     void Start()
     {
         this.force = 0;
         this.pearlArcLine = this.gameObject.GetComponent<LineRenderer>();
+        this.maxForceReached = false;
     }
 
     void Update()
@@ -52,6 +59,31 @@ public class PlayerController : MonoBehaviour
             this.mouseDistance = this.mouseDiff.magnitude;
             this.mouseDirection = this.mouseDiff / this.mouseDistance;
             this.force = this.mouseDistance * this.forceMultipler;
+
+            // Restrict the force to be no bigger than forceMax.
+            if (this.force >= this.forceMax) 
+            {
+                // Also limit the length of the pearl trajectory line
+                // to visually indicate when max force is being reached.
+                // We only want to set this change when forceMax is initially hit,
+                // which is why we set maxForcedReached to true until force is no longer at forceMax.
+                if (this.maxForceReached == false)
+                {
+                    var maxDistance = mousePositionStart - mousePositionEnd;
+                    this.maxMagnitude = maxDistance.magnitude;
+                    this.maxForceReached = true;
+                }
+                var maxX = this.maxMagnitude * this.mouseDirection.x;
+                var maxY = this.maxMagnitude * this.mouseDirection.y;
+                var maxZ = this.maxMagnitude * this.mouseDirection.z;
+                this.mouseDiff = new Vector3(maxX, maxY, maxZ);
+
+                this.force = this.forceMax;
+            }
+            else
+            {
+                this.maxForceReached = false;
+            }
             
             // Draw the pearl trajectory based on drag direction and force.
             drawPearlArc();
@@ -80,6 +112,7 @@ public class PlayerController : MonoBehaviour
         this.pearlArcLine.positionCount = 2;
         this.pearlArcLine.useWorldSpace = true;
         this.pearlArcLine.SetPosition(0, pearlSpawnPosition);
+        
         // Scale the mouseDiff by 2 / forceMultiplier, to not be too obstructive on the screen.
         var arcX = pearlSpawnPosition.x + this.mouseDiff.x / this.forceMultipler * 2;
         var arcY = pearlSpawnPosition.y + this.mouseDiff.y / this.forceMultipler * 2;
