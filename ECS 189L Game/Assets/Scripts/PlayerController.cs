@@ -98,7 +98,9 @@ public class PlayerController : MonoBehaviour
 
             // Only fire the pearl if there is no pearl currently active.
             // This prevents multiple pearls from being thrown at once.
-            if (GameObject.Find("Pearl(Clone)") == null)
+            // Also only fire if the force is non-zero 
+            // (ie. they have actually dragged after pressing button down).
+            if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
             {
                 this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                 this.force = 0;
