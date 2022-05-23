@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         {
             this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
         }
+
         // While the input button is being held, set the end mouse position, mouse direction, and force.
         if (Input.GetButton("Fire1"))
         {
@@ -79,7 +80,7 @@ public class PlayerController : MonoBehaviour
                 this.mouseDiff = new Vector3(maxX, maxY, maxZ);
 
                 this.force = this.forceMax;
-            }
+            }            
             else
             {
                 this.maxForceReached = false;
@@ -88,6 +89,7 @@ public class PlayerController : MonoBehaviour
             // Draw the pearl trajectory based on drag direction and force.
             drawPearlArc();
         }
+        
         // When the input button is let go, fire the pearl.
         if (Input.GetButtonUp("Fire1"))
         {
@@ -112,7 +114,7 @@ public class PlayerController : MonoBehaviour
         this.pearlArcLine.positionCount = 2;
         this.pearlArcLine.useWorldSpace = true;
         this.pearlArcLine.SetPosition(0, pearlSpawnPosition);
-        
+
         // Scale the mouseDiff by 2 / forceMultiplier, to not be too obstructive on the screen.
         var arcX = pearlSpawnPosition.x + this.mouseDiff.x / this.forceMultipler * 2;
         var arcY = pearlSpawnPosition.y + this.mouseDiff.y / this.forceMultipler * 2;
