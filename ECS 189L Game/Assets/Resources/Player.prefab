@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e771752a8eab05445a8ac6422e6bcee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxForce: 500
+  forceMax: 100
   forceMultipler: 10
 --- !u!114 &1839874638377454637
 MonoBehaviour:
@@ -166,7 +166,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &-8491116292497124032
 BoxCollider2D:
   m_ObjectHideFlags: 0
