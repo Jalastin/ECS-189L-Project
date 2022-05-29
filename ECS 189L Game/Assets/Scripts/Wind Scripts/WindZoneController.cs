@@ -37,7 +37,11 @@ public class WindZoneController : MonoBehaviour
             // Remove the previous wind force from it, then add the new one in.
             // This prevents from multiple wind forces from stacking on each other.
             var newVelocity = other.GetComponent<Rigidbody2D>().velocity;
-            newVelocity -= new Vector2(this.prevWindForce, 0f);
+            // Edge Case: only subtract the force if the windForce is nonzero.
+            // Without this, objects get launched even though there is no wind.
+            if (windForce != 0) {
+                newVelocity -= new Vector2(this.prevWindForce, 0f);
+            }
             newVelocity += new Vector2(windForce, 0f);
             this.prevWindForce = windForce;
             other.GetComponent<Rigidbody2D>().velocity = newVelocity;
