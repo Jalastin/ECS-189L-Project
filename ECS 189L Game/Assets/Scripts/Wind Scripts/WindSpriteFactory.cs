@@ -16,14 +16,6 @@ public class WindSpriteFactory : Factory
     public GameObject Build(WindSpriteSpec newSpec)
     {
         var windSprite = Make(newSpec);
-
-        // Set the specs of the newly instantiated newGameObject
-        // to the specs specified within newSpec.
-        var windSpriteMotion = windSprite.GetComponent<WindSpriteMotion>();
-        // Set the velcoity to the same force as WindZone's windForce * 100.
-        var windForce = this.GetComponent<WindZoneController>().WindForce;
-        windSpriteMotion.VelocityX =  windForce * 100;
-        windSpriteMotion.VelocityY =  0f;
         return windSprite;
     }
     public GameObject GenerateRandomWindSprite()
