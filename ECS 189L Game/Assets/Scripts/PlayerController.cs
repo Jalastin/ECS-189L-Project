@@ -93,6 +93,8 @@ public class PlayerController : MonoBehaviour
         // When the input button is let go, fire the pearl.
         if (Input.GetButtonUp("Fire1"))
         {
+            var player = GameObject.Find("Player_2");
+            player.GetComponent<Animator>().SetTrigger("Throwing");
             // When releasing the pearl, turn off the pearl arc line.
             this.pearlArcLine.enabled = false;
 

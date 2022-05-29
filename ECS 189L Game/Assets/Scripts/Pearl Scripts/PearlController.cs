@@ -13,7 +13,7 @@ public class PearlController : MonoBehaviour
     // over the Pearl's original location.
     [SerializeField] private float playerOffset = 2f;
 
-    // player just keeps track of the Player GameObject.
+    // player just keeps track of the Player Model GameObject.
     private GameObject player;
 
     // Counter to keep track of timeElapsed since initial contact with a platform.
@@ -30,7 +30,7 @@ public class PearlController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         // Prevent the pearl from colliding with the Player itself.
-        if (other.gameObject.tag != "Player")
+        if (other.gameObject.tag != "Character_2_WORKS")
         {
             this.HasCollided = true;
         }
@@ -45,8 +45,11 @@ public class PearlController : MonoBehaviour
         Destroy(this.gameObject, 3f);
         this.GetComponent<PearlMotion>().Fire();
         // Ensure that the Pearl does not collide with the player.
-        this.player = GameObject.Find("Player");
+        this.player = GameObject.Find("Player_2");
         Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), this.player.GetComponent<Collider2D>());
+        // Also don't collide with the player model itself;
+        var playerModel = GameObject.Find("Character_2_WORKS");
+        Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), playerModel.GetComponent<Collider2D>());
     }
 
     void Update()
