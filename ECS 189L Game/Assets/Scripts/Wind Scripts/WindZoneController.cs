@@ -24,13 +24,23 @@ public class WindZoneController : MonoBehaviour
     // timeElapsed since last WindSprite spawn.
     private float timeElapsed;
 
+    // Previous wind force necessary to remove the previous force added by the wind.
+    private float prevWindForce;
+
     void OnTriggerStay2D(Collider2D other)
     {
-        // Do not affect platforms.
-        if (other.gameObject.tag != "Platform")
+        // Do not affect platforms or the player.
+        if (other.gameObject.tag != "Platform" && other.gameObject.tag != "Player")
         {
-            var vector = new Vector2 (this.WindForce, 0f);
-            other.GetComponent<Rigidbody2D>().AddForce(vector);
+            var windForce = this.GetComponent<ADSRManager>().FinalForce;
+            // Take the current velocity of the GameObject.
+            // Remove the previous wind force from it, then add the new one in.
+            // This prevents from multiple wind forces from stacking on each other.
+            var newVelocity = other.GetComponent<Rigidbody2D>().velocity;
+            newVelocity -= new Vector2(this.prevWindForce, 0f);
+            newVelocity += new Vector2(windForce, 0f);
+            this.prevWindForce = windForce;
+            other.GetComponent<Rigidbody2D>().velocity = newVelocity;
         }
     }
     void Start()
@@ -38,6 +48,7 @@ public class WindZoneController : MonoBehaviour
         this.GetComponent<WindSpriteFactory>().GenerateRandomWindSprite();
         this.spriteSpawnTime = Random.Range(this.minWindSpriteSpawnTime, this.maxWindSpriteSpawnTime);
         this.timeElapsed = 0f;
+        this.prevWindForce = 0f;
     }
 
     void Update()

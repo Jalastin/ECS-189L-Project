@@ -2090,6 +2090,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dark Zone
       objectReference: {fileID: 0}
+    - target: {fileID: 5132716154126006923, guid: 77e115b25c002274bab6e88acf14abba, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77e115b25c002274bab6e88acf14abba, type: 3}
 --- !u!1001 &8157991336076315465
@@ -2112,12 +2116,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8157991336964674197, guid: 29c7f556ec9de624d938f32bc4feef68, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 21.611563
+      objectReference: {fileID: 0}
+    - target: {fileID: 8157991336964674197, guid: 29c7f556ec9de624d938f32bc4feef68, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 9.92966
+      objectReference: {fileID: 0}
+    - target: {fileID: 8157991336964674197, guid: 29c7f556ec9de624d938f32bc4feef68, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 8157991336964674197, guid: 29c7f556ec9de624d938f32bc4feef68, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.03
+      value: 0.0271
       objectReference: {fileID: 0}
     - target: {fileID: 8157991336964674197, guid: 29c7f556ec9de624d938f32bc4feef68, type: 3}
       propertyPath: m_LocalPosition.z
