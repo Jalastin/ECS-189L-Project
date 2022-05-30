@@ -80,6 +80,17 @@ public class PlayerController : MonoBehaviour
                     this.maxForceReached = true;
                 }
                 var maxX = this.maxMagnitude * this.mouseDirection.x;
+                // Change sprite direction depending on mouse position.
+                if(this.mouseDirection.x < 0) 
+                {
+                    // If pulling mouse to left, then have sprite face to the right.
+                    this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(2, 2, 2);
+                }
+                else
+                {
+                    // If pulling mouse to right, then have sprite face to the left.
+                    this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-2, 2, 2);
+                }
                 var maxY = this.maxMagnitude * this.mouseDirection.y;
                 var maxZ = this.maxMagnitude * this.mouseDirection.z;
                 this.mouseDiff = new Vector3(maxX, maxY, maxZ);
