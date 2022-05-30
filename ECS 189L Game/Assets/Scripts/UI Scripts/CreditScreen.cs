@@ -7,6 +7,7 @@ public class CreditScreen : MonoBehaviour
 
     public void Back()
     {
-        SceneManager.LoadScene("MainMenu");
+        GameManager.Instance.UpdateGameState(GameState.MainMenu);
+        // SceneManager.LoadScene("MainMenu");
     }
 }
