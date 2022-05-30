@@ -7,24 +7,36 @@ using UnityEngine.SceneManagement;
 // Resource: https://www.youtube.com/watch?v=JivuXdrIHK0
 public class PauseMenu : MonoBehaviour
 {
-    public static bool IsPaused = false;
     public GameObject PauseMenuUI;
+
+    void Awake()
+    {
+        GameManager.OnGameStateChanged += this.OnStateChanged;
+    }
+
     // Update is called once per frame
     void Update()
     {
         // Pause the game if the user presses the escape key.
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (IsPaused)
+            if (GameManager.Instance.CurrentState == GameState.Paused)
             {
                 // Resume game if wes press escape when it is already paused.
-                ResumeGame();
+                GameManager.Instance.UpdateGameState(GameState.Playing);
+                // ResumeGame();
             }
             else
             {
-                PauseGame();
+                GameManager.Instance.UpdateGameState(GameState.Paused);
+                // PauseGame();
             }
         }
+    }
+
+    public void ToggleResume()
+    {
+        GameManager.Instance.UpdateGameState(GameState.Playing);
     }
 
     public void ResumeGame()
@@ -33,7 +45,6 @@ public class PauseMenu : MonoBehaviour
         PauseMenuUI.SetActive(false);
         // Reset time scale back to the original value
         Time.timeScale = 1f;
-        IsPaused = false;
     }
 
     public void PauseGame()
@@ -42,27 +53,49 @@ public class PauseMenu : MonoBehaviour
         PauseMenuUI.SetActive(true);
         // Freeze the game by stopping time.
         Time.timeScale = 0f;
-        IsPaused = true;
     }
 
     public void RestartGame()
     {
         PauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        IsPaused = false;
+        GameManager.Instance.UpdateGameState(GameState.Playing);
         // Reload level
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ToggleMainMenu()
+    {
+        Debug.Log("toggling!");
+        GameManager.Instance.UpdateGameState(GameState.MainMenu);
     }
 
     public void LoadMainMenu()
     {
         PauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        IsPaused = false;
         SceneManager.LoadScene("MainMenu");
     }
+
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void OnStateChanged(GameState state)
+    {
+        Debug.Log("state changed in Pause menu!");
+        switch (state)
+        {
+            case GameState.MainMenu:
+                this.LoadMainMenu();
+                break;
+            case GameState.Playing:
+                this.ResumeGame();
+                break;
+            case GameState.Paused:
+                this.PauseGame();
+                break;
+        }
     }
 }

@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     { 
         get => instance;
     }
-    private GameState currentState;
+    private GameState currentState = GameState.Playing;
     public GameState CurrentState 
     { 
         get => currentState;
@@ -20,11 +20,18 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("manager awake!");
         instance = this;
     }
 
     public void UpdateGameState(GameState newState)
     {
+        // Guard clause.
+        if (newState == this.currentState)
+        {
+            return;
+        }
+
         this.currentState = newState;
 
         switch (newState)
@@ -38,6 +45,12 @@ public class GameManager : MonoBehaviour
         }
 
         // Run respective callbacks of subscribed components.
+        Debug.Log("invoking!");
         OnGameStateChanged?.Invoke(newState);
+    }
+
+    public void UpdateGameLevel()
+    {
+        
     }
 }
