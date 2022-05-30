@@ -14,6 +14,12 @@ public class PauseMenu : MonoBehaviour
         GameManager.OnGameStateChanged += this.OnStateChanged;
     }
 
+    void OnDestroy()
+    {
+        // Need to unsubscribe if component is destroyed.
+        GameManager.OnGameStateChanged -= this.OnStateChanged;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -24,12 +30,10 @@ public class PauseMenu : MonoBehaviour
             {
                 // Resume game if wes press escape when it is already paused.
                 GameManager.Instance.UpdateGameState(GameState.Playing);
-                // ResumeGame();
             }
             else
             {
                 GameManager.Instance.UpdateGameState(GameState.Paused);
-                // PauseGame();
             }
         }
     }
@@ -66,7 +70,6 @@ public class PauseMenu : MonoBehaviour
 
     public void ToggleMainMenu()
     {
-        Debug.Log("toggling!");
         GameManager.Instance.UpdateGameState(GameState.MainMenu);
     }
 
@@ -84,7 +87,6 @@ public class PauseMenu : MonoBehaviour
 
     public void OnStateChanged(GameState state)
     {
-        Debug.Log("state changed in Pause menu!");
         switch (state)
         {
             case GameState.MainMenu:

@@ -9,7 +9,17 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance 
     { 
-        get => instance;
+        get
+        {   
+            Debug.Log("getting manager");
+            // return instance;
+            if (instance == null)
+            {
+                Debug.Log("manager was null");
+                instance = new GameManager();
+            }
+            return instance;
+        }
     }
     private GameState currentState = GameState.Playing;
     public GameState CurrentState 
