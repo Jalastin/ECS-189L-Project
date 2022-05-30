@@ -36,12 +36,17 @@ public class PlayerController : MonoBehaviour
     
     // Flag to determine if the force has exceeded forceMax.
     private bool maxForceReached;
-
+    private bool isThrow;
+    private float throwTimer;
+    private GameObject player;
     void Start()
     {
         this.force = 0;
         this.pearlArcLine = this.gameObject.GetComponent<LineRenderer>();
         this.maxForceReached = false;
+        this.player = GameObject.Find("Player_2");
+        this.isThrow = false;
+        this.throwTimer = 0.0f;
     }
 
     void Update()
@@ -93,8 +98,9 @@ public class PlayerController : MonoBehaviour
         // When the input button is let go, fire the pearl.
         if (Input.GetButtonUp("Fire1"))
         {
-            var player = GameObject.Find("Player_2");
-            player.GetComponent<Animator>().SetTrigger("Throwing");
+            // Once player releases Fire1, start the throw animation.
+            this.isThrow = true;
+            player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
             // When releasing the pearl, turn off the pearl arc line.
             this.pearlArcLine.enabled = false;
 
@@ -107,6 +113,26 @@ public class PlayerController : MonoBehaviour
                 this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                 this.force = 0;
             }
+        }
+        // Allow a buffer between throwing and idling animations.
+        if(this.isThrow)
+        {
+            // Count until 0.65sec, then set isThrow to false, which indicates the throw is done.
+            if(throwTimer >= 0.65f) 
+            {
+                this.isThrow = false;
+                this.throwTimer = 0.0f;
+            }
+            else
+            {
+                // If timer not reached yet, keep on incrementing.
+                throwTimer += Time.deltaTime;
+            }
+        }
+        else
+        {
+            // Go back to idle animation.
+            player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
         }
     }
 
