@@ -30,18 +30,22 @@ public class PlayerController : MonoBehaviour
 
     // LineRenderer used to draw the pearl arc when throwing a new pearl.
     private LineRenderer pearlArcLine;
-    
+
     // maxMagnitude is the maximum length the pearlArcLine can get.
     private float maxMagnitude;
-    
+
     // Flag to determine if the force has exceeded forceMax.
     private bool maxForceReached;
+
+    // Sound manager is used to generate sound effects when the player is charging their throw.
+    private SoundEffectManager soundManager;
 
     void Start()
     {
         this.force = 0;
         this.pearlArcLine = this.gameObject.GetComponent<LineRenderer>();
         this.maxForceReached = false;
+        this.soundManager = GameObject.Find("SoundManager").GetComponent<SoundEffectManager>();
     }
 
     void Update()
@@ -50,6 +54,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
+            // Sound effects. 
+            this.soundManager.PlayChargingThrowSound();
         }
 
         // While the input button is being held, set the end mouse position, mouse direction, and force.
@@ -60,9 +66,8 @@ public class PlayerController : MonoBehaviour
             this.mouseDistance = this.mouseDiff.magnitude;
             this.mouseDirection = this.mouseDiff / this.mouseDistance;
             this.force = this.mouseDistance * this.forceMultipler;
-
             // Restrict the force to be no bigger than forceMax.
-            if (this.force >= this.forceMax) 
+            if (this.force >= this.forceMax)
             {
                 // Also limit the length of the pearl trajectory line
                 // to visually indicate when max force is being reached.
@@ -80,19 +85,21 @@ public class PlayerController : MonoBehaviour
                 this.mouseDiff = new Vector3(maxX, maxY, maxZ);
 
                 this.force = this.forceMax;
-            }            
+            }
             else
             {
                 this.maxForceReached = false;
             }
-            
+
             // Draw the pearl trajectory based on drag direction and force.
             drawPearlArc();
         }
-        
+
         // When the input button is let go, fire the pearl.
         if (Input.GetButtonUp("Fire1"))
         {
+            // Play sound effect.
+            this.soundManager.PlayProjectileReleaseSound();
             // When releasing the pearl, turn off the pearl arc line.
             this.pearlArcLine.enabled = false;
 
@@ -108,7 +115,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void drawPearlArc() 
+    void drawPearlArc()
     {
         // Visually depict the mouseDiff, starting from Pearl Spawn.
         var pearlSpawnPosition = GameObject.Find("Pearl Spawn").transform.position;
