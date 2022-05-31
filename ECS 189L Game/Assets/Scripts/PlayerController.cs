@@ -50,6 +50,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.CurrentState != GameState.Playing)
+        {
+            // Don't allow any input while the game is paused.
+            return;
+        }
+
         // When the input button is first pressed, set the start mouse position.
         if (Input.GetButtonDown("Fire1"))
         {

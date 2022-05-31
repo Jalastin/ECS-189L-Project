@@ -10,17 +10,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance 
     { 
-        get
-        {   
-            Debug.Log("getting manager");
-            // return instance;
-            if (instance == null)
-            {
-                Debug.Log("manager was null");
-                instance = new GameManager();
-            }
-            return instance;
-        }
+        get => instance;
     }
     private GameState currentState = GameState.MainMenu;
     public GameState CurrentState 
@@ -52,6 +42,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        var prevState = this.currentState;
         this.currentState = newState;
 
         switch (newState)
@@ -64,7 +55,10 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Playing:
-                SceneManager.LoadScene("Justin Test Scene");
+                if (prevState != GameState.Paused)
+                {
+                    SceneManager.LoadScene("Justin Test Scene");
+                }
                 break;
 
             case GameState.Credits:
