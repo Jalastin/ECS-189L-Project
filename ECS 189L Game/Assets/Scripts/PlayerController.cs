@@ -30,15 +30,18 @@ public class PlayerController : MonoBehaviour
 
     // LineRenderer used to draw the pearl arc when throwing a new pearl.
     private LineRenderer pearlArcLine;
-    
+
     // maxMagnitude is the maximum length the pearlArcLine can get.
     private float maxMagnitude;
-    
+
     // Flag to determine if the force has exceeded forceMax.
     private bool maxForceReached;
     private bool isThrow;
     private float throwTimer;
     private GameObject player;
+    // Sound manager is used to generate sound effects when the player is charging their throw.
+    private SoundEffectManager soundManager;
+    
     void Start()
     {
         this.force = 0;
@@ -47,6 +50,7 @@ public class PlayerController : MonoBehaviour
         this.player = GameObject.Find("Player_2");
         this.isThrow = false;
         this.throwTimer = 0.0f;
+        this.soundManager = GameObject.Find("SoundManager").GetComponent<SoundEffectManager>();
     }
 
     void Update()
@@ -55,6 +59,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
+            // Sound effects. 
+            this.soundManager.PlayChargingThrowSound();
         }
 
         // While the input button is being held, set the end mouse position, mouse direction, and force.
@@ -77,9 +83,8 @@ public class PlayerController : MonoBehaviour
                 // If pulling mouse to right, then have sprite face to the left.
                 this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-2, 2, 2);
             }
-
             // Restrict the force to be no bigger than forceMax.
-            if (this.force >= this.forceMax) 
+            if (this.force >= this.forceMax)
             {
                 // Also limit the length of the pearl trajectory line
                 // to visually indicate when max force is being reached.
@@ -97,22 +102,24 @@ public class PlayerController : MonoBehaviour
                 this.mouseDiff = new Vector3(maxX, maxY, maxZ);
 
                 this.force = this.forceMax;
-            }            
+            }
             else
             {
                 this.maxForceReached = false;
             }
-            
+
             // Draw the pearl trajectory based on drag direction and force.
             drawPearlArc();
         }
-        
+
         // When the input button is let go, fire the pearl.
         if (Input.GetButtonUp("Fire1"))
         {
             // Once player releases Fire1, start the throw animation.
             this.isThrow = true;
             player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+            // Play sound effect.
+            this.soundManager.PlayProjectileReleaseSound();
             // When releasing the pearl, turn off the pearl arc line.
             this.pearlArcLine.enabled = false;
 
@@ -148,7 +155,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void drawPearlArc() 
+    void drawPearlArc()
     {
         // Visually depict the mouseDiff, starting from Pearl Spawn.
         var pearlSpawnPosition = GameObject.Find("Pearl Spawn").transform.position;

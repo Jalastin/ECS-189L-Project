@@ -19,6 +19,9 @@ public class PearlController : MonoBehaviour
     // Counter to keep track of timeElapsed since initial contact with a platform.
     private float timeElapsed;
 
+    // Sound manager is used to generate projectile sound effects.
+    private SoundEffectManager soundManager;
+
     // Bool to check if the Pearl has collided with a GameObject.
     private bool _hasCollided;
     public bool HasCollided
@@ -29,6 +32,8 @@ public class PearlController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        // Play sound effect for projectile collision.
+        this.soundManager.PlayProjectileCollisionSound();
         // Prevent the pearl from colliding with the Player itself.
         if (other.gameObject.tag != "Character_2_WORKS")
         {
@@ -50,6 +55,9 @@ public class PearlController : MonoBehaviour
         // Also don't collide with the player model itself;
         var playerModel = GameObject.Find("Character_2_WORKS");
         Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), playerModel.GetComponent<Collider2D>());
+        // Get sound manager object.
+        this.soundManager = GameObject.Find("SoundManager").GetComponent<SoundEffectManager>();
+
     }
 
     void Update()
@@ -61,6 +69,8 @@ public class PearlController : MonoBehaviour
                 this.HasCollided = false;
                 this.timeElapsed = 0;
                 var pearlPosition = this.transform.position;
+                // Play sound effect.
+                this.soundManager.PlayTeleportationSound();
                 // Set the Player's position to the Pearl's position,
                 // plus the playerOffset to make it teleport "above" the pearl.
                 this.player.transform.position = new Vector2(pearlPosition.x, pearlPosition.y + this.playerOffset);
