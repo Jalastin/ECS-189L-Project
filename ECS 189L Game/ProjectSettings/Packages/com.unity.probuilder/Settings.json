@@ -2,6 +2,7 @@
     "m_Name": "Settings",
     "m_Path": "ProjectSettings/Packages/com.unity.probuilder/Settings.json",
     "m_Dictionary": {
+<<<<<<< HEAD
         "m_DictionaryValues": [
             {
                 "type": "UnityEngine.ProBuilder.LogLevel, Unity.ProBuilder, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
@@ -119,5 +120,8 @@
                 "value": "{\"m_Value\":{\"m_HardAngle\":88.0,\"m_PackMargin\":20.0,\"m_AngleError\":8.0,\"m_AreaError\":15.0}}"
             }
         ]
+=======
+        "m_DictionaryValues": []
+>>>>>>> 990dc0781e805d7444386182c348089d1ffc45a3
     }
 }

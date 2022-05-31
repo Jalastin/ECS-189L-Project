@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class WindSpriteController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Time in seconds for the wind sprites to get destroyed.
+    [SerializeField] private float timeToDie = 10f;
+
     void Start()
     {
-        Destroy(this.gameObject, 10f);
-        this.GetComponent<WindSpriteMotion>().Fire();
+        Destroy(this.gameObject, this.timeToDie);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // Update the velocity of the wind sprite to the current force in ADSRManager.
+        var windForce = GameObject.Find("Wind Zone").GetComponent<ADSRManager>().FinalForce;
+        this.GetComponent<Rigidbody2D>().velocity = new Vector2(windForce, 0);
     }
 }
