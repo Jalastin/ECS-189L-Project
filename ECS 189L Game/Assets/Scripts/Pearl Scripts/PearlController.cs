@@ -35,7 +35,7 @@ public class PearlController : MonoBehaviour
         // Play sound effect for projectile collision.
         this.soundManager.PlayProjectileCollisionSound();
         // Prevent the pearl from colliding with the Player itself.
-        if (other.gameObject.tag != "Character_2_WORKS")
+        if (other.gameObject.tag != "Player")
         {
             this.HasCollided = true;
         }
@@ -52,9 +52,6 @@ public class PearlController : MonoBehaviour
         // Ensure that the Pearl does not collide with the player.
         this.player = GameObject.Find("Player_2");
         Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), this.player.GetComponent<Collider2D>());
-        // Also don't collide with the player model itself;
-        var playerModel = GameObject.Find("Character_2_WORKS");
-        Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), playerModel.GetComponent<Collider2D>());
         // Get sound manager object.
         this.soundManager = GameObject.Find("SoundManager").GetComponent<SoundEffectManager>();
 
