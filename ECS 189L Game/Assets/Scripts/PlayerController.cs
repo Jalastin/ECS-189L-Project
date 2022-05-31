@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
-            // Sound effects. 
             this.soundManager.PlayChargingThrowSound();
         }
 
@@ -73,7 +72,8 @@ public class PlayerController : MonoBehaviour
             this.force = this.mouseDistance * this.forceMultipler;
             
             // Change sprite direction depending on mouse position.
-            if(this.mouseDirection.x < 0) 
+            // Edge case: only flip once they have pulled / there is a distance.
+            if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
             {
                 // If pulling mouse to left, then have sprite face to the right.
                 this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(2, 2, 2);
@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
                 // If pulling mouse to right, then have sprite face to the left.
                 this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-2, 2, 2);
             }
+
             // Restrict the force to be no bigger than forceMax.
             if (this.force >= this.forceMax)
             {
@@ -115,11 +116,6 @@ public class PlayerController : MonoBehaviour
         // When the input button is let go, fire the pearl.
         if (Input.GetButtonUp("Fire1"))
         {
-            // Once player releases Fire1, start the throw animation.
-            this.isThrow = true;
-            player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
-            // Play sound effect.
-            this.soundManager.PlayProjectileReleaseSound();
             // When releasing the pearl, turn off the pearl arc line.
             this.pearlArcLine.enabled = false;
 
@@ -129,6 +125,10 @@ public class PlayerController : MonoBehaviour
             // (ie. they have actually dragged after pressing button down).
             if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
             {
+                // Once player releases Fire1, start the throw animation.
+                this.isThrow = true;
+                player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+                this.soundManager.PlayProjectileReleaseSound();
                 this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                 this.force = 0;
             }
