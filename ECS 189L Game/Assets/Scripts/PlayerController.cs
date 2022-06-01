@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Console
-        this.consoleMouseDiff = new Vector2(-move.x, -move.y);
+        this.consoleMouseDiff = this.consoleMouseDiff + new Vector2(-move.x, -move.y);
         Debug.Log("mouse diff: " + this.consoleMouseDiff);
         if (GameManager.Instance.CurrentState != GameState.Playing)
         {
@@ -94,8 +94,6 @@ public class PlayerController : MonoBehaviour
         }
 
         // While the input button is being held, set the end mouse position, mouse direction, and force.
-        // this.mousePositionEnd = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
-        // this.mouseDiff = this.mousePositionStart - this.mousePositionEnd;
         this.mouseDistance = this.consoleMouseDiff.magnitude;
         this.mouseDirection = this.consoleMouseDiff / this.mouseDistance;
         this.force = this.mouseDistance * this.forceMultipler;
@@ -122,7 +120,7 @@ public class PlayerController : MonoBehaviour
             // which is why we set maxForcedReached to true until force is no longer at forceMax.
             if (this.maxForceReached == false)
             {
-                var maxDistance = mousePositionStart - mousePositionEnd;
+                var maxDistance = this.consoleMouseDiff;
                 this.maxMagnitude = maxDistance.magnitude;
                 this.maxForceReached = true;
             }
@@ -300,9 +298,9 @@ public class PlayerController : MonoBehaviour
         this.pearlArcLine.SetPosition(0, pearlSpawnPosition);
 
 
-        // If console, do this.m. If pc, do this.mouseDiff
-        var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2) * 25;
-        var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2) * 25;
+        // If console, do this.consoleMouseDiff. If pc, do this.mouseDiff
+        var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2);
+        var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2);
         this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
 
         // Scale the mouseDiff by 2 / forceMultiplier, to not be too obstructive on the screen.
