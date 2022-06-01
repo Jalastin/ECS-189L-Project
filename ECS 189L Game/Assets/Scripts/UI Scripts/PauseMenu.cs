@@ -67,6 +67,7 @@ public class PauseMenu : MonoBehaviour
         switch (state)
         {
             case GameState.MainMenu:
+                Time.timeScale = 1f;
                 break;
 
             case GameState.Playing:
