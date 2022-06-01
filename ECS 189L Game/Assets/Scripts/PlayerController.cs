@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     // mouseDiff is the Vector between the start and end mouse positions.
     private Vector3 mouseDiff;
+    // mouseDiff for console.
+    private Vector2 consoleMouseDiff;
 
     // mouseDistance is the magnitude of mouseDiff;
     private float mouseDistance;
@@ -41,6 +44,25 @@ public class PlayerController : MonoBehaviour
     private GameObject player;
     // Sound manager is used to generate sound effects when the player is charging their throw.
     private SoundEffectManager soundManager;
+
+    // Console input implementation
+    private PlayerControls controls;
+    private Vector2 move;
+
+    void Awake()
+    {
+        controls = new PlayerControls();
+        controls.Gameplay.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
+        controls.Gameplay.Move.canceled += ctx => move = Vector2.zero;
+    }
+    void OnEnable()
+    {
+        controls.Gameplay.Enable();
+    }
+    void OnDisable()
+    {
+        controls.Gameplay.Disable();
+    }
     
     void Start()
     {
@@ -55,63 +77,55 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // When the input button is first pressed, set the start mouse position.
-        if (Input.GetButtonDown("Fire1"))
-        {
-            this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
-            this.soundManager.PlayChargingThrowSound();
-        }
+        this.consoleMouseDiff = new Vector2(-move.x, -move.y);
+        Debug.Log("mouse diff: " + this.consoleMouseDiff);
 
         // While the input button is being held, set the end mouse position, mouse direction, and force.
-        if (Input.GetButton("Fire1"))
+        // this.mousePositionEnd = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
+        // this.mouseDiff = this.mousePositionStart - this.mousePositionEnd;
+        this.mouseDistance = this.consoleMouseDiff.magnitude;
+        this.mouseDirection = this.consoleMouseDiff / this.mouseDistance;
+        this.force = this.mouseDistance * this.forceMultipler;
+        
+        // Change sprite direction depending on mouse position.
+        // Edge case: only flip once they have pulled / there is a distance.
+        if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
         {
-            this.mousePositionEnd = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
-            this.mouseDiff = this.mousePositionStart - this.mousePositionEnd;
-            this.mouseDistance = this.mouseDiff.magnitude;
-            this.mouseDirection = this.mouseDiff / this.mouseDistance;
-            this.force = this.mouseDistance * this.forceMultipler;
-            
-            // Change sprite direction depending on mouse position.
-            // Edge case: only flip once they have pulled / there is a distance.
-            if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
-            {
-                // If pulling mouse to left, then have sprite face to the right.
-                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
-            }
-            else
-            {
-                // If pulling mouse to right, then have sprite face to the left.
-                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-5, 5, 5);
-            }
-
-            // Restrict the force to be no bigger than forceMax.
-            if (this.force >= this.forceMax)
-            {
-                // Also limit the length of the pearl trajectory line
-                // to visually indicate when max force is being reached.
-                // We only want to set this change when forceMax is initially hit,
-                // which is why we set maxForcedReached to true until force is no longer at forceMax.
-                if (this.maxForceReached == false)
-                {
-                    var maxDistance = mousePositionStart - mousePositionEnd;
-                    this.maxMagnitude = maxDistance.magnitude;
-                    this.maxForceReached = true;
-                }
-                var maxX = this.maxMagnitude * this.mouseDirection.x;
-                var maxY = this.maxMagnitude * this.mouseDirection.y;
-                var maxZ = this.maxMagnitude * this.mouseDirection.z;
-                this.mouseDiff = new Vector3(maxX, maxY, maxZ);
-
-                this.force = this.forceMax;
-            }
-            else
-            {
-                this.maxForceReached = false;
-            }
-
-            // Draw the pearl trajectory based on drag direction and force.
-            drawPearlArc();
+            // If pulling mouse to left, then have sprite face to the right.
+            this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
         }
+        else
+        {
+            // If pulling mouse to right, then have sprite face to the left.
+            this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-5, 5, 5);
+        }
+
+        // Restrict the force to be no bigger than forceMax.
+        if (this.force >= this.forceMax)
+        {
+            // Also limit the length of the pearl trajectory line
+            // to visually indicate when max force is being reached.
+            // We only want to set this change when forceMax is initially hit,
+            // which is why we set maxForcedReached to true until force is no longer at forceMax.
+            if (this.maxForceReached == false)
+            {
+                var maxDistance = mousePositionStart - mousePositionEnd;
+                this.maxMagnitude = maxDistance.magnitude;
+                this.maxForceReached = true;
+            }
+            var maxX = this.maxMagnitude * this.mouseDirection.x;
+            var maxY = this.maxMagnitude * this.mouseDirection.y;
+            this.consoleMouseDiff = new Vector2(maxX, maxY);
+
+            this.force = this.forceMax;
+        }
+        else
+        {
+            this.maxForceReached = false;
+        }
+
+        // Draw the pearl trajectory based on drag direction and force.
+        drawPearlArc();
 
         // When the input button is let go, fire the pearl.
         if (Input.GetButtonUp("Fire1"))
@@ -153,6 +167,106 @@ public class PlayerController : MonoBehaviour
             // Go back to idle animation.
             player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
         }
+        
+        // PC
+        // // When the input button is first pressed, set the start mouse position.
+        // if (Input.GetButtonDown("Fire1"))
+        // {
+        //     this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
+        //     this.soundManager.PlayChargingThrowSound();
+        // }
+
+        // // While the input button is being held, set the end mouse position, mouse direction, and force.
+        // if (Input.GetButton("Fire1"))
+        // {
+        //     this.mousePositionEnd = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
+        //     this.mouseDiff = this.mousePositionStart - this.mousePositionEnd;
+        //     this.mouseDistance = this.mouseDiff.magnitude;
+        //     this.mouseDirection = this.mouseDiff / this.mouseDistance;
+        //     this.force = this.mouseDistance * this.forceMultipler;
+            
+        //     // Change sprite direction depending on mouse position.
+        //     // Edge case: only flip once they have pulled / there is a distance.
+        //     if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
+        //     {
+        //         // If pulling mouse to left, then have sprite face to the right.
+        //         this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
+        //     }
+        //     else
+        //     {
+        //         // If pulling mouse to right, then have sprite face to the left.
+        //         this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-5, 5, 5);
+        //     }
+
+        //     // Restrict the force to be no bigger than forceMax.
+        //     if (this.force >= this.forceMax)
+        //     {
+        //         // Also limit the length of the pearl trajectory line
+        //         // to visually indicate when max force is being reached.
+        //         // We only want to set this change when forceMax is initially hit,
+        //         // which is why we set maxForcedReached to true until force is no longer at forceMax.
+        //         if (this.maxForceReached == false)
+        //         {
+        //             var maxDistance = mousePositionStart - mousePositionEnd;
+        //             this.maxMagnitude = maxDistance.magnitude;
+        //             this.maxForceReached = true;
+        //         }
+        //         var maxX = this.maxMagnitude * this.mouseDirection.x;
+        //         var maxY = this.maxMagnitude * this.mouseDirection.y;
+        //         var maxZ = this.maxMagnitude * this.mouseDirection.z;
+        //         this.mouseDiff = new Vector3(maxX, maxY, maxZ);
+
+        //         this.force = this.forceMax;
+        //     }
+        //     else
+        //     {
+        //         this.maxForceReached = false;
+        //     }
+
+        //     // Draw the pearl trajectory based on drag direction and force.
+        //     drawPearlArc();
+        // }
+
+        // // When the input button is let go, fire the pearl.
+        // if (Input.GetButtonUp("Fire1"))
+        // {
+        //     // When releasing the pearl, turn off the pearl arc line.
+        //     this.pearlArcLine.enabled = false;
+
+        //     // Only fire the pearl if there is no pearl currently active.
+        //     // This prevents multiple pearls from being thrown at once.
+        //     // Also only fire if the force is non-zero 
+        //     // (ie. they have actually dragged after pressing button down).
+        //     if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
+        //     {
+        //         // Once player releases Fire1, start the throw animation.
+        //         this.isThrow = true;
+        //         player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+        //         this.soundManager.PlayProjectileReleaseSound();
+        //         this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
+        //         this.force = 0;
+        //     }
+        // }
+        // // Allow a buffer between throwing and idling animations.
+        // if(this.isThrow)
+        // {
+        //     // Count until 0.65sec, then set isThrow to false, which indicates the throw is done.
+        //     if(throwTimer >= 0.65f) 
+        //     {
+        //         this.isThrow = false;
+        //         this.throwTimer = 0.0f;
+        //     }
+        //     else
+        //     {
+        //         // If timer not reached yet, keep on incrementing.
+        //         throwTimer += Time.deltaTime;
+        //     }
+        // }
+        // else
+        // {
+        //     // Go back to idle animation.
+        //     player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+        // }
     }
 
     void drawPearlArc()
@@ -164,10 +278,16 @@ public class PlayerController : MonoBehaviour
         this.pearlArcLine.useWorldSpace = true;
         this.pearlArcLine.SetPosition(0, pearlSpawnPosition);
 
+
+        // If console, do this.m. If pc, do this.mouseDiff
+        var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2) * 15;
+        var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2) * 15;
+        this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
+
         // Scale the mouseDiff by 2 / forceMultiplier, to not be too obstructive on the screen.
-        var arcX = pearlSpawnPosition.x + this.mouseDiff.x / this.forceMultipler * 2;
-        var arcY = pearlSpawnPosition.y + this.mouseDiff.y / this.forceMultipler * 2;
-        var arcZ = pearlSpawnPosition.z + this.mouseDiff.z / this.forceMultipler * 2;
-        this.pearlArcLine.SetPosition(1, new Vector3(arcX, arcY, arcZ));
+        // var arcX = pearlSpawnPosition.x + this.mouseDiff.x / this.forceMultipler * 2;
+        // var arcY = pearlSpawnPosition.y + this.mouseDiff.y / this.forceMultipler * 2;
+        // var arcZ = pearlSpawnPosition.z + this.mouseDiff.z / this.forceMultipler * 2;
+        // this.pearlArcLine.SetPosition(1, new Vector3(arcX, arcY, arcZ));
     }
 }
