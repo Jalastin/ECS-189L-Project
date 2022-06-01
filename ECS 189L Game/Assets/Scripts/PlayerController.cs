@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
-            this.soundManager.PlayChargingThrowSound();
+            // this.soundManager.PlayChargingThrowSound();
         }
 
         // While the input button is being held, set the end mouse position, mouse direction, and force.
