@@ -42,6 +42,7 @@ public class CameraController : MonoBehaviour
             var pearlPosition = pearlObject.transform.position;
             var viewPos = this.managedCamera.WorldToViewportPoint(pearlPosition);
             // Check if the pearl is out of the screen. 
+            // Credit: https://answers.unity.com/questions/8003/how-can-i-know-if-a-gameobject-is-seen-by-a-partic.html
             if (!(viewPos.x > 0 && viewPos.x < 1 && viewPos.y < 1 && viewPos.y > 0 && viewPos.z > 0))
             {
                 // Set boolean flag.

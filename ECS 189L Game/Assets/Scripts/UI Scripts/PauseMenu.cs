@@ -48,6 +48,11 @@ public class PauseMenu : MonoBehaviour
         GameManager.Instance.UpdateGameState(GameState.MainMenu);
     }
 
+    public void TogglePauseMenu()
+    {
+        GameManager.Instance.UpdateGameState(GameState.Paused);
+    }
+
     public void RestartGame()
     {
         PauseMenuUI.SetActive(false);
