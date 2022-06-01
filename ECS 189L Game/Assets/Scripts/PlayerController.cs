@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     private bool isThrow;
     private float throwTimer;
     private GameObject player;
+    // Current scale of the player.
+    private Vector3 scale;
     // Sound manager is used to generate sound effects when the player is charging their throw.
     private SoundEffectManager soundManager;
     
@@ -51,6 +53,9 @@ public class PlayerController : MonoBehaviour
         this.isThrow = false;
         this.throwTimer = 0.0f;
         this.soundManager = GameObject.Find("SoundManager").GetComponent<SoundEffectManager>();
+        this.scale = this.gameObject.GetComponent<Rigidbody2D>().transform.localScale;
+        // Because the Player starts facing left, for our game make it start facing right.
+        this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-this.scale.x, this.scale.y, this.scale.z);
     }
 
     void Update()
@@ -82,12 +87,12 @@ public class PlayerController : MonoBehaviour
             if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
             {
                 // If pulling mouse to left, then have sprite face to the right.
-                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
+                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(this.scale.x, this.scale.y, this.scale.z);
             }
             else
             {
                 // If pulling mouse to right, then have sprite face to the left.
-                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-5, 5, 5);
+                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-this.scale.x, this.scale.y, this.scale.z);
             }
 
             // Restrict the force to be no bigger than forceMax.
