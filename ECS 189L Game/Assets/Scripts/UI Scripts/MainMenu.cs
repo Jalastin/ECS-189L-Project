@@ -12,11 +12,12 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Justin Test Scene");
+        GameManager.Instance.UpdateGameState(GameState.Playing);
     }
+
     public void LoadCredits()
     {
-        SceneManager.LoadScene("CreditsScene");
+        GameManager.Instance.UpdateGameState(GameState.Credits);
     }
 
     public void QuitGame()
