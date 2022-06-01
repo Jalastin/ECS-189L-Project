@@ -53,12 +53,9 @@ public class PauseMenu : MonoBehaviour
         GameManager.Instance.UpdateGameState(GameState.Paused);
     }
 
-    public void RestartGame()
+    public void ToggleRestart()
     {
-        PauseMenuUI.SetActive(false);
-        GameManager.Instance.UpdateGameState(GameState.Playing);
-        // Reload level
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameManager.Instance.UpdateGameState(GameState.Starting);
     }
 
     public void QuitGame()

@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
 
     public void UpdateGameState(GameState newState)
     {
-        Debug.Log(SceneManager.sceneCount);
         // Redundant state change.
         if (newState == this.currentState)
         {
@@ -53,17 +52,16 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1f;
                 break;
 
+            case GameState.Starting:
+                SceneManager.LoadScene("LevelDesign");
+                this.UpdateGameState(GameState.Playing);
+                break;
+
             case GameState.Paused:
                 Time.timeScale = 0f;
                 break;
 
             case GameState.Playing:
-                if (prevState != GameState.Paused)
-                {
-                    // No need to reload scene if we're just resuming from a
-                    // pause.
-                    SceneManager.LoadScene("LevelDesign");
-                }
                 Time.timeScale = 1f;
                 break;
 

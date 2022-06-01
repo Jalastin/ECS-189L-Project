@@ -10,12 +10,12 @@ public class MainMenu : MonoBehaviour
         AudioListener.pause = false;
     }
 
-    public void StartGame()
+    public void ToggleStart()
     {
-        GameManager.Instance.UpdateGameState(GameState.Playing);
+        GameManager.Instance.UpdateGameState(GameState.Starting);
     }
 
-    public void LoadCredits()
+    public void ToggleCredits()
     {
         GameManager.Instance.UpdateGameState(GameState.Credits);
     }
