@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateGameState(GameState newState)
     {
-        // Guard clause.
+        // Redundant state change.
         if (newState == this.currentState)
         {
             return;
@@ -49,20 +49,23 @@ public class GameManager : MonoBehaviour
         {
             case GameState.MainMenu:
                 SceneManager.LoadScene("MainMenu");
+                Time.timeScale = 1f;
+                break;
+
+            case GameState.Starting:
+                SceneManager.LoadScene("LevelDesign");
+                this.UpdateGameState(GameState.Playing);
                 break;
 
             case GameState.Paused:
+                Time.timeScale = 0f;
                 break;
 
             case GameState.Playing:
-                if (prevState != GameState.Paused)
-                {
-                    SceneManager.LoadScene("LevelDesign");
-                }
+                Time.timeScale = 1f;
                 break;
 
             case GameState.Credits:
-                Debug.Log("loading credits scene");
                 SceneManager.LoadScene("CreditsScene");
                 break;
         }

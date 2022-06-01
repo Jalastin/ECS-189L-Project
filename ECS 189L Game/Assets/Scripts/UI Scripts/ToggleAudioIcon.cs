@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+// Credit: https://www.youtube.com/watch?v=__M37MbOa8Q
+
 public class ToggleAudioIcon : MonoBehaviour
 {
     [SerializeField] Sprite UnmutedAudioSprite;

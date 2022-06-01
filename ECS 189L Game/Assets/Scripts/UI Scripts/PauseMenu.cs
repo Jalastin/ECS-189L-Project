@@ -48,13 +48,14 @@ public class PauseMenu : MonoBehaviour
         GameManager.Instance.UpdateGameState(GameState.MainMenu);
     }
 
-    public void RestartGame()
+    public void TogglePauseMenu()
     {
-        PauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
-        GameManager.Instance.UpdateGameState(GameState.Playing);
-        // Reload level
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameManager.Instance.UpdateGameState(GameState.Paused);
+    }
+
+    public void ToggleRestart()
+    {
+        GameManager.Instance.UpdateGameState(GameState.Starting);
     }
 
     public void QuitGame()
@@ -66,21 +67,14 @@ public class PauseMenu : MonoBehaviour
     {
         switch (state)
         {
-            case GameState.MainMenu:
-                break;
-
             case GameState.Playing:
                 // Disable pause menu. 
                 PauseMenuUI.SetActive(false);
-                // Reset time scale back to the original value
-                Time.timeScale = 1f;
                 break;
 
             case GameState.Paused:
                 // Enable pause menu. 
                 PauseMenuUI.SetActive(true);
-                // Freeze the game by stopping time.
-                Time.timeScale = 0f;
                 break;
         }
     }
