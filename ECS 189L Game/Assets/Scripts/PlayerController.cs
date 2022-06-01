@@ -48,12 +48,16 @@ public class PlayerController : MonoBehaviour
     // Console input implementation
     private PlayerControls controls;
     private Vector2 move;
+    private bool isButtonPressed = false;
 
     void Awake()
     {
         controls = new PlayerControls();
+        // Input for moving the joystick.
         controls.Gameplay.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
         controls.Gameplay.Move.canceled += ctx => move = Vector2.zero;
+        // Button down input for shooting the projectile.
+        controls.Gameplay.Button.performed += ctx => consoleButtonPressed();
     }
     void OnEnable()
     {
@@ -62,6 +66,9 @@ public class PlayerController : MonoBehaviour
     void OnDisable()
     {
         controls.Gameplay.Disable();
+    }
+    void consoleButtonPressed() {
+        this.isButtonPressed = true;
     }
     
     void Start()
@@ -77,19 +84,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // Console
         this.consoleMouseDiff = new Vector2(-move.x, -move.y);
         Debug.Log("mouse diff: " + this.consoleMouseDiff);
         if (GameManager.Instance.CurrentState != GameState.Playing)
         {
             // Don't allow any input while the game is paused.
             return;
-        }
-
-        // When the input button is first pressed, set the start mouse position.
-        if (Input.GetButtonDown("Fire1"))
-        {
-            this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
-            this.soundManager.PlayChargingThrowSound();
         }
 
         // While the input button is being held, set the end mouse position, mouse direction, and force.
@@ -139,8 +140,8 @@ public class PlayerController : MonoBehaviour
         // Draw the pearl trajectory based on drag direction and force.
         drawPearlArc();
 
-        // When the input button is let go, fire the pearl.
-        if (Input.GetButtonUp("Fire1"))
+        // When the console button is clicked, fire the pearl.
+        if (this.isButtonPressed == true)
         {
             // When releasing the pearl, turn off the pearl arc line.
             this.pearlArcLine.enabled = false;
@@ -158,6 +159,8 @@ public class PlayerController : MonoBehaviour
                 this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                 this.force = 0;
             }
+
+            this.isButtonPressed = false;
         }
         // Allow a buffer between throwing and idling animations.
         if(this.isThrow)
@@ -298,8 +301,8 @@ public class PlayerController : MonoBehaviour
 
 
         // If console, do this.m. If pc, do this.mouseDiff
-        var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2) * 15;
-        var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2) * 15;
+        var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2) * 25;
+        var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2) * 25;
         this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
 
         // Scale the mouseDiff by 2 / forceMultiplier, to not be too obstructive on the screen.

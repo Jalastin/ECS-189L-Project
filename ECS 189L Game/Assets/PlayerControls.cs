@@ -28,7 +28,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             ""id"": ""4fd2ed6e-9b2a-4e72-b788-e4d5efd2158d"",
             ""actions"": [
                 {
-                    ""name"": ""Release"",
+                    ""name"": ""Button"",
                     ""type"": ""Button"",
                     ""id"": ""6b3b0835-26e4-46bc-b4e3-4804d6a0095f"",
                     ""expectedControlType"": ""Button"",
@@ -44,6 +44,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Testing"",
+                    ""type"": ""Value"",
+                    ""id"": ""51b67e9f-3f15-4333-ad63-d4255c913010"",
+                    ""expectedControlType"": ""Stick"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -54,7 +63,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Release"",
+                    ""action"": ""Button"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -68,6 +77,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d820d566-57d1-4827-8721-fb054b32426e"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Testing"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -76,8 +96,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_Release = m_Gameplay.FindAction("Release", throwIfNotFound: true);
+        m_Gameplay_Button = m_Gameplay.FindAction("Button", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
+        m_Gameplay_Testing = m_Gameplay.FindAction("Testing", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -137,14 +158,16 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     // Gameplay
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
-    private readonly InputAction m_Gameplay_Release;
+    private readonly InputAction m_Gameplay_Button;
     private readonly InputAction m_Gameplay_Move;
+    private readonly InputAction m_Gameplay_Testing;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
         public GameplayActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Release => m_Wrapper.m_Gameplay_Release;
+        public InputAction @Button => m_Wrapper.m_Gameplay_Button;
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
+        public InputAction @Testing => m_Wrapper.m_Gameplay_Testing;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -154,29 +177,36 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
             {
-                @Release.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRelease;
-                @Release.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRelease;
-                @Release.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRelease;
+                @Button.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButton;
+                @Button.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButton;
+                @Button.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButton;
                 @Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
+                @Testing.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTesting;
+                @Testing.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTesting;
+                @Testing.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTesting;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Release.started += instance.OnRelease;
-                @Release.performed += instance.OnRelease;
-                @Release.canceled += instance.OnRelease;
+                @Button.started += instance.OnButton;
+                @Button.performed += instance.OnButton;
+                @Button.canceled += instance.OnButton;
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @Testing.started += instance.OnTesting;
+                @Testing.performed += instance.OnTesting;
+                @Testing.canceled += instance.OnTesting;
             }
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
     public interface IGameplayActions
     {
-        void OnRelease(InputAction.CallbackContext context);
+        void OnButton(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnTesting(InputAction.CallbackContext context);
     }
 }

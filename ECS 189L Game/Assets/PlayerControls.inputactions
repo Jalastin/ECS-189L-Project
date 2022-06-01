@@ -6,7 +6,7 @@
             "id": "4fd2ed6e-9b2a-4e72-b788-e4d5efd2158d",
             "actions": [
                 {
-                    "name": "Release",
+                    "name": "Button",
                     "type": "Button",
                     "id": "6b3b0835-26e4-46bc-b4e3-4804d6a0095f",
                     "expectedControlType": "Button",
@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Testing",
+                    "type": "Value",
+                    "id": "51b67e9f-3f15-4333-ad63-d4255c913010",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -32,7 +41,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Release",
+                    "action": "Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -44,6 +53,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d820d566-57d1-4827-8721-fb054b32426e",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Testing",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
