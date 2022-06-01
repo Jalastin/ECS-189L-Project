@@ -10,13 +10,14 @@ public class MainMenu : MonoBehaviour
         AudioListener.pause = false;
     }
 
-    public void StartGame()
+    public void ToggleStart()
     {
-        SceneManager.LoadScene("Justin Test Scene");
+        GameManager.Instance.UpdateGameState(GameState.Starting);
     }
-    public void LoadCredits()
+
+    public void ToggleCredits()
     {
-        SceneManager.LoadScene("CreditsScene");
+        GameManager.Instance.UpdateGameState(GameState.Credits);
     }
 
     public void QuitGame()

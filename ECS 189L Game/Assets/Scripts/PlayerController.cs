@@ -79,6 +79,18 @@ public class PlayerController : MonoBehaviour
     {
         this.consoleMouseDiff = new Vector2(-move.x, -move.y);
         Debug.Log("mouse diff: " + this.consoleMouseDiff);
+        if (GameManager.Instance.CurrentState != GameState.Playing)
+        {
+            // Don't allow any input while the game is paused.
+            return;
+        }
+
+        // When the input button is first pressed, set the start mouse position.
+        if (Input.GetButtonDown("Fire1"))
+        {
+            this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
+            this.soundManager.PlayChargingThrowSound();
+        }
 
         // While the input button is being held, set the end mouse position, mouse direction, and force.
         // this.mousePositionEnd = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
@@ -169,6 +181,12 @@ public class PlayerController : MonoBehaviour
         }
         
         // PC
+
+        //  if (GameManager.Instance.CurrentState != GameState.Playing)
+        // {
+            // // Don't allow any input while the game is paused.
+            // return;
+        // }
         // // When the input button is first pressed, set the start mouse position.
         // if (Input.GetButtonDown("Fire1"))
         // {
