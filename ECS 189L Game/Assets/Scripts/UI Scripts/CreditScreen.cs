@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class CreditScreen : MonoBehaviour
 {
-
     public void Back()
     {
-        SceneManager.LoadScene("MainMenu");
+        GameManager.Instance.UpdateGameState(GameState.MainMenu);
     }
 }

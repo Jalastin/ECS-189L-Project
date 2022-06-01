@@ -55,6 +55,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.CurrentState != GameState.Playing)
+        {
+            // Don't allow any input while the game is paused.
+            return;
+        }
+
         // When the input button is first pressed, set the start mouse position.
         if (Input.GetButtonDown("Fire1"))
         {
@@ -76,12 +82,12 @@ public class PlayerController : MonoBehaviour
             if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
             {
                 // If pulling mouse to left, then have sprite face to the right.
-                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(2, 2, 2);
+                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
             }
             else
             {
                 // If pulling mouse to right, then have sprite face to the left.
-                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-2, 2, 2);
+                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-5, 5, 5);
             }
 
             // Restrict the force to be no bigger than forceMax.

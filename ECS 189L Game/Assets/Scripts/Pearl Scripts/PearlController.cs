@@ -45,9 +45,6 @@ public class PearlController : MonoBehaviour
     {
         this.timeElapsed = 0;
         this.HasCollided = false;
-        // Destroy the Pearl for a given amount of time,
-        // Remove once testing is finished
-        Destroy(this.gameObject, 3f);
         this.GetComponent<PearlMotion>().Fire();
         // Ensure that the Pearl does not collide with the player.
         this.player = GameObject.Find("Player_2");
