@@ -4,11 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
-    void Awake()
-    {
-        GameManager.OnGameStateChanged += OnStateChanged;
-    }
-
     // Background music should be playing by default
     void Start()
     {
@@ -28,10 +23,5 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
-    }
-
-    public void OnStateChanged(GameState state)
-    {
-
     }
 }

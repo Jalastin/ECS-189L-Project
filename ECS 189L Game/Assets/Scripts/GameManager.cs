@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
             case GameState.Playing:
                 if (prevState != GameState.Paused)
                 {
-                    SceneManager.LoadScene("Justin Test Scene");
+                    SceneManager.LoadScene("LevelDesign");
                 }
                 break;
 

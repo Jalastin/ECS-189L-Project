@@ -13,7 +13,7 @@ public class PearlController : MonoBehaviour
     // over the Pearl's original location.
     [SerializeField] private float playerOffset = 2f;
 
-    // player just keeps track of the Player GameObject.
+    // player just keeps track of the Player Model GameObject.
     private GameObject player;
 
     // Counter to keep track of timeElapsed since initial contact with a platform.
@@ -45,15 +45,13 @@ public class PearlController : MonoBehaviour
     {
         this.timeElapsed = 0;
         this.HasCollided = false;
-        // Destroy the Pearl for a given amount of time,
-        // Remove once testing is finished
-        Destroy(this.gameObject, 3f);
         this.GetComponent<PearlMotion>().Fire();
         // Ensure that the Pearl does not collide with the player.
-        this.player = GameObject.Find("Player");
+        this.player = GameObject.Find("Player_2");
         Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), this.player.GetComponent<Collider2D>());
         // Get sound manager object.
         this.soundManager = GameObject.Find("SoundManager").GetComponent<SoundEffectManager>();
+
     }
 
     void Update()
