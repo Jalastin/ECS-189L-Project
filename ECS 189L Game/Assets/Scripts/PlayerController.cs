@@ -94,28 +94,29 @@ public class PlayerController : MonoBehaviour
         // If running on console, do console input system.
         if (SystemInfo.deviceType == DeviceType.Console)
         {
-            this.consoleMouseDiff = this.consoleMouseDiff + new Vector2(-move.x, -move.y);
             if (GameManager.Instance.CurrentState != GameState.Playing)
             {
                 // Don't allow any input while the game is paused.
                 return;
             }
+            // Every time joystick is moved, update the movement vector.
+            this.consoleMouseDiff = this.consoleMouseDiff + new Vector2(-move.x, -move.y);
 
             // Calculate distance and force based on movement of left joystick.
             this.mouseDistance = this.consoleMouseDiff.magnitude;
             this.mouseDirection = this.consoleMouseDiff / this.mouseDistance;
             this.force = this.mouseDistance * this.forceMultipler;
             
-            // Change sprite direction depending on mouse position.
+            // Change sprite direction depending on launch direction.
             // Edge case: only flip once they have pulled / there is a distance.
             if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
             {
-                // If pulling mouse to left, then have sprite face to the right.
+                // If aiming right, then have sprite face to the right.
                 this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
             }
             else
             {
-                // If pulling mouse to right, then have sprite face to the left.
+                // If aiming left, then have sprite face to the left.
                 this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-5, 5, 5);
             }
 
