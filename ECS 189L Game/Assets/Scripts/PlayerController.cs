@@ -142,6 +142,8 @@ public class PlayerController : MonoBehaviour
                 this.soundManager.PlayProjectileReleaseSound();
                 this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                 this.force = 0;
+                Debug.Log("threw pearl");
+                GameManager.Instance.PearlsThrown++;
             }
         }
         // Allow a buffer between throwing and idling animations.
