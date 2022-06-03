@@ -91,108 +91,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // If running on console, do console input system.
-        if (SystemInfo.deviceType == DeviceType.Console)
-        {
-            if (GameManager.Instance.CurrentState != GameState.Playing)
-            {
-                // Don't allow any input while the game is paused.
-                return;
-            }
-            // Every time joystick is moved, update the movement vector.
-            this.consoleMouseDiff = this.consoleMouseDiff + new Vector2(-move.x, -move.y);
-
-            // Calculate distance and force based on movement of left joystick.
-            this.mouseDistance = this.consoleMouseDiff.magnitude;
-            this.mouseDirection = this.consoleMouseDiff / this.mouseDistance;
-            this.force = this.mouseDistance * this.forceMultipler;
-            
-            // Change sprite direction depending on launch direction.
-            // Edge case: only flip once they have pulled / there is a distance.
-            if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
-            {
-                // If aiming right, then have sprite face to the right.
-                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
-            }
-            else
-            {
-                // If aiming left, then have sprite face to the left.
-                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-5, 5, 5);
-            }
-
-            // Restrict the force to be no bigger than forceMax.
-            if (this.force >= this.forceMax)
-            {
-                // Also limit the length of the pearl trajectory line
-                // to visually indicate when max force is being reached.
-                // We only want to set this change when forceMax is initially hit,
-                // which is why we set maxForcedReached to true until force is no longer at forceMax.
-                if (this.maxForceReached == false)
-                {
-                    var maxDistance = this.consoleMouseDiff;
-                    this.maxMagnitude = maxDistance.magnitude;
-                    this.maxForceReached = true;
-                }
-                var maxX = this.maxMagnitude * this.mouseDirection.x;
-                var maxY = this.maxMagnitude * this.mouseDirection.y;
-                this.consoleMouseDiff = new Vector2(maxX, maxY);
-
-                this.force = this.forceMax;
-            }
-            else
-            {
-                this.maxForceReached = false;
-            }
-
-            // Draw the pearl trajectory based on drag direction and force.
-            drawPearlArc();
-
-            // When the console button is clicked, fire the pearl.
-            if (this.isButtonPressed == true)
-            {
-                // When releasing the pearl, turn off the pearl arc line.
-                this.pearlArcLine.enabled = false;
-
-                // Only fire the pearl if there is no pearl currently active.
-                // This prevents multiple pearls from being thrown at once.
-                // Also only fire if the force is non-zero 
-                // (ie. they have actually dragged after pressing button down).
-                if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
-                {
-                    // Once player releases Fire1, start the throw animation.
-                    this.isThrow = true;
-                    player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
-                    this.soundManager.PlayProjectileReleaseSound();
-                    this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
-                    this.force = 0;
-                }
-
-                this.isButtonPressed = false;
-            }
-            // Allow a buffer between throwing and idling animations.
-            if(this.isThrow)
-            {
-                // Count until 0.65sec, then set isThrow to false, which indicates the throw is done.
-                if(throwTimer >= 0.65f) 
-                {
-                    this.isThrow = false;
-                    this.throwTimer = 0.0f;
-                }
-                else
-                {
-                    // If timer not reached yet, keep on incrementing.
-                    throwTimer += Time.deltaTime;
-                }
-            }
-            else
-            {
-                // Go back to idle animation.
-                player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
-            }
-        }
-        
         // If running on desktop, do desktop input system.
-        else if (SystemInfo.deviceType == DeviceType.Desktop)
+        if (SystemInfo.deviceType == DeviceType.Desktop)
         {
             if (GameManager.Instance.CurrentState != GameState.Playing)
             {
@@ -298,7 +198,119 @@ public class PlayerController : MonoBehaviour
                 player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
             }
         }
-        
+
+        // If running on console, do console input system.
+        else if (SystemInfo.deviceType == DeviceType.Console)
+        {
+            if (GameManager.Instance.CurrentState != GameState.Playing)
+            {
+                // Don't allow any input while the game is paused.
+                return;
+            }
+            // Every time joystick is moved, update the movement vector.
+            this.consoleMouseDiff = this.consoleMouseDiff + new Vector2(-move.x, -move.y);
+
+            // Calculate distance and force based on movement of left joystick.
+            this.mouseDistance = this.consoleMouseDiff.magnitude;
+            this.mouseDirection = this.consoleMouseDiff / this.mouseDistance;
+            this.force = this.mouseDistance * this.forceMultipler;
+            
+            // Change sprite direction depending on launch direction.
+            // Edge case: only flip once they have pulled / there is a distance.
+            if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
+            {
+                // If aiming right, then have sprite face to the right.
+                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
+            }
+            else
+            {
+                // If aiming left, then have sprite face to the left.
+                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-5, 5, 5);
+            }
+
+            // Restrict the force to be no bigger than forceMax.
+            if (this.force >= this.forceMax)
+            {
+                // Also limit the length of the pearl trajectory line
+                // to visually indicate when max force is being reached.
+                // We only want to set this change when forceMax is initially hit,
+                // which is why we set maxForcedReached to true until force is no longer at forceMax.
+                if (this.maxForceReached == false)
+                {
+                    var maxDistance = this.consoleMouseDiff;
+                    this.maxMagnitude = maxDistance.magnitude;
+                    this.maxForceReached = true;
+                }
+                var maxX = this.maxMagnitude * this.mouseDirection.x;
+                var maxY = this.maxMagnitude * this.mouseDirection.y;
+                this.consoleMouseDiff = new Vector2(maxX, maxY);
+
+                this.force = this.forceMax;
+            }
+            else
+            {
+                this.maxForceReached = false;
+            }
+
+            // Draw the pearl trajectory based on drag direction and force.
+            drawPearlArc();
+
+            // When the console button is clicked, fire the pearl.
+            if (this.isButtonPressed == true)
+            {
+                // When releasing the pearl, turn off the pearl arc line.
+                this.pearlArcLine.enabled = false;
+
+                // Only fire the pearl if there is no pearl currently active.
+                // This prevents multiple pearls from being thrown at once.
+                // Also only fire if the force is non-zero 
+                // (ie. they have actually dragged after pressing button down).
+                if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
+                {
+                    // Once player releases Fire1, start the throw animation.
+                    this.isThrow = true;
+                    player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+                    this.soundManager.PlayProjectileReleaseSound();
+                    this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
+                    this.force = 0;
+                }
+
+                this.isButtonPressed = false;
+            }
+            // Allow a buffer between throwing and idling animations.
+            if(this.isThrow)
+            {
+                // Count until 0.65sec, then set isThrow to false, which indicates the throw is done.
+                if(throwTimer >= 0.65f) 
+                {
+                    this.isThrow = false;
+                    this.throwTimer = 0.0f;
+                }
+                else
+                {
+                    // If timer not reached yet, keep on incrementing.
+                    throwTimer += Time.deltaTime;
+                }
+            }
+            else
+            {
+                // Go back to idle animation.
+                player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+            }
+        }
+
+        // If running on mobile, do mobile input system.
+        else if (SystemInfo.deviceType == DeviceType.Handheld)
+        {
+            // Code should be very similar to the desktop in terms of logic. Logic was only significantly different when implementing console input.
+            
+        }
+
+        // Give an error if device type isn't recognized.
+        else if (SystemInfo.deviceType == DeviceType.Unknown)
+        {
+            Debug.Log("Device type isn't recognized");
+        }
     }
 
     void drawPearlArc()
