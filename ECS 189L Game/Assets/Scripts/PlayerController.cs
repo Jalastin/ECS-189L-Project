@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
         // If running on desktop, do desktop input system.
         // This is because "move" is only set on console input.
-        if (move == new Vector2(0, 0))
+        if (move == new Vector2(0, 0)) // Add in a mobile check here (!mobile)
         {
             // When the input button is first pressed, set the start mouse position.
             if (Input.GetButtonDown("Fire1"))
@@ -179,26 +179,12 @@ public class PlayerController : MonoBehaviour
                     this.force = 0;
                 }
             }
-            // Allow a buffer between throwing and idling animations.
-            if(this.isThrow)
-            {
-                // Count until 0.65sec, then set isThrow to false, which indicates the throw is done.
-                if(throwTimer >= 0.65f) 
-                {
-                    this.isThrow = false;
-                    this.throwTimer = 0.0f;
-                }
-                else
-                {
-                    // If timer not reached yet, keep on incrementing.
-                    throwTimer += Time.deltaTime;
-                }
-            }
-            else
-            {
-                // Go back to idle animation.
-                player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
-            }
+        }
+
+        // If running on mobile, do mobile input system.
+        else if (move != new Vector2(0, 0))
+        {
+            Debug.Log("Hello");
         }
 
         // If running on console, do console input system.
@@ -274,40 +260,28 @@ public class PlayerController : MonoBehaviour
 
                 this.isButtonPressed = false;
             }
-            // Allow a buffer between throwing and idling animations.
-            if(this.isThrow)
+        }
+
+        // Allow a buffer between throwing and idling animations.
+        if(this.isThrow)
+        {
+            // Count until 0.65sec, then set isThrow to false, which indicates the throw is done.
+            if(throwTimer >= 0.65f) 
             {
-                // Count until 0.65sec, then set isThrow to false, which indicates the throw is done.
-                if(throwTimer >= 0.65f) 
-                {
-                    this.isThrow = false;
-                    this.throwTimer = 0.0f;
-                }
-                else
-                {
-                    // If timer not reached yet, keep on incrementing.
-                    throwTimer += Time.deltaTime;
-                }
+                this.isThrow = false;
+                this.throwTimer = 0.0f;
             }
             else
             {
-                // Go back to idle animation.
-                player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+                // If timer not reached yet, keep on incrementing.
+                throwTimer += Time.deltaTime;
             }
         }
-
-        // // If running on mobile, do mobile input system.
-        // else if (SystemInfo.deviceType == DeviceType.Handheld)
-        // {
-        //     // Code should be very similar to the desktop in terms of logic. Logic was only significantly different when implementing console input.
-            
-        // }
-
-        // // Give an error if device type isn't recognized.
-        // else if (SystemInfo.deviceType == DeviceType.Unknown)
-        // {
-        //     Debug.Log("Device type isn't recognized");
-        // }
+        else
+        {
+            // Go back to idle animation.
+            player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+        }
     }
 
     void drawPearlArc()
@@ -330,6 +304,8 @@ public class PlayerController : MonoBehaviour
             var arcZ = pearlSpawnPosition.z + this.mouseDiff.z / this.forceMultipler * 2;
             this.pearlArcLine.SetPosition(1, new Vector3(arcX, arcY, arcZ));
         }
+
+        // Put the mobile check here.
 
         // If running on console, do console input system.
         else
