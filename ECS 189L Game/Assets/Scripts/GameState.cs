@@ -4,5 +4,6 @@ public enum GameState
     Starting,
     Paused,
     Playing,
+    Won,
     Credits,
 }

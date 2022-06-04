@@ -7,43 +7,103 @@ using UnityEngine.SceneManagement;
 // Lots of inspiration taken from https://www.youtube.com/watch?v=4I0vonyqMi8.
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
     public static GameManager Instance 
     { 
-        get => instance;
+        get;
+        private set;
     }
-    private GameState currentState = GameState.MainMenu;
     public GameState CurrentState 
     { 
-        get => currentState;
+        get;
+        private set;
     }
+
+    // Miscellaneous stats.
+    private int pearlsThrown;
+    public int PearlsThrown
+    {
+        get => this.pearlsThrown;
+        set
+        {
+            this.pearlsThrown = value;
+            OnPearlsThrownChanged?.Invoke(this.pearlsThrown);
+        }
+    }
+    private float completionTime;
+    public float CompletionTime
+    {
+        get => this.completionTime;
+        private set
+        {
+            var previousTime = this.completionTime;
+            this.completionTime = value;
+
+            // Notify only after 1 second has passed.
+            if (Mathf.Floor(previousTime) != Mathf.Floor(this.completionTime))
+            {
+                OnCompletionTimeChanged?.Invoke(this.completionTime);
+            }
+        }
+    }
+
+    // Audio properties.
+    public bool VolumeChanged
+    {
+        get;
+        set;
+    }
+    public float CurrentVolume
+    {
+        get;
+        set;
+    }
+
+    // Events that other scripts can subscribe to.
     public static event Action<GameState> OnGameStateChanged;
+    public static event Action<int> OnPearlsThrownChanged;
+    public static event Action<float> OnCompletionTimeChanged;
 
     void Awake()
     {
         // https://www.youtube.com/watch?v=5p2JlI7PV1w
         Debug.Log("manager awake!");
-        if (instance != null)
+        if (Instance != null)
         {
             Destroy(gameObject);
         }
         else 
         {
-            instance = this;
+            // stats = new GameStats();
+            Instance = this;
+            this.CurrentState = GameState.MainMenu;
+            this.VolumeChanged = false;
             DontDestroyOnLoad(gameObject);
+            // OnCompletionTimeChanged += OnTimeChanged;
+            // OnPearlsThrownChanged += OnPearlsChanged;
+        }
+    }
+
+    void Update()
+    {
+        switch (this.CurrentState)
+        {   
+            case GameState.Playing:
+                this.CompletionTime += Time.deltaTime;
+                break;
         }
     }
 
     public void UpdateGameState(GameState newState)
     {
         // Redundant state change.
-        if (newState == this.currentState)
+        if (newState == this.CurrentState)
         {
             return;
         }
 
-        var prevState = this.currentState;
-        this.currentState = newState;
+        // Prob don't need this.
+        var prevState = this.CurrentState;
+        this.CurrentState = newState;
 
         switch (newState)
         {
@@ -54,15 +114,20 @@ public class GameManager : MonoBehaviour
 
             case GameState.Starting:
                 SceneManager.LoadScene("LevelDesign");
+                this.CompletionTime = 0f;
+                this.PearlsThrown = 0;
                 this.UpdateGameState(GameState.Playing);
+                break;
+
+            case GameState.Playing:
+                Time.timeScale = 1f;
                 break;
 
             case GameState.Paused:
                 Time.timeScale = 0f;
                 break;
 
-            case GameState.Playing:
-                Time.timeScale = 1f;
+            case GameState.Won:
                 break;
 
             case GameState.Credits:
@@ -75,8 +140,13 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(newState);
     }
 
-    public void UpdateGameLevel()
-    {
-        
-    }
+    // public void OnPearlsChanged(int pearls)
+    // {
+    //     Debug.Log(pearls);
+    // }
+
+    // public void OnTimeChanged(float time)
+    // {
+    //     Debug.Log(time);
+    // }
 }
