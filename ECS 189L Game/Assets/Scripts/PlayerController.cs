@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour
         controls = new PlayerControls();
         // Input for moving the joystick.
         controls.Gameplay.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
-        // controls.Gameplay.Move.canceled += ctx => move = Vector2.zero;
         // Button down input for shooting the projectile.
         controls.Gameplay.Button.performed += ctx => consoleButtonPressed();
     }
