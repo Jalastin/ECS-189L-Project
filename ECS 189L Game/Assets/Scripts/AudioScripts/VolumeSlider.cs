@@ -10,23 +10,19 @@ public class VolumeSlider : MonoBehaviour
     [SerializeField] AudioMixer Mixer;
     [SerializeField] Slider AudioSlider;
     // These two variables are used to save the user's previous volume settings so that the visual aspect of the slider is consistent with the actual adjusted volume. 
-    // TODO: Use game manager and store these two values globally 
-    private bool volumeChanged = false;
-    private float previousVolume;
     
     void Start()
     {
         // Update slider UI to the latest value
-        if(this.volumeChanged)
+        if(GameManager.Instance.VolumeChanged)
         {
-            AudioSlider.value = this.previousVolume;
+            AudioSlider.value = GameManager.Instance.CurrentVolume;
         }
     }
     public void SetVolume(float volumeValue)
     {
         Mixer.SetFloat("Volume", Mathf.Log10(volumeValue) * 20);
-        // TODO: Update global variables in game manager
-        this.volumeChanged = true;
-        this.previousVolume = Mathf.Log10(volumeValue) * 20;
+        GameManager.Instance.VolumeChanged = true;
+        GameManager.Instance.CurrentVolume = volumeValue;
     }
 }

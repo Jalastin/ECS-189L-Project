@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     { 
         get => currentState;
     }
+
+    // Miscellaneous stats.
     private int pearlsThrown;
     public int PearlsThrown
     {
@@ -41,6 +43,12 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    // Audio properties.
+    public bool VolumeChanged = false;
+    public float CurrentVolume;
+
+    // Events that other scripts can subscribe to.
     public static event Action<GameState> OnGameStateChanged;
     public static event Action<int> OnPearlsThrownChanged;
     public static event Action<float> OnCompletionTimeChanged;
