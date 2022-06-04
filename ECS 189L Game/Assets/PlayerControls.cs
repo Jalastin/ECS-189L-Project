@@ -46,13 +46,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Testing"",
-                    ""type"": ""Value"",
-                    ""id"": ""51b67e9f-3f15-4333-ad63-d4255c913010"",
-                    ""expectedControlType"": ""Stick"",
+                    ""name"": ""Drag"",
+                    ""type"": ""Button"",
+                    ""id"": ""aa87d813-9273-4045-af45-2cbfb16276e1"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -62,7 +62,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Button"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -72,33 +72,56 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""id"": ""4516aa3f-3401-401d-a3ee-bcb35703d9ab"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
+                    ""processors"": ""StickDeadzone(max=1)"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d820d566-57d1-4827-8721-fb054b32426e"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""id"": ""8610dd2a-2c5c-43d7-b5be-a189960a9af1"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Testing"",
+                    ""groups"": ""Touchscreen"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Gamepad"",
+            ""bindingGroup"": ""Gamepad"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Touchscreen"",
+            ""bindingGroup"": ""Touchscreen"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Touchscreen>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Button = m_Gameplay.FindAction("Button", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
-        m_Gameplay_Testing = m_Gameplay.FindAction("Testing", throwIfNotFound: true);
+        m_Gameplay_Drag = m_Gameplay.FindAction("Drag", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -160,14 +183,14 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Button;
     private readonly InputAction m_Gameplay_Move;
-    private readonly InputAction m_Gameplay_Testing;
+    private readonly InputAction m_Gameplay_Drag;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
         public GameplayActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Button => m_Wrapper.m_Gameplay_Button;
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
-        public InputAction @Testing => m_Wrapper.m_Gameplay_Testing;
+        public InputAction @Drag => m_Wrapper.m_Gameplay_Drag;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -183,9 +206,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                @Testing.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTesting;
-                @Testing.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTesting;
-                @Testing.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTesting;
+                @Drag.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrag;
+                @Drag.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrag;
+                @Drag.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrag;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -196,17 +219,35 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Testing.started += instance.OnTesting;
-                @Testing.performed += instance.OnTesting;
-                @Testing.canceled += instance.OnTesting;
+                @Drag.started += instance.OnDrag;
+                @Drag.performed += instance.OnDrag;
+                @Drag.canceled += instance.OnDrag;
             }
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+    private int m_GamepadSchemeIndex = -1;
+    public InputControlScheme GamepadScheme
+    {
+        get
+        {
+            if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
+            return asset.controlSchemes[m_GamepadSchemeIndex];
+        }
+    }
+    private int m_TouchscreenSchemeIndex = -1;
+    public InputControlScheme TouchscreenScheme
+    {
+        get
+        {
+            if (m_TouchscreenSchemeIndex == -1) m_TouchscreenSchemeIndex = asset.FindControlSchemeIndex("Touchscreen");
+            return asset.controlSchemes[m_TouchscreenSchemeIndex];
+        }
+    }
     public interface IGameplayActions
     {
         void OnButton(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
-        void OnTesting(InputAction.CallbackContext context);
+        void OnDrag(InputAction.CallbackContext context);
     }
 }

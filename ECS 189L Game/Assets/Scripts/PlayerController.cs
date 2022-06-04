@@ -11,18 +11,24 @@ public class PlayerController : MonoBehaviour
     // forceMultiplier is a scalar on the force of the new pearl.
     [SerializeField] private float forceMultipler = 10f;
 
-    // Position of mouse when input button is first pressed;
+    // Position of mouse when input button is first pressed.
     private Vector3 mousePositionStart;
+    // Touch start for mobile.
+    private Vector2 touchPositionStart;
 
-    // Position of mouse when input button is being held;
+    // Position of mouse when input button is being held.
     private Vector3 mousePositionEnd;
+    // Touch end for mobile.
+    private Vector2 touchPositionEnd;
 
     // mouseDiff is the Vector between the start and end mouse positions.
     private Vector3 mouseDiff;
     // mouseDiff for console.
     private Vector2 consoleMouseDiff;
+    // mosueDiff for mobile.
+    private Vector2 mobileMouseDiff;
 
-    // mouseDistance is the magnitude of mouseDiff;
+    // mouseDistance is the magnitude of mouseDiff.
     private float mouseDistance;
 
     // mouseDirection is the actual direction of the mouseDiff vector.
@@ -47,13 +53,14 @@ public class PlayerController : MonoBehaviour
     // Sound manager is used to generate sound effects when the player is charging their throw.
     private SoundEffectManager soundManager;
 
-    // Console input implementation
+    // Console input implementation.
     private PlayerControls controls;
-    private Vector2 move;
+    private Vector2 move = new Vector2(0, 0);
     private bool isButtonPressed = false;
 
     void Awake()
     {
+        // Activate the console controls.
         controls = new PlayerControls();
         // Input for moving the joystick.
         controls.Gameplay.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
@@ -91,72 +98,85 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // If running on console, do console input system.
-        if (SystemInfo.deviceType == DeviceType.Console)
+        if (GameManager.Instance.CurrentState != GameState.Playing)
         {
-            if (GameManager.Instance.CurrentState != GameState.Playing)
-            {
-                // Don't allow any input while the game is paused.
-                return;
-            }
-            // Every time joystick is moved, update the movement vector.
-            this.consoleMouseDiff = this.consoleMouseDiff + new Vector2(-move.x, -move.y);
+            // Don't allow any input while the game is paused.
+            return;
+        }
 
-            // Calculate distance and force based on movement of left joystick.
-            this.mouseDistance = this.consoleMouseDiff.magnitude;
-            this.mouseDirection = this.consoleMouseDiff / this.mouseDistance;
-            this.force = this.mouseDistance * this.forceMultipler;
-            
-            // Change sprite direction depending on launch direction.
-            // Edge case: only flip once they have pulled / there is a distance.
-            if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
+        // If running on mobile, do mobile input system.
+        if (Input.touchCount > 0)
+        {
+            // Get the touch information.
+            Touch touch = Input.GetTouch(0);
+            // Get the location of the touch when it first touches the screen.
+            if (touch.phase == UnityEngine.TouchPhase.Began)
             {
-                // If aiming right, then have sprite face to the right.
-                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
+                Vector2 pos = Camera.main.ScreenToWorldPoint(touch.position);
+                this.touchPositionStart = new Vector2(pos.x, pos.y);
             }
-            else
+            // Calculate the distance after touch gets removed.
+            // Use this distance to calculate force and trajectory of the pearl.
+            if (touch.phase == UnityEngine.TouchPhase.Moved)
             {
-                // If aiming left, then have sprite face to the left.
-                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-5, 5, 5);
-            }
+                Vector2 pos = Camera.main.ScreenToWorldPoint(touch.position);
+                this.touchPositionEnd = new Vector2(pos.x, pos.y);
 
-            // Restrict the force to be no bigger than forceMax.
-            if (this.force >= this.forceMax)
-            {
-                // Also limit the length of the pearl trajectory line
-                // to visually indicate when max force is being reached.
-                // We only want to set this change when forceMax is initially hit,
-                // which is why we set maxForcedReached to true until force is no longer at forceMax.
-                if (this.maxForceReached == false)
+                this.mobileMouseDiff = this.touchPositionStart - this.touchPositionEnd;
+                this.mouseDistance = this.mobileMouseDiff.magnitude;
+                this.mouseDirection = this.mobileMouseDiff / this.mouseDistance;
+                this.force = this.mouseDistance * this.forceMultipler;
+                
+                // Change sprite direction depending on touch position.
+                // Edge case: only flip once they have pulled / there is a distance.
+                if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
                 {
-                    var maxDistance = this.consoleMouseDiff;
-                    this.maxMagnitude = maxDistance.magnitude;
-                    this.maxForceReached = true;
+                    // If pulling mouse to left, then have sprite face to the right.
+                    this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
                 }
-                var maxX = this.maxMagnitude * this.mouseDirection.x;
-                var maxY = this.maxMagnitude * this.mouseDirection.y;
-                this.consoleMouseDiff = new Vector2(maxX, maxY);
+                else
+                {
+                    // If pulling mouse to right, then have sprite face to the left.
+                    this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-5, 5, 5);
+                }
 
-                this.force = this.forceMax;
+                // Restrict the force to be no bigger than forceMax.
+                if (this.force >= this.forceMax)
+                {
+                    // Also limit the length of the pearl trajectory line
+                    // to visually indicate when max force is being reached.
+                    // We only want to set this change when forceMax is initially hit,
+                    // which is why we set maxForcedReached to true until force is no longer at forceMax.
+                    if (this.maxForceReached == false)
+                    {
+                        var maxDistance = this.touchPositionStart - this.touchPositionEnd;
+                        this.maxMagnitude = maxDistance.magnitude;
+                        this.maxForceReached = true;
+                    }
+                    var maxX = this.maxMagnitude * this.mouseDirection.x;
+                    var maxY = this.maxMagnitude * this.mouseDirection.y;
+                    this.mobileMouseDiff = new Vector2(maxX, maxY);
+
+                    this.force = this.forceMax;
+                }
+                else
+                {
+                    this.maxForceReached = false;
+                }
+
+                // Draw the pearl trajectory based on drag direction and force.
+                drawPearlArc();
             }
-            else
-            {
-                this.maxForceReached = false;
-            }
-
-            // Draw the pearl trajectory based on drag direction and force.
-            drawPearlArc();
-
-            // When the console button is clicked, fire the pearl.
-            if (this.isButtonPressed == true)
+            // After touch is removed, launch the pearl.
+            if (touch.phase == UnityEngine.TouchPhase.Ended)
             {
                 // When releasing the pearl, turn off the pearl arc line.
                 this.pearlArcLine.enabled = false;
 
                 // Only fire the pearl if there is no pearl currently active.
                 // This prevents multiple pearls from being thrown at once.
-                // Also only fire if the force is non-zero 
-                // (ie. they have actually dragged after pressing button down).
+                // Also only fire if the force is non-zero.
+                // (ie. they have actually dragged after pressing the screen).
                 if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
                 {
                     // Once player releases Fire1, start the throw animation.
@@ -166,39 +186,13 @@ public class PlayerController : MonoBehaviour
                     this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                     this.force = 0;
                 }
-
-                this.isButtonPressed = false;
-            }
-            // Allow a buffer between throwing and idling animations.
-            if(this.isThrow)
-            {
-                // Count until 0.65sec, then set isThrow to false, which indicates the throw is done.
-                if(throwTimer >= 0.65f) 
-                {
-                    this.isThrow = false;
-                    this.throwTimer = 0.0f;
-                }
-                else
-                {
-                    // If timer not reached yet, keep on incrementing.
-                    throwTimer += Time.deltaTime;
-                }
-            }
-            else
-            {
-                // Go back to idle animation.
-                player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
             }
         }
-        
-        // If running on desktop, do desktop input system.
-        else if (SystemInfo.deviceType == DeviceType.Desktop)
+
+        // // If running on desktop, do desktop input system.
+        // We check for move because move is only set on console input.
+        else if (move == new Vector2(0, 0))
         {
-            if (GameManager.Instance.CurrentState != GameState.Playing)
-            {
-                // Don't allow any input while the game is paused.
-                return;
-            }
             // When the input button is first pressed, set the start mouse position.
             if (Input.GetButtonDown("Fire1"))
             {
@@ -265,7 +259,7 @@ public class PlayerController : MonoBehaviour
 
                 // Only fire the pearl if there is no pearl currently active.
                 // This prevents multiple pearls from being thrown at once.
-                // Also only fire if the force is non-zero 
+                // Also only fire if the force is non-zero.
                 // (ie. they have actually dragged after pressing button down).
                 if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
                 {
@@ -277,28 +271,103 @@ public class PlayerController : MonoBehaviour
                     this.force = 0;
                 }
             }
-            // Allow a buffer between throwing and idling animations.
-            if(this.isThrow)
+        }
+
+        // // If running on console, do console input system.
+        else if (move != new Vector2(0, 0))
+        {
+            // Every time joystick is moved, update the movement vector.
+            this.consoleMouseDiff = this.consoleMouseDiff + new Vector2(-move.x, -move.y);
+
+            // Calculate distance and force based on movement of left joystick.
+            this.mouseDistance = this.consoleMouseDiff.magnitude;
+            this.mouseDirection = this.consoleMouseDiff / this.mouseDistance;
+            this.force = this.mouseDistance * this.forceMultipler;
+            
+            // Change sprite direction depending on launch direction.
+            // Edge case: only flip once they have pulled / there is a distance.
+            if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
             {
-                // Count until 0.65sec, then set isThrow to false, which indicates the throw is done.
-                if(throwTimer >= 0.65f) 
-                {
-                    this.isThrow = false;
-                    this.throwTimer = 0.0f;
-                }
-                else
-                {
-                    // If timer not reached yet, keep on incrementing.
-                    throwTimer += Time.deltaTime;
-                }
+                // If aiming right, then have sprite face to the right.
+                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
             }
             else
             {
-                // Go back to idle animation.
-                player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+                // If aiming left, then have sprite face to the left.
+                this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(-5, 5, 5);
+            }
+
+            // Restrict the force to be no bigger than forceMax.
+            if (this.force >= this.forceMax)
+            {
+                // Also limit the length of the pearl trajectory line
+                // to visually indicate when max force is being reached.
+                // We only want to set this change when forceMax is initially hit,
+                // which is why we set maxForcedReached to true until force is no longer at forceMax.
+                if (this.maxForceReached == false)
+                {
+                    var maxDistance = this.consoleMouseDiff;
+                    this.maxMagnitude = maxDistance.magnitude;
+                    this.maxForceReached = true;
+                }
+                var maxX = this.maxMagnitude * this.mouseDirection.x;
+                var maxY = this.maxMagnitude * this.mouseDirection.y;
+                this.consoleMouseDiff = new Vector2(maxX, maxY);
+
+                this.force = this.forceMax;
+            }
+            else
+            {
+                this.maxForceReached = false;
+            }
+
+            // Draw the pearl trajectory based on drag direction and force.
+            drawPearlArc();
+
+            // When the console button is clicked, fire the pearl.
+            if (this.isButtonPressed == true)
+            {
+                // When releasing the pearl, turn off the pearl arc line.
+                this.pearlArcLine.enabled = false;
+
+                // Only fire the pearl if there is no pearl currently active.
+                // This prevents multiple pearls from being thrown at once.
+                // Also only fire if the force is non-zero.
+                // (ie. they have actually dragged after pressing button down).
+                if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
+                {
+                    // Once player releases Fire1, start the throw animation.
+                    this.isThrow = true;
+                    player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+                    this.soundManager.PlayProjectileReleaseSound();
+                    this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
+                    this.force = 0;
+                }
+
+                this.isButtonPressed = false;
             }
         }
-        
+
+        // Allow a buffer between throwing and idling animations.
+        if(this.isThrow)
+        {
+            // Count until 0.65sec, then set isThrow to false, which indicates the throw is done.
+            if(throwTimer >= 0.65f) 
+            {
+                this.isThrow = false;
+                this.throwTimer = 0.0f;
+            }
+            else
+            {
+                // If timer not reached yet, keep on incrementing.
+                throwTimer += Time.deltaTime;
+            }
+        }
+        else
+        {
+            // Go back to idle animation.
+            player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+        }
     }
 
     void drawPearlArc()
@@ -311,22 +380,30 @@ public class PlayerController : MonoBehaviour
         this.pearlArcLine.SetPosition(0, pearlSpawnPosition);
 
 
-        // If running on console, do console input system.
-        if (SystemInfo.deviceType == DeviceType.Console)
-        {
-            var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2);
-            var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2);
-            this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
-        }
-        // If running on desktop, do desktop input system.
-        else if (SystemInfo.deviceType == DeviceType.Desktop)
+        // If running on mobile, draw arc using mobile data.
+        if (Input.touchCount > 0)
         {
             // Scale the mouseDiff by 2 / forceMultiplier, to not be too obstructive on the screen.
+            var arcX = pearlSpawnPosition.x + (this.mobileMouseDiff.x / this.forceMultipler * 2);
+            var arcY = pearlSpawnPosition.y + (this.mobileMouseDiff.y / this.forceMultipler * 2);
+            this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
+        }
+
+        // If running on desktop, draw arc using desktop data.
+        else if (move == new Vector2(0, 0))
+        {
             var arcX = pearlSpawnPosition.x + this.mouseDiff.x / this.forceMultipler * 2;
             var arcY = pearlSpawnPosition.y + this.mouseDiff.y / this.forceMultipler * 2;
             var arcZ = pearlSpawnPosition.z + this.mouseDiff.z / this.forceMultipler * 2;
             this.pearlArcLine.SetPosition(1, new Vector3(arcX, arcY, arcZ));
         }
 
+        // If running on console, draw arc using console data.
+        else if (move != new Vector2(0, 0))
+        {
+            var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2);
+            var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2);
+            this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
+        }
     }
 }
