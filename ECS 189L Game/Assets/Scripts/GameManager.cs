@@ -17,19 +17,29 @@ public class GameManager : MonoBehaviour
     { 
         get => currentState;
     }
-    private GameStats stats;
+    private int pearlsThrown;
     public int PearlsThrown
     {
-        get => stats.PearlsThrown;
+        get => this.pearlsThrown;
         set
         {
-            this.stats.PearlsThrown = value;
-            OnPearlsThrownChanged?.Invoke(this.stats.PearlsThrown);
+            this.pearlsThrown = value;
+            OnPearlsThrownChanged?.Invoke(this.pearlsThrown);
         }
     }
+    private float completionTime;
     public float CompletionTime
     {
-        get => this.stats.CompletionTime;
+        get => this.completionTime;
+        private set
+        {
+            var previousTime = this.completionTime;
+            this.completionTime = value;
+            if (Mathf.Floor(previousTime) != Mathf.Floor(this.completionTime))
+            {
+                OnCompletionTimeChanged?.Invoke(this.completionTime);
+            }
+        }
     }
     public static event Action<GameState> OnGameStateChanged;
     public static event Action<int> OnPearlsThrownChanged;
@@ -45,9 +55,10 @@ public class GameManager : MonoBehaviour
         }
         else 
         {
-            stats = new GameStats();
+            // stats = new GameStats();
             instance = this;
             DontDestroyOnLoad(gameObject);
+            // OnCompletionTimeChanged += OnTimeChanged;
         }
     }
 
@@ -56,12 +67,12 @@ public class GameManager : MonoBehaviour
         switch (this.currentState)
         {
             case GameState.Starting:
-                this.stats.CompletionTime = 0f;
+                this.CompletionTime = 0f;
+                this.PearlsThrown = 0;
                 break;
             
             case GameState.Playing:
-                this.stats.CompletionTime += Time.deltaTime;
-                OnCompletionTimeChanged?.Invoke(this.stats.CompletionTime);
+                this.CompletionTime += Time.deltaTime;
                 break;
         }
     }
@@ -106,4 +117,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("invoking!");
         OnGameStateChanged?.Invoke(newState);
     }
+
+    // public void OnTimeChanged(float time)
+    // {
+    //     Debug.Log(time);
+    // }
 }
