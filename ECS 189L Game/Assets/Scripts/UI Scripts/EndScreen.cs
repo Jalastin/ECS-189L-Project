@@ -8,12 +8,12 @@ public class EndScreen : MonoBehaviour
     public GameObject EndScreenUI;
     [SerializeField] TextMeshProUGUI PearlsThrownStatsUI;
     [SerializeField] TextMeshProUGUI CompletionTimeUI;
-    
+
     void Awake()
     {
         GameManager.OnGameStateChanged += this.OnStateChanged;
     }
-    
+
     void OnDestroy()
     {
         // Need to unsubscribe if component is destroyed.
@@ -30,14 +30,14 @@ public class EndScreen : MonoBehaviour
         GameManager.Instance.UpdateGameState(GameState.Starting);
     }
 
-     public void QuitGame()
+    public void QuitGame()
     {
         Application.Quit();
     }
 
     public void OnStateChanged(GameState state)
     {
-        if(state == GameState.Won)
+        if (state == GameState.Won)
         {
             // Enable end screen refresh
             EndScreenUI.SetActive(true);

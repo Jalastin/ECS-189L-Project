@@ -23,8 +23,8 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Pause the game if the user presses the escape key.
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Pause the game if the user presses the escape key if they are not in the end screen.
+        if (Input.GetKeyDown(KeyCode.Escape) && GameManager.Instance.CurrentState != GameState.Won)
         {
             if (GameManager.Instance.CurrentState == GameState.Paused)
             {
