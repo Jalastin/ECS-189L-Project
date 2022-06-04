@@ -37,6 +37,11 @@ public class PearlController : MonoBehaviour
         // Prevent the pearl from colliding with the Player itself.
         if (other.gameObject.tag != "Player")
         {
+            // If the Pearl has collided with the crown, you win!
+            if (other.gameObject.tag == "Crown")
+            {
+                GameManager.Instance.UpdateGameState(GameState.Won);
+            }
             this.HasCollided = true;
         }
     }
@@ -56,6 +61,15 @@ public class PearlController : MonoBehaviour
 
     void Update()
     {
+        // If the Pearl is out of the world, reset the player to the start.
+        if (this.transform.position.y <= -20f)
+        {
+            Destroy(this.gameObject);
+            GameObject.Find("Player_2").transform.position = GameObject.Find("Player_2").GetComponent<PlayerController>().StartPoint;
+            // Also move the camera back to the start as well.
+            this.gameObject.GetComponent<Camera>().transform.position = GameObject.Find("Player_2").GetComponent<PlayerController>().StartPoint;
+        }
+
         if (this.HasCollided)
         {
             if (this.timeElapsed >= this.teleportDelay)
