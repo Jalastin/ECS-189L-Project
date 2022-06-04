@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
         controls = new PlayerControls();
         // Input for moving the joystick.
         controls.Gameplay.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
+        controls.Gameplay.Move.canceled += ctx => move = Vector2.zero;
         // Button down input for shooting the projectile.
         controls.Gameplay.Button.performed += ctx => consoleButtonPressed();
     }
@@ -201,6 +202,8 @@ public class PlayerController : MonoBehaviour
             // Only shoot the pearl when the joystick is "active".
             if (move == new Vector2(0, 0))
             {
+                // In addition to resetting the movement vector, we also 
+                // have to account for deadzones on the joystick.
                 this.consoleMouseDiff = new Vector2(0, 0);
             }
 
