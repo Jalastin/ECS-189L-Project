@@ -79,8 +79,10 @@ public class PlayerController : MonoBehaviour
     }
 
     void consoleButtonPressed() {
-        this.isButtonPressed = true;
-        Debug.Log("Button pressed");
+        if (this.pearlArcLine.enabled == true && this.consoleMouseDiff != new Vector2(0, 0))
+        {
+            this.isButtonPressed = true;
+        }
     }
     
     void Start()
@@ -108,8 +110,6 @@ public class PlayerController : MonoBehaviour
         // If running on mobile, do mobile input system.
         if (Input.touchCount > 0)
         {
-            Debug.Log("Touch Input");
-
             // Get the touch information.
             Touch touch = Input.GetTouch(0);
             // Get the location of the touch when it first touches the screen.
@@ -193,9 +193,16 @@ public class PlayerController : MonoBehaviour
         }
 
         // If running on console, do console input system.
-        else if (move != new Vector2(0, 0) || this.isButtonPressed == true)
+        // The second check is for when the joystick gets reset to 0, we still want to be
+        // in the console logic to reset the consolMouseDiff. This will also prevent
+        // a "ghost" arc line from lingering when there is no joystick input.
+        else if (move != new Vector2(0, 0) || this.consoleMouseDiff != new Vector2(0, 0))
         {
-            Debug.Log("Console Input");
+            // Only shoot the pearl when the joystick is "active".
+            if (move == new Vector2(0, 0))
+            {
+                this.consoleMouseDiff = new Vector2(0, 0);
+            }
 
             // Every time joystick is moved, update the movement vector.
             this.consoleMouseDiff = this.consoleMouseDiff + new Vector2(-move.x, -move.y);
@@ -248,7 +255,6 @@ public class PlayerController : MonoBehaviour
             // When the console button is clicked, fire the pearl.
             if (this.isButtonPressed == true)
             {
-                Debug.Log("Button pressed 2");
                 // When releasing the pearl, turn off the pearl arc line.
                 this.pearlArcLine.enabled = false;
 
@@ -258,7 +264,7 @@ public class PlayerController : MonoBehaviour
                 // (ie. they have actually dragged after pressing button down).
                 if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
                 {
-                    // Once player releases Fire1, start the throw animation.
+                    // Once player fires the pearl, start the throw animation.
                     this.isThrow = true;
                     player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
                     this.soundManager.PlayProjectileReleaseSound();
@@ -273,8 +279,6 @@ public class PlayerController : MonoBehaviour
         // If running on desktop, do desktop input system.
         else if (move == new Vector2(0, 0))
         {
-            Debug.Log("Desktop Input");
-
             // When the input button is first pressed, set the start mouse position.
             if (Input.GetButtonDown("Fire1"))
             {
@@ -386,13 +390,21 @@ public class PlayerController : MonoBehaviour
         this.pearlArcLine.useWorldSpace = true;
         this.pearlArcLine.SetPosition(0, pearlSpawnPosition);
 
-
         // If running on mobile, draw arc using mobile data.
         if (Input.touchCount > 0)
         {
             // Scale the mouseDiff by 2 / forceMultiplier, to not be too obstructive on the screen.
             var arcX = pearlSpawnPosition.x + (this.mobileMouseDiff.x / this.forceMultipler * 2);
             var arcY = pearlSpawnPosition.y + (this.mobileMouseDiff.y / this.forceMultipler * 2);
+            this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
+        }
+
+        // If running on console, draw arc using console data.
+        // Only draw the arc line when the joystick is active.
+        else if (move != new Vector2(0, 0))
+        {
+            var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2);
+            var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2);
             this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
         }
 
@@ -403,14 +415,6 @@ public class PlayerController : MonoBehaviour
             var arcY = pearlSpawnPosition.y + this.mouseDiff.y / this.forceMultipler * 2;
             var arcZ = pearlSpawnPosition.z + this.mouseDiff.z / this.forceMultipler * 2;
             this.pearlArcLine.SetPosition(1, new Vector3(arcX, arcY, arcZ));
-        }
-
-        // If running on console, draw arc using console data.
-        else if (move != new Vector2(0, 0))
-        {
-            var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2);
-            var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2);
-            this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
         }
     }
 }
