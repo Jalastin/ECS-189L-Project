@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
         {
             var previousTime = this.completionTime;
             this.completionTime = value;
+
+            // Notify only after 1 second has passed.
             if (Mathf.Floor(previousTime) != Mathf.Floor(this.completionTime))
             {
                 OnCompletionTimeChanged?.Invoke(this.completionTime);
@@ -84,12 +86,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         switch (this.CurrentState)
-        {
-            case GameState.Starting:
-                this.CompletionTime = 0f;
-                this.PearlsThrown = 0;
-                break;
-            
+        {   
             case GameState.Playing:
                 this.CompletionTime += Time.deltaTime;
                 break;
@@ -104,6 +101,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        // Prob don't need this.
         var prevState = this.CurrentState;
         this.CurrentState = newState;
 
@@ -116,15 +114,20 @@ public class GameManager : MonoBehaviour
 
             case GameState.Starting:
                 SceneManager.LoadScene("LevelDesign");
+                this.CompletionTime = 0f;
+                this.PearlsThrown = 0;
                 this.UpdateGameState(GameState.Playing);
+                break;
+
+            case GameState.Playing:
+                Time.timeScale = 1f;
                 break;
 
             case GameState.Paused:
                 Time.timeScale = 0f;
                 break;
 
-            case GameState.Playing:
-                Time.timeScale = 1f;
+            case GameState.Won:
                 break;
 
             case GameState.Credits:
