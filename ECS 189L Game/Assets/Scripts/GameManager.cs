@@ -7,15 +7,15 @@ using UnityEngine.SceneManagement;
 // Lots of inspiration taken from https://www.youtube.com/watch?v=4I0vonyqMi8.
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
     public static GameManager Instance 
     { 
-        get => instance;
+        get;
+        private set;
     }
-    private GameState currentState = GameState.MainMenu;
     public GameState CurrentState 
     { 
-        get => currentState;
+        get;
+        private set;
     }
 
     // Miscellaneous stats.
@@ -45,8 +45,16 @@ public class GameManager : MonoBehaviour
     }
 
     // Audio properties.
-    public bool VolumeChanged = false;
-    public float CurrentVolume;
+    public bool VolumeChanged
+    {
+        get;
+        set;
+    }
+    public float CurrentVolume
+    {
+        get;
+        set;
+    }
 
     // Events that other scripts can subscribe to.
     public static event Action<GameState> OnGameStateChanged;
@@ -57,22 +65,25 @@ public class GameManager : MonoBehaviour
     {
         // https://www.youtube.com/watch?v=5p2JlI7PV1w
         Debug.Log("manager awake!");
-        if (instance != null)
+        if (Instance != null)
         {
             Destroy(gameObject);
         }
         else 
         {
             // stats = new GameStats();
-            instance = this;
+            Instance = this;
+            this.CurrentState = GameState.MainMenu;
+            this.VolumeChanged = false;
             DontDestroyOnLoad(gameObject);
             // OnCompletionTimeChanged += OnTimeChanged;
+            // OnPearlsThrownChanged += OnPearlsChanged;
         }
     }
 
     void Update()
     {
-        switch (this.currentState)
+        switch (this.CurrentState)
         {
             case GameState.Starting:
                 this.CompletionTime = 0f;
@@ -88,13 +99,13 @@ public class GameManager : MonoBehaviour
     public void UpdateGameState(GameState newState)
     {
         // Redundant state change.
-        if (newState == this.currentState)
+        if (newState == this.CurrentState)
         {
             return;
         }
 
-        var prevState = this.currentState;
-        this.currentState = newState;
+        var prevState = this.CurrentState;
+        this.CurrentState = newState;
 
         switch (newState)
         {
@@ -125,6 +136,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("invoking!");
         OnGameStateChanged?.Invoke(newState);
     }
+
+    // public void OnPearlsChanged(int pearls)
+    // {
+    //     Debug.Log(pearls);
+    // }
 
     // public void OnTimeChanged(float time)
     // {
