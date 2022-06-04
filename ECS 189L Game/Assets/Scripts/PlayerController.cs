@@ -48,8 +48,18 @@ public class PlayerController : MonoBehaviour
     private bool isThrow;
     private float throwTimer;
     private GameObject player;
+
     // Current scale of the player.
     private Vector3 scale;
+
+    private Vector3 _startPoint;
+
+    public Vector3 StartPoint
+    {
+        get => _startPoint;
+        set => _startPoint = value;
+    }
+
     // Sound manager is used to generate sound effects when the player is charging their throw.
     private SoundEffectManager soundManager;
 
@@ -90,6 +100,7 @@ public class PlayerController : MonoBehaviour
         this.pearlArcLine = this.gameObject.GetComponent<LineRenderer>();
         this.maxForceReached = false;
         this.player = GameObject.Find("Player_2");
+        this.StartPoint = this.player.transform.position;
         this.isThrow = false;
         this.throwTimer = 0.0f;
         this.soundManager = GameObject.Find("SoundManager").GetComponent<SoundEffectManager>();
@@ -104,6 +115,14 @@ public class PlayerController : MonoBehaviour
         {
             // Don't allow any input while the game is paused.
             return;
+        }
+
+        // If the Player is out of the world, reset them to the start.
+        if (this.transform.position.y <= -20f)
+        {
+            this.transform.position = this.StartPoint;
+            // Also move the camera back to the start as well.
+            this.gameObject.GetComponent<Camera>().transform.position = this.StartPoint;
         }
 
         // If running on mobile, do mobile input system.
