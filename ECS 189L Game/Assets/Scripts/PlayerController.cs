@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     // Console input implementation
     private PlayerControls controls;
-    private Vector2 move;
+    private Vector2 move = new Vector2(0, 0);
     private bool isButtonPressed = false;
 
     void Awake()
@@ -91,14 +91,16 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // If running on desktop, do desktop input system.
-        if (SystemInfo.deviceType == DeviceType.Desktop)
+        if (GameManager.Instance.CurrentState != GameState.Playing)
         {
-            if (GameManager.Instance.CurrentState != GameState.Playing)
-            {
-                // Don't allow any input while the game is paused.
-                return;
-            }
+            // Don't allow any input while the game is paused.
+            return;
+        }
+
+        // If running on desktop, do desktop input system.
+        // This is because "move" is only set on console input.
+        if (move == new Vector2(0, 0))
+        {
             // When the input button is first pressed, set the start mouse position.
             if (Input.GetButtonDown("Fire1"))
             {
@@ -200,13 +202,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // If running on console, do console input system.
-        else if (SystemInfo.deviceType == DeviceType.Console)
+        else
         {
-            if (GameManager.Instance.CurrentState != GameState.Playing)
-            {
-                // Don't allow any input while the game is paused.
-                return;
-            }
             // Every time joystick is moved, update the movement vector.
             this.consoleMouseDiff = this.consoleMouseDiff + new Vector2(-move.x, -move.y);
 
@@ -299,18 +296,18 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // If running on mobile, do mobile input system.
-        else if (SystemInfo.deviceType == DeviceType.Handheld)
-        {
-            // Code should be very similar to the desktop in terms of logic. Logic was only significantly different when implementing console input.
+        // // If running on mobile, do mobile input system.
+        // else if (SystemInfo.deviceType == DeviceType.Handheld)
+        // {
+        //     // Code should be very similar to the desktop in terms of logic. Logic was only significantly different when implementing console input.
             
-        }
+        // }
 
-        // Give an error if device type isn't recognized.
-        else if (SystemInfo.deviceType == DeviceType.Unknown)
-        {
-            Debug.Log("Device type isn't recognized");
-        }
+        // // Give an error if device type isn't recognized.
+        // else if (SystemInfo.deviceType == DeviceType.Unknown)
+        // {
+        //     Debug.Log("Device type isn't recognized");
+        // }
     }
 
     void drawPearlArc()
@@ -323,21 +320,23 @@ public class PlayerController : MonoBehaviour
         this.pearlArcLine.SetPosition(0, pearlSpawnPosition);
 
 
-        // If running on console, do console input system.
-        if (SystemInfo.deviceType == DeviceType.Console)
-        {
-            var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2);
-            var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2);
-            this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
-        }
-        // If running on desktop, do desktop input system.
-        else if (SystemInfo.deviceType == DeviceType.Desktop)
+        // If running on desktop, do desktop input system. 
+        // This is because "move" is only set on console input.
+        if (move == new Vector2(0, 0))
         {
             // Scale the mouseDiff by 2 / forceMultiplier, to not be too obstructive on the screen.
             var arcX = pearlSpawnPosition.x + this.mouseDiff.x / this.forceMultipler * 2;
             var arcY = pearlSpawnPosition.y + this.mouseDiff.y / this.forceMultipler * 2;
             var arcZ = pearlSpawnPosition.z + this.mouseDiff.z / this.forceMultipler * 2;
             this.pearlArcLine.SetPosition(1, new Vector3(arcX, arcY, arcZ));
+        }
+
+        // If running on console, do console input system.
+        else
+        {
+            var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2);
+            var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2);
+            this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
         }
 
     }
