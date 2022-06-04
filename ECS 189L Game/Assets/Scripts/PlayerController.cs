@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
     // Sound manager is used to generate sound effects when the player is charging their throw.
     private SoundEffectManager soundManager;
 
-    // Console input implementation
+    // Console input implementation.
     private PlayerControls controls;
     private Vector2 move = new Vector2(0, 0);
     private bool isButtonPressed = false;
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
 
                 // Only fire the pearl if there is no pearl currently active.
                 // This prevents multiple pearls from being thrown at once.
-                // Also only fire if the force is non-zero 
+                // Also only fire if the force is non-zero.
                 // (ie. they have actually dragged after pressing the screen).
                 if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
                 {
@@ -259,7 +259,7 @@ public class PlayerController : MonoBehaviour
 
                 // Only fire the pearl if there is no pearl currently active.
                 // This prevents multiple pearls from being thrown at once.
-                // Also only fire if the force is non-zero 
+                // Also only fire if the force is non-zero.
                 // (ie. they have actually dragged after pressing button down).
                 if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
                 {
@@ -332,7 +332,7 @@ public class PlayerController : MonoBehaviour
 
                 // Only fire the pearl if there is no pearl currently active.
                 // This prevents multiple pearls from being thrown at once.
-                // Also only fire if the force is non-zero 
+                // Also only fire if the force is non-zero.
                 // (ie. they have actually dragged after pressing button down).
                 if (GameObject.Find("Pearl(Clone)") == null && this.force != 0)
                 {
