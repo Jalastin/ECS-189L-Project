@@ -78,10 +78,11 @@ public class PlayerController : MonoBehaviour
         controls.Gameplay.Disable();
     }
 
-    void consoleButtonPressed() {
+    void consoleButtonPressed()
+    {
         this.isButtonPressed = true;
     }
-    
+
     void Start()
     {
         this.force = 0;
@@ -126,10 +127,10 @@ public class PlayerController : MonoBehaviour
                 this.mouseDistance = this.mobileMouseDiff.magnitude;
                 this.mouseDirection = this.mobileMouseDiff / this.mouseDistance;
                 this.force = this.mouseDistance * this.forceMultipler;
-                
+
                 // Change sprite direction depending on touch position.
                 // Edge case: only flip once they have pulled / there is a distance.
-                if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
+                if (this.mouseDirection.x < 0 && this.mouseDistance != 0)
                 {
                     // If pulling mouse to left, then have sprite face to the right.
                     this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
@@ -185,6 +186,7 @@ public class PlayerController : MonoBehaviour
                     this.soundManager.PlayProjectileReleaseSound();
                     this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                     this.force = 0;
+                    GameManager.Instance.PearlsThrown += 1;
                 }
             }
         }
@@ -208,10 +210,10 @@ public class PlayerController : MonoBehaviour
                 this.mouseDistance = this.mouseDiff.magnitude;
                 this.mouseDirection = this.mouseDiff / this.mouseDistance;
                 this.force = this.mouseDistance * this.forceMultipler;
-                
+
                 // Change sprite direction depending on mouse position.
                 // Edge case: only flip once they have pulled / there is a distance.
-                if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
+                if (this.mouseDirection.x < 0 && this.mouseDistance != 0)
                 {
                     // If pulling mouse to left, then have sprite face to the right.
                     this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
@@ -269,6 +271,7 @@ public class PlayerController : MonoBehaviour
                     this.soundManager.PlayProjectileReleaseSound();
                     this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                     this.force = 0;
+                    GameManager.Instance.PearlsThrown += 1;
                 }
             }
         }
@@ -283,10 +286,10 @@ public class PlayerController : MonoBehaviour
             this.mouseDistance = this.consoleMouseDiff.magnitude;
             this.mouseDirection = this.consoleMouseDiff / this.mouseDistance;
             this.force = this.mouseDistance * this.forceMultipler;
-            
+
             // Change sprite direction depending on launch direction.
             // Edge case: only flip once they have pulled / there is a distance.
-            if(this.mouseDirection.x < 0 && this.mouseDistance != 0) 
+            if (this.mouseDirection.x < 0 && this.mouseDistance != 0)
             {
                 // If aiming right, then have sprite face to the right.
                 this.gameObject.GetComponent<Rigidbody2D>().transform.localScale = new Vector3(5, 5, 5);
@@ -342,6 +345,7 @@ public class PlayerController : MonoBehaviour
                     this.soundManager.PlayProjectileReleaseSound();
                     this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                     this.force = 0;
+                    GameManager.Instance.PearlsThrown += 1;
                 }
 
                 this.isButtonPressed = false;
@@ -349,10 +353,10 @@ public class PlayerController : MonoBehaviour
         }
 
         // Allow a buffer between throwing and idling animations.
-        if(this.isThrow)
+        if (this.isThrow)
         {
             // Count until 0.65sec, then set isThrow to false, which indicates the throw is done.
-            if(throwTimer >= 0.65f) 
+            if (throwTimer >= 0.65f)
             {
                 this.isThrow = false;
                 this.throwTimer = 0.0f;
