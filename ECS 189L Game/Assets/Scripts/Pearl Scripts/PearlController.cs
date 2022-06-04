@@ -37,6 +37,11 @@ public class PearlController : MonoBehaviour
         // Prevent the pearl from colliding with the Player itself.
         if (other.gameObject.tag != "Player")
         {
+            // If the Pearl has collided with the crown, you win!
+            if (other.gameObject.tag == "Crown")
+            {
+                GameManager.Instance.UpdateGameState(GameState.Won);
+            }
             this.HasCollided = true;
         }
     }
