@@ -433,18 +433,14 @@ public class PlayerController : MonoBehaviour
         // Only draw the arc line when the joystick is active.
         else if (move != new Vector2(0, 0))
         {
-            Debug.Log("Console");
             var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2);
             var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2);
-            Debug.Log("console: " + this.consoleMouseDiff);
             this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
         }
 
         // If running on desktop, draw arc using desktop data.
         else if (move == new Vector2(0, 0))
         {
-            Debug.Log("Desktop");
-            Debug.Log("desktop: " + this.mouseDiff);
             var arcX = pearlSpawnPosition.x + this.mouseDiff.x / this.forceMultipler * 2;
             var arcY = pearlSpawnPosition.y + this.mouseDiff.y / this.forceMultipler * 2;
             var arcZ = pearlSpawnPosition.z + this.mouseDiff.z / this.forceMultipler * 2;
