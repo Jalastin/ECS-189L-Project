@@ -49,7 +49,8 @@ public class EndScreen : MonoBehaviour
             // Enable end screen refresh
             EndScreenUI.SetActive(true);
             PearlsThrownStatsUI.text = GameManager.Instance.PearlsThrown.ToString();
-            CompletionTimeUI.text = GameManager.Instance.CompletionTime.ToString();
+            int completionTime = (int) GameManager.Instance.CompletionTime;
+            CompletionTimeUI.text = completionTime.ToString();
             GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 1f);
         }
     }

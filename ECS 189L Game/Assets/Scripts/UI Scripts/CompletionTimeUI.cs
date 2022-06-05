@@ -12,7 +12,8 @@ public class CompletionTimeUI : MonoBehaviour
     }
     public void OnTimerChange(float time)
     {
+        int timeValue = (int) time;
         // Update UI with the new value.
-        TimerValueUI.text = time.ToString();
+        TimerValueUI.text = timeValue.ToString();
     }
 }
