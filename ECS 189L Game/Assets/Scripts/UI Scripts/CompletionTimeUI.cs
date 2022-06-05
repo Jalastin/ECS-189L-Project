@@ -14,6 +14,6 @@ public class CompletionTimeUI : MonoBehaviour
     {
         int timeValue = (int) time;
         // Update UI with the new value.
-        TimerValueUI.text = timeValue.ToString();
+        TimerValueUI.text = timeValue.ToString() + "s";
     }
 }

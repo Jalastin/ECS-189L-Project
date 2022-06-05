@@ -50,7 +50,7 @@ public class EndScreen : MonoBehaviour
             EndScreenUI.SetActive(true);
             PearlsThrownStatsUI.text = GameManager.Instance.PearlsThrown.ToString();
             int completionTime = (int) GameManager.Instance.CompletionTime;
-            CompletionTimeUI.text = completionTime.ToString();
+            CompletionTimeUI.text = completionTime.ToString() + "s";
             GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 1f);
         }
     }
