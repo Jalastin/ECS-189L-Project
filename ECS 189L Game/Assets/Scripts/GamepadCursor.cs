@@ -17,7 +17,7 @@ public class GamepadCursor : MonoBehaviour
     [SerializeField]
     private RectTransform canvasRectTransform;
     [SerializeField]
-    private float cursorSpeed = 1000f;
+    private float cursorSpeed = 1800f;
     // Padding is so that the cursor isn't right on the edge of the screen.
     private float padding = 160f;
 
@@ -46,6 +46,9 @@ public class GamepadCursor : MonoBehaviour
         if (cursorTransform != null)
         {
             Vector2 position = cursorTransform.anchoredPosition;
+            position.x = position.x + 100;
+            position.y = position.y + 100;
+            Debug.Log(position);
             InputState.Change(virtualMouse.position, position);
         }
 
