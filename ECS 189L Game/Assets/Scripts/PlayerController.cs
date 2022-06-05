@@ -333,6 +333,7 @@ public class PlayerController : MonoBehaviour
                     this.soundManager.PlayProjectileReleaseSound();
                     this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                     this.force = 0;
+                    GameManager.Instance.PearlsThrown += 1;
                 }
 
                 this.isButtonPressed = false;
