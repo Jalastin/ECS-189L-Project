@@ -221,6 +221,8 @@ public class PlayerController : MonoBehaviour
         // a "ghost" arc line from lingering when there is no joystick input.
         else if (move != new Vector2(0, 0) || this.consoleMouseDiff != new Vector2(0, 0))
         {
+            // When transitioning from desktop input to console, reset the desktop data.
+            this.mouseDiff = new Vector3(0, 0, this.mouseDiff.z);
             // Only shoot the pearl when the joystick is "active".
             if (move == new Vector2(0, 0))
             {
@@ -431,14 +433,18 @@ public class PlayerController : MonoBehaviour
         // Only draw the arc line when the joystick is active.
         else if (move != new Vector2(0, 0))
         {
+            Debug.Log("Console");
             var arcX = pearlSpawnPosition.x + (this.consoleMouseDiff.x / this.forceMultipler * 2);
             var arcY = pearlSpawnPosition.y + (this.consoleMouseDiff.y / this.forceMultipler * 2);
+            Debug.Log("console: " + this.consoleMouseDiff);
             this.pearlArcLine.SetPosition(1, new Vector2(arcX, arcY));
         }
 
         // If running on desktop, draw arc using desktop data.
         else if (move == new Vector2(0, 0))
         {
+            Debug.Log("Desktop");
+            Debug.Log("desktop: " + this.mouseDiff);
             var arcX = pearlSpawnPosition.x + this.mouseDiff.x / this.forceMultipler * 2;
             var arcY = pearlSpawnPosition.y + this.mouseDiff.y / this.forceMultipler * 2;
             var arcZ = pearlSpawnPosition.z + this.mouseDiff.z / this.forceMultipler * 2;
