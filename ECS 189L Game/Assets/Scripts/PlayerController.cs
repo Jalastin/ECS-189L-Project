@@ -221,6 +221,8 @@ public class PlayerController : MonoBehaviour
         // a "ghost" arc line from lingering when there is no joystick input.
         else if (move != new Vector2(0, 0) || this.consoleMouseDiff != new Vector2(0, 0))
         {
+            // When transitioning from desktop input to console, reset the desktop data.
+            this.mouseDiff = new Vector3(0, 0, this.mouseDiff.z);
             // Only shoot the pearl when the joystick is "active".
             if (move == new Vector2(0, 0))
             {

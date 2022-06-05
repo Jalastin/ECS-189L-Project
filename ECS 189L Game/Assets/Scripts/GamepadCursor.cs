@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+// Need this to change the virtual mouse state.
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
 
@@ -18,6 +19,7 @@ public class GamepadCursor : MonoBehaviour
     private float padding = 160f;
 
     private bool previousMouseState;
+    // This is the console cursor on the screen.
     private Mouse virtualMouse;
     private Camera mainCamera;
 
@@ -33,6 +35,7 @@ public class GamepadCursor : MonoBehaviour
             InputSystem.AddDevice(virtualMouse);
         }
 
+        // This will connect the virtual mouse with the inputs from the controller.
         InputUser.PerformPairingWithDevice(virtualMouse, playerInput.user);
 
         if (cursorTransform != null)

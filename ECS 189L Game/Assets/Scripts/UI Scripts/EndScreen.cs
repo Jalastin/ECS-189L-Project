@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.Users;
 
 public class EndScreen : MonoBehaviour
 {
@@ -51,7 +53,14 @@ public class EndScreen : MonoBehaviour
             PearlsThrownStatsUI.text = GameManager.Instance.PearlsThrown.ToString();
             int completionTime = (int) GameManager.Instance.CompletionTime;
             CompletionTimeUI.text = completionTime.ToString() + "s";
-            GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 1f);
+            if (Gamepad.current == null)
+            {
+                GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 0f);
+            }
+            else
+            {
+                GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 1f);
+            }
         }
     }
 }

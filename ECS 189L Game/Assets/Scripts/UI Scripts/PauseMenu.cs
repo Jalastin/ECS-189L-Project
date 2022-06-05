@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.Users;
 
 // Resource: https://www.youtube.com/watch?v=JivuXdrIHK0
 public class PauseMenu : MonoBehaviour
@@ -57,7 +59,14 @@ public class PauseMenu : MonoBehaviour
             else
             {
                 GameManager.Instance.UpdateGameState(GameState.Paused);
-                GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 1f);
+                if (Gamepad.current == null)
+                {
+                    GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 0f);
+                }
+                else
+                {
+                    GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 1f);
+                }
                 this.isButtonPressed = false;
             }
         }
@@ -77,7 +86,14 @@ public class PauseMenu : MonoBehaviour
     public void TogglePauseMenu()
     {
         GameManager.Instance.UpdateGameState(GameState.Paused);
-        GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 1f);
+        if (Gamepad.current == null)
+        {
+            GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 0f);
+        }
+        else
+        {
+            GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 1f);
+        }
     }
 
     public void ToggleRestart()
