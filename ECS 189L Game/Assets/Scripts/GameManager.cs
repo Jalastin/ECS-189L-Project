@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         // https://www.youtube.com/watch?v=5p2JlI7PV1w
-        Debug.Log("manager awake!");
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -136,7 +135,6 @@ public class GameManager : MonoBehaviour
         }
 
         // Run respective callbacks of subscribed components.
-        Debug.Log("invoking!");
         OnGameStateChanged?.Invoke(newState);
     }
 

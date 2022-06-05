@@ -312,7 +312,6 @@ public class PlayerController : MonoBehaviour
                 this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
                 // this.soundManager.PlayChargingThrowSound();
             }
-            // Debug.Log("Console mouse diff: " + this.consoleMouseDiff);
 
             // While the input button is being held, set the end mouse position, mouse direction, and force.
             if (Input.GetButton("Fire1"))
