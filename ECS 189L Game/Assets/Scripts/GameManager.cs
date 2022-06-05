@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Paused:
-                Time.timeScale = 0f;
+                Time.timeScale = 1f;
                 break;
 
             case GameState.Won:
