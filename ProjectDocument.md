@@ -111,9 +111,42 @@ Icons:
 - [Clock Icon](https://icons8.com/icon/8YCHhvwCdMI0/clock)
 
 
-## Movement/Physics
+## Movement/Physics (Justin)
 
-**Describe the basics of movement and physics in your game. Is it the standard physics model? What did you change or modify? Did you make your movement scripts that do not use the physics system?**
+### Player and Pearls
+
+- The player cannot move themselves. Instead, all traversal is done by throwing a teleportation pearl. Once a pearl is thrown and contacts a platform, [there is a short delay before the player is teleported to the pearl’s current position.](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L10)
+
+- Projectile instantiation is done [using the Factory design pattern](https://github.com/Jalastin/ECS-189L-Project/tree/main/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts) as seen in exercise 4. The strength of the pearl’s force and the pearl’s direction are dependent on player input (which will be explained further in the input section) and [is passed in as the spec](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L375) for the newly instantiated pearl. [I use AddForce](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlMotion.cs#L23) to add the specified force to the pearl on instantiation.
+
+- The force a pearl can be is also restricted by [the Player’s maxForce.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L340) This is visualized by the Pearl Arc Line, which visualizes the current strength and direction of the user's current throw.
+
+- The Player and Pearl utilize Unity’s Rigidbody2D’s so that both are affected by gravity during the game. I also locked the Player’s Z rotation so that way they would always stay upright and not “tip” over.
+
+- The Player and Pearl utilize Unity’s 2D Colliders to detect collisions. The Player needs a Collider2D so that it can sit on different platforms properly. [But when the pearl collides with another Collider2D, it enables a HasCollided bool.](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L33) This allows the teleportation delay to start counting down for eventual player teleportation.
+
+### Physics Materials
+
+- Using Physics 2D Materials, I created three different materials - an ice, slime, and normal material. Ice has decreased friction, slime has increased bounciness, and normal has standard friction and no bounciness. These three materials were utilized in level design to increase the difficulty of certain sections of the level.
+
+### Dark Zone
+
+- I created a “Dark Zone” using Sprite Masks following [this tutorial.](https://youtu.be/EfXLi6AWc_4) In my case, both the player and pearl have a “flashlight” zone around them which lets them see within a close vicinity of those GameObjects. [I also added some extra code so that when the Player enters the Dark Zone, it slowly becomes darker until it hits the specified darknessStrength.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/DarkZoneController.cs)
+
+### Wind Zone
+
+- There is also a Wind Zone that adds a wind force to increase the difficulty of the game. Every GameObject within the Zone (besides Platforms and the Player) has its velocity affected by a specified wind force. I utilized [OnTriggerStay2D](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindZoneController.cs#L22) to apply the wind force to any objects with a Rigidbody2D within the zone.
+
+- The wind force varies based on an [Attack, Decay, Sustain, Release curve.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/ADSRManager.cs) While the base code was based off of [Professor McCoy’s original ADSR Manager,](https://github.com/dr-jam/GameplayProgramming/blob/master/Projects/ADSR/Assets/Scripts/ADSRManager.cs) I heavily modified the Start() and Update() portion of the code. During the ADSR curve, I calculate the wind force based off of an initial force and the position in the curve. After the ADSR ends, I wait timeBeforeRestart time before I restart the ADSR curve (by switching to Attack phase) and flipping the direction of the wind force.
+
+- The Wind Zone also has a Factory attached to it that creates WindSprites. [These WindSprites simply spawn for a specified time, and are used to visualize the current wind force on the screen.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteController.cs) The position they spawn at is randomized to be [somewhere within the Wind Zone.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteSpec.cs#L18)
+
+### Resources Used
+
+- [Professor McCoy’s original ADSR Manager](https://github.com/dr-jam/GameplayProgramming/blob/master/Projects/ADSR/Assets/Scripts/ADSRManager.cs)
+
+- [Sprite Mask tutorial for Dark Zone](https://youtu.be/EfXLi6AWc_4)
+
 
 ## Animation and Visuals
 
@@ -184,4 +217,24 @@ The volume slider allows players to conveniently adjust the audio to their level
 
 ## Game Feel
 
-**Document what you added to and how you tweaked your game to improve its game feel.**
+- Majority of the content related to game feel are SerializeField’s, which makes it significantly easier to modify later during playtesting.
+
+### Player and Pearls
+
+- Originally I picked an arbitrary max force for the pearls, 250f. However after the majority of play testers reported that the pearl was too slow, I increased the max force to 350f. Any force higher than this however was too much, as it made the majority of our levels too trivial. At 400f I was able to throw a pearl hard enough to skip the first zone entirely!
+
+- I kept the gravity of both the Projectile and Player the same: 1. The only thing I changed was their masses. I settled on a mass of 2 for the Player and 0.2 for the Pearl. Any more felt to sluggish, and any less felt to light / floaty.
+
+### Dark Zone
+
+- I set darknessStrength of the Dark Zone to 1 so that it was pure darkness, because this increased game difficulty. However I increased the flashlight area of the Player and Pearl so that they were big enough to see where to go next without giving away the entire level.
+
+### Wind Zone
+
+- I chose the Wind Zone’s wind force to have an initial force of 10f so that it could be an active obstacle within the game. Originally I had it at 5f, but this was barely noticeable in the actual level.
+
+- WindSprites have a minimum spawn time of 0.25s and a max spawn time of 0.5s. This way they consistently spawn so that the player knows the direction + force of the wind, while also not cluttering the screen too much.
+
+- The ADSR for the wind force looks like the figure below. The attack and release phases are exactly the same (just a poor drawing on my part) and last for 2 seconds each. Both the decay and sustain are a straight line to maintain the maximum wind force for a time, and last for 0.25s and 3s respectfully. I was greatly inspired by the wind in Jump King, which slowly increases to a max, stays at the max for a time, then decreases down at the same rate. After the entire curve ends, it takes 3 seconds before it restarts at the Attack phase again. This gives a brief gap for the player that allows them to move without being affected by any kind of wind. And to make the game more difficult, right before every restart the wind force flips direction.
+
+![](./ExampleImages/ADSRCurve.png)
