@@ -73,9 +73,10 @@ public class PlayerController : MonoBehaviour
     private PlayerControls controls;
     private Vector2 move = new Vector2(0, 0);
     private bool isButtonPressed = false;
-
+    private Rigidbody2D rigidBody2D;
     void Awake()
     {
+        rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
         // Activate the console controls.
         controls = new PlayerControls();
         // Input for moving the joystick.
@@ -101,7 +102,18 @@ public class PlayerController : MonoBehaviour
             this.isButtonPressed = true;
         }
     }
-
+    // Check if the player is grounded to determine when to enable falling animation.
+    private bool IsGrounded() {
+        if (rigidBody2D != null)
+        {
+            // Non-zero y-velocity means character is falling.
+            if (rigidBody2D.velocity.y != 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     void Start()
     {
         this.force = 0;
@@ -123,6 +135,17 @@ public class PlayerController : MonoBehaviour
         {
             // Don't allow any input while the game is paused.
             return;
+        }
+
+        if (!IsGrounded())
+        {
+            // Enable falling animation to true if IsGrounded() returns false.
+            player.GetComponent<Animator>().SetBool("Fall", true);
+        }
+        else
+        {
+            // Disable falling animation if IsGrounded() is true.
+            player.GetComponent<Animator>().SetBool("Fall", false);
         }
 
         // If the Player is out of the world, reset them to the start.
@@ -216,6 +239,8 @@ public class PlayerController : MonoBehaviour
                     // Once player releases Fire1, start the throw animation.
                     this.isThrow = true;
                     player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+                    // Disable falling animation when throwing.
+                    player.GetComponent<Animator>().SetBool("Fall", false);
                     this.soundManager.PlayProjectileReleaseSound();
                     this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                     this.force = 0;
@@ -303,6 +328,8 @@ public class PlayerController : MonoBehaviour
                     // Once player fires the pearl, start the throw animation.
                     this.isThrow = true;
                     player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
+                    // Disable falling animation when throwing.
+                    player.GetComponent<Animator>().SetBool("Fall", false);
                     this.soundManager.PlayProjectileReleaseSound();
                     this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                     this.force = 0;
@@ -393,6 +420,8 @@ public class PlayerController : MonoBehaviour
                     this.isThrow = true;
                     player.GetComponent<Animator>().SetBool("Throw", this.isThrow);
                     this.soundManager.PlayProjectileReleaseSound();
+                    // Disable falling animation when throwing.
+                    player.GetComponent<Animator>().SetBool("Fall", false);
                     this.GetComponent<PearlFactory>().Build(new PearlSpec(this.force, this.mouseDirection));
                     this.force = 0;
                     GameManager.Instance.PearlsThrown += 1;
