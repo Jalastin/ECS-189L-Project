@@ -11,15 +11,14 @@ public class EndScreen : MonoBehaviour
     [SerializeField] TextMeshProUGUI PearlsThrownStatsUI;
     [SerializeField] TextMeshProUGUI CompletionTimeUI;
 
-    private PlayerControls controls;
     private Color curColor;
 
     void Awake()
     {
         GameManager.OnGameStateChanged += this.OnStateChanged;
 
-        // this.curColor = GameObject.Find("CursorEnd").GetComponent<Image>().color;
-        // GameObject.Find("CursorEnd").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 0f);
+        this.curColor = GameObject.Find("CursorPause").GetComponent<Image>().color;
+        GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 0f);
     }
 
     void OnDestroy()
@@ -31,7 +30,6 @@ public class EndScreen : MonoBehaviour
     public void ToggleMainMenu()
     {
         GameManager.Instance.UpdateGameState(GameState.MainMenu);
-        // GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 1f);
     }
 
     public void ToggleRestart()
@@ -52,6 +50,7 @@ public class EndScreen : MonoBehaviour
             EndScreenUI.SetActive(true);
             PearlsThrownStatsUI.text = GameManager.Instance.PearlsThrown.ToString();
             CompletionTimeUI.text = GameManager.Instance.CompletionTime.ToString();
+            GameObject.Find("CursorPause").GetComponent<Image>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 1f);
         }
     }
 }
