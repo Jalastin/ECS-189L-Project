@@ -48,6 +48,7 @@ public class PauseMenu : MonoBehaviour
     void Update()
     {
         // Pause the game if the user presses the escape key if they are not in the end screen.
+        // Or, pause the game if they press the start button on the gamepad.
         if ((Input.GetKeyDown(KeyCode.Escape) || this.isButtonPressed) && GameManager.Instance.CurrentState != GameState.Won)
         {
             if (GameManager.Instance.CurrentState == GameState.Paused)
