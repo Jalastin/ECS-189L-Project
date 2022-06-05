@@ -67,7 +67,8 @@ public class PearlController : MonoBehaviour
             Destroy(this.gameObject);
             GameObject.Find("Player_2").transform.position = GameObject.Find("Player_2").GetComponent<PlayerController>().StartPoint;
             // Also move the camera back to the start as well.
-            this.gameObject.GetComponent<Camera>().transform.position = GameObject.Find("Player_2").GetComponent<PlayerController>().StartPoint;
+            var StartPoint = GameObject.Find("Player_2").GetComponent<PlayerController>().StartPoint;
+            GameObject.Find("Main Camera").GetComponent<Camera>().transform.position = new Vector3(StartPoint.x, StartPoint.y, -20f);
         }
 
         if (this.HasCollided)

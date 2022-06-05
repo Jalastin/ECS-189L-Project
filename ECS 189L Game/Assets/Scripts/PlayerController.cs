@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
         {
             this.transform.position = this.StartPoint;
             // Also move the camera back to the start as well.
-            this.gameObject.GetComponent<Camera>().transform.position = this.StartPoint;
+            GameObject.Find("Main Camera").GetComponent<Camera>().transform.position = new Vector3(this.StartPoint.x, this.StartPoint.y, -20f);
         }
 
         // If running on mobile, do mobile input system.

@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class WindZoneController : MonoBehaviour
 {
-    // Magnitude / force of how hard the wind is blowing.
-    [SerializeField] private float _windForce = -1f;
-    public float WindForce
-    {
-        get => _windForce;
-        set => _windForce = value;
-    }
-
     // Minimum time a WindSprite can spawn after the last WindSprite.
     [SerializeField] private float minWindSpriteSpawnTime = 1f;
 
