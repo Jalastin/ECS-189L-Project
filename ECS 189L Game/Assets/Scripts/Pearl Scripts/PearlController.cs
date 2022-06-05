@@ -48,6 +48,8 @@ public class PearlController : MonoBehaviour
 
     void Start()
     {
+        // On initialization, fire the pearl.
+        // It hasn't collided with anything yet.
         this.timeElapsed = 0;
         this.HasCollided = false;
         this.GetComponent<PearlMotion>().Fire();
@@ -71,10 +73,14 @@ public class PearlController : MonoBehaviour
             GameObject.Find("Main Camera").GetComponent<Camera>().transform.position = new Vector3(StartPoint.x, StartPoint.y, -20f);
         }
 
+        // If a collision has occured,
+        // Start incrementing timeElapsed by Time.DeltaTime
+        // until it equals or exceeds the teleport delay.
         if (this.HasCollided)
         {
             if (this.timeElapsed >= this.teleportDelay)
             {
+                // Reset some of the other variables.
                 this.HasCollided = false;
                 this.timeElapsed = 0;
                 var pearlPosition = this.transform.position;

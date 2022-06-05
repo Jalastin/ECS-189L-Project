@@ -20,6 +20,7 @@ public class PearlMotion : MonoBehaviour
         set => _velocityY = value;
     }
 
+    // To fire the Pearl, simply use AddForce to it.
     public void Fire()
     {
         var velocity = new Vector2(this.VelocityX, this.VelocityY);

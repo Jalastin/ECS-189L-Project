@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WindSpriteFactory : Factory
 {
+    // Serialized reference to the WindSprite prefab that should be produced.
     [SerializeField] private GameObject prefab;
     public GameObject Make(WindSpriteSpec newSpec)
     {
@@ -18,6 +19,7 @@ public class WindSpriteFactory : Factory
         var windSprite = Make(newSpec);
         return windSprite;
     }
+    
     public GameObject GenerateRandomWindSprite()
     {
         WindSpriteSpec newSpec = new WindSpriteSpec();

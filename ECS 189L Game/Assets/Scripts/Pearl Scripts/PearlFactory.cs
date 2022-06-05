@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class PearlFactory : Factory
 {
+    // Serialized reference to the pearl prefab that should be produced.
     [SerializeField] private GameObject prefab;
+    // Serialized reference to where pearls should spawn on the Player.
     [SerializeField] private GameObject pearlSpawn;
+
     public GameObject Make()
     {
+        // Spawn the new Pearl at pearlSpawn.
         var spawnPlace = this.pearlSpawn.transform.position;
         GameObject newGameObject = Instantiate(this.prefab, spawnPlace, Quaternion.identity);
         return newGameObject;

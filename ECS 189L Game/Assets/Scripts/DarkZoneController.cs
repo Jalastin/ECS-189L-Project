@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class DarkZoneController : MonoBehaviour
 {
+    // Determines how "Dark" the Dark Zone should be.
+    // Because it determines the opacity of the zone,
+    // it must be restricted from 0f to 1f.
+    [Range(0f,1f)]
     [SerializeField] private float darknessStrength = 1f;
 
+    // This is just a reference to the Player for easier use later.
     private GameObject player;
 
+    // This contains the current color (ie. the darkness) of the Dark Zone.
     private Color curColor;
 
+    // This flag determines if the Pearl/Player is in the Dark Zone or not.
     private bool inDarkZone;
 
+    // This is the current strength of the Darkness.
     private float curDarkness;
     
     // Only begin increasing Darkness when the Player/Pearl enters the Dark Zone.
@@ -37,6 +45,8 @@ public class DarkZoneController : MonoBehaviour
         // Ensure that the Dark Zone does not collide with the player.
         this.player = GameObject.Find("Player_2");
         Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), this.player.GetComponent<Collider2D>());
+        // Player starts off not in the Dark Zone.
+        // Get the current color and set it to 0f, ie transparent / no darkness.
         this.inDarkZone = false;
         this.curColor = this.GetComponent<SpriteRenderer>().color;
         this.GetComponent<SpriteRenderer>().color = new Color(this.curColor.r, this.curColor.g, this.curColor.b, 0f);

@@ -16,6 +16,7 @@ public class WindSpriteController : MonoBehaviour
     {
         // Update the velocity of the wind sprite to the current force in ADSRManager.
         var windForce = GameObject.Find("Wind Zone").GetComponent<ADSRManager>().FinalForce;
+        // Add the corresponding force to the WindSprite using AddForce.
         this.GetComponent<Rigidbody2D>().velocity = new Vector2(windForce, 0);
     }
 }

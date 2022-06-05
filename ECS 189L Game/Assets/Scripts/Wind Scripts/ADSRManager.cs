@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// The original code was created by Professor McCoy, which can be found here:
+// https://github.com/dr-jam/GameplayProgramming/blob/master/Projects/ADSR/Assets/Scripts/ADSRManager.cs
+// Majority of the code is the same, except for Start() and Update().
+
 public class ADSRManager : MonoBehaviour
 {
+    // This is the Initial / base force before multiplied by the ASDR curve.
     [SerializeField] private float initialForce = 1f;
 
     [SerializeField] private float attackDuration = 2f;
@@ -19,7 +24,7 @@ public class ADSRManager : MonoBehaviour
     [SerializeField] private AnimationCurve release;
 
     // timeBeforeRestart determines how much time should pass
-    // before the next ADSR phase occurs.
+    // before the next ADSR curve occurs.
     [SerializeField] private float timeBeforeRestart = 3f;
 
     // isMovingLeft can be toggled to decide the initial direction of movement.
@@ -32,6 +37,8 @@ public class ADSRManager : MonoBehaviour
     private float sustainTimer;
     private float releaseTimer;
 
+    // Final force is the final force that should be used
+    // based on the current position in the ADSR curve.
     private float _finalForce;
     public float FinalForce
     {
@@ -54,10 +61,11 @@ public class ADSRManager : MonoBehaviour
 
     void Update()
     {
-        // While Phase isn't None, update the finalForce with the corresponding ADSR curves.
+        // While Phase isn't None, update the FinalForce with the corresponding ADSR curves.
         if (this.currentPhase != Phase.None)
         {
             this.FinalForce = this.initialForce * this.ADSREnvelope();
+            // If the force should be moving left, flip the direction.
             if (this.isMovingLeft)
             {
                 this.FinalForce *= -1f;
