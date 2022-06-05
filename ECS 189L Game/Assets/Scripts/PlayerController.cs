@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
         controls = new PlayerControls();
         // Input for moving the joystick.
         controls.Gameplay.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
+        controls.Gameplay.Move.canceled += ctx => move = Vector2.zero;
         // Button down input for shooting the projectile.
         controls.Gameplay.Button.performed += ctx => consoleButtonPressed();
     }
@@ -88,6 +89,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void consoleButtonPressed() {
+        // Only launch pearl when joystick is being moved.
         if (this.pearlArcLine.enabled == true && this.consoleMouseDiff != new Vector2(0, 0))
         {
             this.isButtonPressed = true;
@@ -128,6 +130,8 @@ public class PlayerController : MonoBehaviour
         // If running on mobile, do mobile input system.
         if (Input.touchCount > 0)
         {
+            // Make sure that the input/arc for the console is reset
+            this.consoleMouseDiff = new Vector2(0, 0);
             // Get the touch information.
             Touch touch = Input.GetTouch(0);
             // Get the location of the touch when it first touches the screen.
@@ -213,13 +217,15 @@ public class PlayerController : MonoBehaviour
 
         // If running on console, do console input system.
         // The second check is for when the joystick gets reset to 0, we still want to be
-        // in the console logic to reset the consolMouseDiff. This will also prevent
+        // in the console logic to reset the consoleMouseDiff. This will also prevent
         // a "ghost" arc line from lingering when there is no joystick input.
         else if (move != new Vector2(0, 0) || this.consoleMouseDiff != new Vector2(0, 0))
         {
             // Only shoot the pearl when the joystick is "active".
             if (move == new Vector2(0, 0))
             {
+                // In addition to resetting the movement vector, we also 
+                // have to account for deadzones on the joystick.
                 this.consoleMouseDiff = new Vector2(0, 0);
             }
 
@@ -298,6 +304,8 @@ public class PlayerController : MonoBehaviour
         // If running on desktop, do desktop input system.
         else if (move == new Vector2(0, 0))
         {
+            // Make sure that the input/arc for the console is reset
+            this.consoleMouseDiff = new Vector2(0, 0);
             // When the input button is first pressed, set the start mouse position.
             if (Input.GetButtonDown("Fire1"))
             {
