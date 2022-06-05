@@ -21,24 +21,6 @@ public class DarkZoneController : MonoBehaviour
 
     // This is the current strength of the Darkness.
     private float curDarkness;
-    
-    // Only begin increasing Darkness when the Player/Pearl enters the Dark Zone.
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Player" || other.gameObject.tag == "Pearl")
-        {
-            this.inDarkZone = true;
-        }
-    }
-
-    // Only begin decreasing Darkness when the Player/Pearl exits the Dark Zone.
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            this.inDarkZone = false;
-        }
-    }
 
     void Start()
     {
@@ -55,6 +37,19 @@ public class DarkZoneController : MonoBehaviour
 
     void Update()
     {
+        // Simply check if the player is within the y area of the Dark Zone,
+        // which in this level is currently from 300y to 560y.
+        // Once within the zone, start increasing the Darkness.
+        // If we had more time I would implement this with OnCollisionEnter + Exit instead.
+        if (this.player.transform.position.y >= 300 && this.player.transform.position.y <= 560)
+        {
+            this.inDarkZone = true;
+        }
+        else
+        {
+            this.inDarkZone = false;
+        }
+
         // If entering Dark Zone,
         // slowly increase the darkness by Time.DeltaTime
         // until it reaches or exceeds darknessStrength.
