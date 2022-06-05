@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void consoleButtonPressed() {
+        // Only launch pearl when joystick is being moved.
         if (this.pearlArcLine.enabled == true && this.consoleMouseDiff != new Vector2(0, 0))
         {
             this.isButtonPressed = true;
@@ -131,7 +132,6 @@ public class PlayerController : MonoBehaviour
         {
             // Make sure that the input/arc for the console is reset
             this.consoleMouseDiff = new Vector2(0, 0);
-            Debug.Log("Touch");
             // Get the touch information.
             Touch touch = Input.GetTouch(0);
             // Get the location of the touch when it first touches the screen.
@@ -221,7 +221,6 @@ public class PlayerController : MonoBehaviour
         // a "ghost" arc line from lingering when there is no joystick input.
         else if (move != new Vector2(0, 0) || this.consoleMouseDiff != new Vector2(0, 0))
         {
-            Debug.Log("Console");
             // Only shoot the pearl when the joystick is "active".
             if (move == new Vector2(0, 0))
             {
@@ -307,7 +306,6 @@ public class PlayerController : MonoBehaviour
         {
             // Make sure that the input/arc for the console is reset
             this.consoleMouseDiff = new Vector2(0, 0);
-            Debug.Log("Desktop");
             // When the input button is first pressed, set the start mouse position.
             if (Input.GetButtonDown("Fire1"))
             {
