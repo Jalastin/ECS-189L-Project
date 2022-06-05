@@ -231,7 +231,7 @@ The volume slider allows players to conveniently adjust the audio to their level
 
 - Originally I picked an arbitrary max force for the pearls, 250f. However after the majority of play testers reported that the pearl was too slow, I increased the max force to 350f. Any force higher than this however was too much, as it made the majority of our levels too trivial. At 400f I was able to throw a pearl hard enough to skip the first zone entirely!
 
-- I kept the gravity of both the Projectile and Player the same: 1. The only thing I changed was their masses. I settled on a mass of 2 for the Player and 0.2 for the Pearl. Any more felt to sluggish, and any less felt to light / floaty.
+- I kept the gravity of both the Projectile and Player the same: 1. The only thing I changed was their masses. I settled on a mass of 2 for the Player and 0.2 for the Pearl. Any more felt too sluggish, and any less felt too light / floaty.
 
 ### Dark Zone
 
