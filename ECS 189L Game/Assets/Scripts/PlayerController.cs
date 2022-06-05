@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviour
 
         // If running on console, do console input system.
         // The second check is for when the joystick gets reset to 0, we still want to be
-        // in the console logic to reset the consolMouseDiff. This will also prevent
+        // in the console logic to reset the consoleMouseDiff. This will also prevent
         // a "ghost" arc line from lingering when there is no joystick input.
         else if (move != new Vector2(0, 0) || this.consoleMouseDiff != new Vector2(0, 0))
         {
