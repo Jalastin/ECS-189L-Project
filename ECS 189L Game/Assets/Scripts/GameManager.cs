@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
             this.completionTime = value;
 
             // Notify only after 1 second has passed.
-            if (Mathf.Floor(previousTime) != Mathf.Floor(this.completionTime))
+            if (value == 0f || (int)value - (int)previousTime > 0)
             {
                 OnCompletionTimeChanged?.Invoke(this.completionTime);
             }
@@ -72,13 +72,10 @@ public class GameManager : MonoBehaviour
         }
         else 
         {
-            // stats = new GameStats();
             Instance = this;
             this.CurrentState = GameState.MainMenu;
             this.VolumeChanged = false;
             DontDestroyOnLoad(gameObject);
-            // OnCompletionTimeChanged += OnTimeChanged;
-            // OnPearlsThrownChanged += OnPearlsChanged;
         }
     }
 
@@ -137,14 +134,4 @@ public class GameManager : MonoBehaviour
         // Run respective callbacks of subscribed components.
         OnGameStateChanged?.Invoke(newState);
     }
-
-    // public void OnPearlsChanged(int pearls)
-    // {
-    //     Debug.Log(pearls);
-    // }
-
-    // public void OnTimeChanged(float time)
-    // {
-    //     Debug.Log(time);
-    // }
 }
