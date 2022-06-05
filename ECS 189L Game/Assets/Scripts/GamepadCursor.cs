@@ -46,9 +46,6 @@ public class GamepadCursor : MonoBehaviour
         if (cursorTransform != null)
         {
             Vector2 position = cursorTransform.anchoredPosition;
-            position.x = position.x + 100;
-            position.y = position.y + 100;
-            Debug.Log(position);
             InputState.Change(virtualMouse.position, position);
         }
 
