@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
         set => _startPoint = value;
     }
 
-    // Sound manager is used to generate sound effects when the player is charging their throw.
+    // Sound manager is used to generate sound effects
     private SoundEffectManager soundManager;
 
     // Console input implementation.
@@ -310,7 +310,6 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Fire1"))
             {
                 this.mousePositionStart = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
-                // this.soundManager.PlayChargingThrowSound();
             }
 
             // While the input button is being held, set the end mouse position, mouse direction, and force.
