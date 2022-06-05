@@ -133,13 +133,36 @@ Icons:
 
 # Sub-Roles
 
-## Audio
+## Audio (Alex Long)
 
-**List your assets including their sources and licenses.**
+[Audio Citations](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Resources/Audio/README.md)
 
-**Describe the implementation of your audio system.**
+### Background Music
 
-**Document the sound style.** 
+Each scene has a different background music that plays when the scene is successfully loaded. The general theme for the music collection is upbeat and relaxing to bring out positive energy to the players despite this being a rage game. Every scene has an audio source game object which is responsible for playing the background music upon awake and on loop. For example, I used the [CreditsBackgroundMusic](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Resources/UI/Prefabs/CreditsBackgroundMusic.prefab) audio source object in the credits scene to play the background music. 
+
+### Sound Effects
+
+There are three in-game sound effects that are generated based on different scenarios:
+- When the player releases the pearl 
+- When the pearl collides with the surface 
+- When the player teleports 
+ 
+To manage the different sound effects, I created a [SoundEffectManager](https://github.com/Jalastin/ECS-189L-Project/blob/fmain/ECS%20189L%20Game/Assets/Scripts/AudioScripts/SoundEffectManager.cs) script which was attached to the SoundManager game object. The SoundManager object is used in both the PlayerController and the Pearl Controller script to play the corresponding sound effects by calling the functions within the SoundEffectManager script. For [example](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L36), when the pearl collides with a surface, the sound manager object will call the function to play the corresponding sound. 
+
+### Volume Slider
+
+The volume slider allows players to conveniently adjust the audio to their level of comfort. This was achieved by creating a [SoundMixer](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Resources/Audio/BackgroundMusic/SoundMixer.mixer) using the Audio Mixer Controller tool. This allows us to control the output volume of the different audio sources we have by exposing the audio mixer parameter to the [VolumeSlider script](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/AudioScripts/VolumeSlider.cs) . The script is responsible for updating both the audio slider UI element, to reflect the latest adjusted volume value, and the Audio Mixer based on user input from the audio slider. Everytime the user adjusts the volume via the audio slider, the [SetVolume](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/AudioScripts/VolumeSlider.cs#L22-L27) function is called to update the Audio Mixer output and the GameManager with the latest volume value so that it persists across all the scenes.
+
+### Audio Resources
+
+[Audio Mixer](https://johnleonardfrench.com/the-right-way-to-make-a-volume-slider-in-unity-using-logarithmic-conversion/)
+
+[Adding Sound Effects](https://www.youtube.com/watch?v=JnbDxG04i7)
+
+[Adding Background Music](https://www.youtube.com/watch?v=BKCsH8mQ-lM)
+
+[Audio Mute](https://www.youtube.com/watch?v=AFcHsKd_aMo)
 
 ## Gameplay Testing
 
