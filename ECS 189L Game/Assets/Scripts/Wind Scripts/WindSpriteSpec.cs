@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WindSpriteSpec : Spec
 {
+    // WindSpriteSpecs have a position offset of where it should spawn.
     private Vector2 _position;
     
     public Vector2 Position

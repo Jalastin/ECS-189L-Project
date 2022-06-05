@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PearlSpec : Spec
 {
+    // Pearls should be made with a specified force.
     private float _force;
     
     public float Force
@@ -12,6 +13,7 @@ public class PearlSpec : Spec
         set => _force = value;
     }
 
+    // Pearls should be thrown in a specified direction.
     private Vector3 _direction;
 
     public Vector3 Direction

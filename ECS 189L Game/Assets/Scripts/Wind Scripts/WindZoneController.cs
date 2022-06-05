@@ -49,10 +49,12 @@ public class WindZoneController : MonoBehaviour
 
     void Update()
     {
+        // After enough time has elapsed for a new WindSprite to spawn,
+        // Spawn a new one, determine a new spriteSpawnTime, and start counting again.
         if (this.timeElapsed >= this.spriteSpawnTime)
         {
             this.GetComponent<WindSpriteFactory>().GenerateRandomWindSprite();
-            this.spriteSpawnTime = Random.Range(1f, 5f);
+            this.spriteSpawnTime = Random.Range(this.minWindSpriteSpawnTime, this.maxWindSpriteSpawnTime);
             this.timeElapsed = 0f;
         }
         this.timeElapsed += Time.deltaTime;

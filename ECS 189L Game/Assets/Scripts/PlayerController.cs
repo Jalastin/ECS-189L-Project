@@ -45,13 +45,19 @@ public class PlayerController : MonoBehaviour
 
     // Flag to determine if the force has exceeded forceMax.
     private bool maxForceReached;
+
+    // Determines if we are in the Throw animation or not.
     private bool isThrow;
+
+    // Determines time since start of Throw animation.
     private float throwTimer;
     private GameObject player;
 
     // Current scale of the player.
     private Vector3 scale;
 
+    // Start Point determines where the start of the game is.
+    // Used to teleport the player back to spawn in case they fall off the map.
     private Vector3 _startPoint;
 
     public Vector3 StartPoint
@@ -170,6 +176,9 @@ public class PlayerController : MonoBehaviour
                 Vector2 pos = Camera.main.ScreenToWorldPoint(touch.position);
                 this.touchPositionEnd = new Vector2(pos.x, pos.y);
 
+                // Determine the difference between where input started,
+                // and where the input currently is.
+                // Use this distance to create the correspinding force.
                 this.mobileMouseDiff = this.touchPositionStart - this.touchPositionEnd;
                 this.mouseDistance = this.mobileMouseDiff.magnitude;
                 this.mouseDirection = this.mobileMouseDiff / this.mouseDistance;
@@ -344,6 +353,9 @@ public class PlayerController : MonoBehaviour
             // While the input button is being held, set the end mouse position, mouse direction, and force.
             if (Input.GetButton("Fire1"))
             {
+                // Determine the difference between where input started,
+                // and where the input currently is.
+                // Use this distance to create the correspinding force.
                 this.mousePositionEnd = GameObject.Find("Main Camera").GetComponent<CameraController>().MousePosition;
                 this.mouseDiff = this.mousePositionStart - this.mousePositionEnd;
                 this.mouseDistance = this.mouseDiff.magnitude;
