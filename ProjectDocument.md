@@ -117,9 +117,13 @@ Icons:
 
 - The player cannot move themselves. Instead, all traversal is done by throwing a teleportation pearl. Once a pearl is thrown and contacts a platform, [there is a short delay before the player is teleported to the pearl’s current position.](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L10)
 
+![](./ExampleImages/TeleportationDemonstration.gif)
+
 - Projectile instantiation is done [using the Factory design pattern](https://github.com/Jalastin/ECS-189L-Project/tree/main/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts) as seen in exercise 4. The strength of the pearl’s force and the pearl’s direction are dependent on player input (which will be explained further in the input section) and [is passed in as the spec](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L375) for the newly instantiated pearl. [I use AddForce](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlMotion.cs#L23) to add the specified force to the pearl on instantiation.
 
 - The force a pearl can be is also restricted by [the Player’s maxForce.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L340) This is visualized by the Pearl Arc Line, which visualizes the current strength and direction of the user's current throw.
+
+![](./ExampleImages/LineDemonstration.gif)
 
 - The Player and Pearl utilize Unity’s Rigidbody2D’s so that both are affected by gravity during the game. I also locked the Player’s Z rotation so that way they would always stay upright and not “tip” over.
 
@@ -133,6 +137,8 @@ Icons:
 
 - I created a “Dark Zone” using Sprite Masks following [this tutorial.](https://youtu.be/EfXLi6AWc_4) In my case, both the player and pearl have a “flashlight” zone around them which lets them see within a close vicinity of those GameObjects. [I also added some extra code so that when the Player enters the Dark Zone, it slowly becomes darker until it hits the specified darknessStrength.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/DarkZoneController.cs)
 
+![](./ExampleImages/DarkZoneDemonstration.gif)
+
 ### Wind Zone
 
 - There is also a Wind Zone that adds a wind force to increase the difficulty of the game. Every GameObject within the Zone (besides Platforms and the Player) has its velocity affected by a specified wind force. I utilized [OnTriggerStay2D](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindZoneController.cs#L22) to apply the wind force to any objects with a Rigidbody2D within the zone.
@@ -140,6 +146,8 @@ Icons:
 - The wind force varies based on an [Attack, Decay, Sustain, Release curve.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/ADSRManager.cs) While the base code was based off of [Professor McCoy’s original ADSR Manager,](https://github.com/dr-jam/GameplayProgramming/blob/master/Projects/ADSR/Assets/Scripts/ADSRManager.cs) I heavily modified the Start() and Update() portion of the code. During the ADSR curve, I calculate the wind force based off of an initial force and the position in the curve. After the ADSR ends, I wait timeBeforeRestart time before I restart the ADSR curve (by switching to Attack phase) and flipping the direction of the wind force.
 
 - The Wind Zone also has a Factory attached to it that creates WindSprites. [These WindSprites simply spawn for a specified time, and are used to visualize the current wind force on the screen.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteController.cs) The position they spawn at is randomized to be [somewhere within the Wind Zone.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteSpec.cs#L18)
+
+![](./ExampleImages/WindZoneDemonstration.gif)
 
 ### Resources Used
 
