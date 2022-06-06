@@ -121,7 +121,7 @@ Icons:
 
 - Projectile instantiation is done [using the Factory design pattern](https://github.com/Jalastin/ECS-189L-Project/tree/main/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts) as seen in exercise 4. The strength of the pearl’s force and the pearl’s direction are dependent on player input (which will be explained further in the input section) and [is passed in as the spec](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L375) for the newly instantiated pearl. [I use AddForce](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlMotion.cs#L23) to add the specified force to the pearl on instantiation.
 
-- The force a pearl can be is also restricted by [the Player’s maxForce.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L340) This is visualized by the Pearl Arc Line, which visualizes the current strength and direction of the user's current throw.
+- The force a pearl can be is also restricted by [the Player’s maxForce.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L340) This is visualized by the [Pearl Arc Line](https://github.com/Jalastin/ECS-189L-Project/blob/5c3e441ac8dfb8ed8a66e1fde5f78096d9b36cd0/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L455), which visualizes the current strength and direction of the user's current throw.
 
 ![](./ExampleImages/LineDemonstration.gif)
 
@@ -141,15 +141,17 @@ Icons:
 
 ### Wind Zone
 
-- There is also a Wind Zone that adds a wind force to increase the difficulty of the game. Every GameObject within the Zone (besides Platforms and the Player) has its velocity affected by a specified wind force. I utilized [OnTriggerStay2D](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindZoneController.cs#L22) to apply the wind force to any objects with a Rigidbody2D within the zone.
+- There is also a [Wind Zone](https://github.com/Jalastin/ECS-189L-Project/tree/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts) that adds a wind force to increase the difficulty of the game. Every GameObject within the Zone (besides Platforms and the Player) has its velocity affected by a specified wind force. I utilized [OnTriggerStay2D](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindZoneController.cs#L22) to apply the wind force to any objects with a Rigidbody2D within the zone.
 
 - The wind force varies based on an [Attack, Decay, Sustain, Release curve.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/ADSRManager.cs) While the base code was based off of [Professor McCoy’s original ADSR Manager,](https://github.com/dr-jam/GameplayProgramming/blob/master/Projects/ADSR/Assets/Scripts/ADSRManager.cs) I heavily modified the Start() and Update() portion of the code. During the ADSR curve, I calculate the wind force based off of an initial force and the position in the curve. After the ADSR ends, I wait timeBeforeRestart time before I restart the ADSR curve (by switching to Attack phase) and flipping the direction of the wind force.
 
-- The Wind Zone also has a Factory attached to it that creates WindSprites. [These WindSprites simply spawn for a specified time, and are used to visualize the current wind force on the screen.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteController.cs) The position they spawn at is randomized to be [somewhere within the Wind Zone.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteSpec.cs#L18)
+- The Wind Zone also has a Factory attached to it that creates WindSprites. [These WindSprites simply spawn for a specified time, and are used to visualize the current wind force on the screen.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteController.cs) The position they spawn at is randomized to be [somewhere within the Wind Zone.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteSpec.cs#L18) You can see the WindSprite cloud at the very top of the gif shown below.
 
 ![](./ExampleImages/WindZoneDemonstration.gif)
 
 ### Resources Used
+
+- [Professor McCoy's original Factory Design Pattern implementation](https://github.com/dr-jam/GameplayProgramming/tree/master/Projects/Factory/Assets/Scripts)
 
 - [Professor McCoy’s original ADSR Manager](https://github.com/dr-jam/GameplayProgramming/blob/master/Projects/ADSR/Assets/Scripts/ADSRManager.cs)
 
@@ -195,11 +197,45 @@ The name of the boolean parameter is the first argument and the value you wish t
 
 [This YouTube video](https://www.youtube.com/watch?v=eXIuizGzY2A) provided an excellent foundation for us to learn skeletal animations. 
 
-## Input
+## Input (Cameron Yee)
 
-**Describe the default input configuration.**
+## Input Configuration
+- The default input configuration to interact with this game changes depending on which device the game is reading input from. 
 
-**Add an entry for each platform or input style your project supports.**
+### Desktop
+- When using a mouse, the left button is used to click and drag. Then, release the left click to actually launch. This is to simulate a slingshot launch for throwing the pearl in our game. In addition, on any of the scenes, you can use the mouse and left click to interact with any of the UI elements. 
+
+### Mobile
+- When using touchscreen, the inputs are similar to that of the mouse except instead of clicking, it uses a touch and drag input. Then, take the finger (or whatever you are using to touch the screen) off the screen to actually launch. In addition, on any of the scenes, you can use touch to interact with any of the UI elements. 
+
+### Console
+- When using a gamepad controller, the left joystick is used to aim and clicking the “B” button will launch the pearl. The joystick inputs are reversed to simulate a slingshot (move left on the joystick to aim right). In addition, press the start button on the controller to open the pause menu. When interacting with any of the menu screens, use the left joystick to move the gamepad cursor and press the “B” button to click the UI elements. 
+
+## Input Implementation (How it Works)
+- All input that controls the pearl is done in the `PlayerController.cs` script. Specifically for the gamepad, to interact with the UI, the logic is done in the `GamepadCursor.cs` script.
+
+### Desktop
+- Launching the pearl: The input works by first getting the position of the cursor whenever the user clicks and holds on the screen ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L349)). While still not letting go of the click, the user can move the cursor in any direction to aim the pearl (if the user moves to the left, it will aim to the right). We use this distance traveled from the current mouse position to where the user first clicked to calculate the force and direction that the player will throw the pearl ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L361)). Then, a pearl trajectory line is drawn based on force magnitude and direction to depict the force and direction of the throw once the player releases the click ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L455)). In addition, we have to account for a maximum force value to balance the game (which was refined upon by Justin Rusit (Movement/Physics and Game Feel)) ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L380)). So, even if the user moves the mouse really far away from the starting click position, the force will be capped at a certain value and the pearl trajectory line will reflect this maxed value. Finally, when the user releases the click, the force will be passed into a factory that creates the pearl according to the direction and force values that we gathered ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L426)). 
+
+- Interacting with the UI: The mouse and UI compatibility is built-in so no extra code was needed to get the mouse to interact with the UI elements.
+
+### Mobile
+- Launching the pearl: The mobile version of launching the pearl works almost exactly the same as the desktop version except instead of looking for a mouse click event, it will look for a single touch on the screen. Touch and hold to get the starting point ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L167)), move your finger (or whatever you are using to touch the screen) to affect force and direction ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L182)), then release the touch to launch the pearl ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L245)). 
+
+- Interacting with the UI: The touch and UI compatibility is built-in so no extra code was needed to get the touch to interact with the UI elements.
+
+### Console
+- Launching the pearl: For the console version, launching the pearl uses a different method. To get its equivalent starting position, we initialize a variable vector with a value of 0. Then, we get the joystick input through the input system ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L83)) and add that value to the variable vector ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L269)). This value gets updated every frame so that our variable will always be updated based on the input given by the left joystick. Since this variable is a vector, we can get a direction and a magnitude for the pearl launch and the trajectory line. To actually launch the pearl, the user will click the “B” button which will pass those values into the pearl factory function ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L334)). 
+
+- Interacting with the UI: To interact with the UI elements using a console controller, I had to create a virtual mouse that would work in sync with the input action given by the controller. This is because the gamepad controller doesn’t have a default cursor to interact with the UI like the mouse and touch do. So, to implement this, I created a separate game object with a script (`GamepadCursor.cs`) that would control a cursor UI element on every scene (with the help of Alex Long (User Interface)). This script will move this virtual cursor or simulate a click for this virtual cursor depending on the input action from the gamepad controller.
+
+## Input References
+- [Gamepad Cursor Tutorial](https://youtu.be/Y3WNwl1ObC8)
+- [Connecting a wireless controller](https://youtu.be/adJM4Ps44z0)
+- [Mouse, Touch, and Controller Input System Tutorial](https://youtu.be/Yjee_e4fICc)
+- [Reading gamepad controller input tutorial](https://youtu.be/p-3S73MaDP8)
+- [Unity Manual: Mobile device input](https://docs.unity3d.com/2020.3/Documentation/Manual/MobileInput.html)
+
 
 ## Game Logic
 
@@ -269,15 +305,25 @@ The volume slider allows players to conveniently adjust the audio to their level
 
 
 
-## Game Feel
+## Game Feel (Justin)
 
 - Majority of the content related to game feel are SerializeField’s, which makes it significantly easier to modify later during playtesting.
 
 ### Player and Pearls
 
+- There is a 0.3s teleportDelay before the Player is teleported to the location of a Pearl. This was added so that teleportation wasn't completely trivial (ie. when there is no delay), while still being short enough to not have too long of a lag time between pearl collision and player teleportation.
+
 - Originally I picked an arbitrary max force for the pearls, 250f. However after the majority of play testers reported that the pearl was too slow, I increased the max force to 350f. Any force higher than this however was too much, as it made the majority of our levels too trivial. At 400f I was able to throw a pearl hard enough to skip the first zone entirely!
 
-- I kept the gravity of both the Projectile and Player the same: 1. The only thing I changed was their masses. I settled on a mass of 2 for the Player and 0.2 for the Pearl. Any more felt to sluggish, and any less felt to light / floaty.
+- I kept the gravity of both the Projectile and Player the same: 1. The only thing I changed was their masses. I settled on a mass of 2 for the Player and 0.2 for the Pearl. Any more felt too sluggish, and any less felt too light / floaty.
+
+- One design choice I kept was the fact that the Player keeps its velocity as it continually falls, even after repeated teleportation. This makes vertically climbing sections of the map much more difficult, as the Player falls harder and harder when spamming pearls up vertical sections. This comes into play in the final area of the level with the final area's tree.
+
+![](./ExampleImages/VerticalClimbDemonstration.gif)
+
+### Physics Materials
+
+- As a baseline, Default material has 0.4 friction and 0 bounciness. I wanted the Pearl and Player to be able to "grip" onto normal surfaces without bouncing. Slime material has the same amount of friction but 0.6 bounciness. This lets pearls have a slight bounce on objects without fully redirecting their motion (in the case of 1 bounciness). Ice material, however, has 0.1 friction and 0 bounciness. Since the final section of the level is the ice + wind zone, I wanted to make the platforms their significantly more difficult to land on. Having 0.1 friction made it so that collisions are still predictable, but create a slippier surface for potential misplays during gameplay.
 
 ### Dark Zone
 
