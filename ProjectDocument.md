@@ -422,7 +422,8 @@ As mentioned earlier, the level design reflects our narrative as well. The types
 
 ### Press Kit
 
-- 
+- [Link to press kit](https://alecf2.notion.site/Teleporting-Over-It-df778f49b67541c0b23dccb3a8397888)
+- I just wanted to make a friendly intro to our game in this press kit. By giving a bit of lore, I created a bit of a connection between the game's main character and the player. I tried to showcase the wide variety of terrains and stages we had in our game by supplying multiple screenshots for each zone. I also emphasized the game's main mechanic in the first two screenshots: the first with Steve charging up the pearl, and the second with him releasing the pearl. In addition, I added a small about the team section with just displays what each of us worked on for the project.
 
 ### Trailer
 
