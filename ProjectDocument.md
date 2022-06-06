@@ -249,8 +249,10 @@ The defining characteristic of *Teleporting Over It*'s level design is how the e
 *Teleporting Over It* is a 2D game, but contains both 2D and 3D assets in its level design. To make sure the appearance of 3D objects did not change as the camera followed our player, I set the camera type to orthographic, meaning all objects would appear the same in size, despite their distance from the lens.
 
 ![](./ExampleImages/Perspective.png)
+**Perspective Camera**
 
 ![](./ExampleImages/Orthographic.png)
+**Orthographic Camera**
 
 In order for our player to be able to traverse the map, its pearl needed to be able to collide with objects, so every object the player can interact with is equipped with a collider. For simple objects, like these trees, the pre-made colliders provided by Unity were enough to make a hitbox that accurately reflected the shape of the object.
 
