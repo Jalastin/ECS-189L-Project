@@ -260,6 +260,8 @@ However, our map also consists of more complex objects. To encompass these, I ut
 
 ![](./ExampleImages/PolyCollider.PNG)
 
+With the interactions between our level and the camera/player intact, all that was left was to design the actual level. Using free assets from the Unity Asset Store, as well as the prefabs for the different types of zones created by Justin, I put together a map. The overall shape of the map mimics that of *Getting Over It*, with the later stages of the game looming over the beginning. This shape allows for the player to drop if they are not careful. As for the aesthetics (and narrative design) of the map, they are broken up into stages.
+
 ### Stages
 *Teleporting Over It* can be thought of as being split into 4 stages, each with its own distinct theme.
 
@@ -267,11 +269,13 @@ However, our map also consists of more complex objects. To encompass these, I ut
 This simple stage constructed of familiar objects and buildings is the players introduction to the game. There is a billboard explaining how to operate our game, and the player is introduced to signs which tell them where to go. The obstacles/platforms to navigate are not too far apart, and the drops are still easy to come back from.
 
 ### Stage 2: Mountain and Forest
+The second stage of the game brings the player out of the city and into a mountainous forest region. The platforms the player needs to traverse start to become farther apart, and the risk they take with each throw of the pearl becomes greater as they have more to lose.
 
-- Different themes
-- different textures
-- dark zone and wind zone
-- relate to school and 
+### Stage 3: Cave
+The third stage introduces a new mechanic to the game: the dark zone. With limited visibilty, the player must throw their pearl to see where they are going. This, of course, presents its own dangers because they can over-throw, and end up right where they started. The player can easily become lost in the darkness of this area, but the signs that guide them are always visible. (The specifics of how the dark zone is implemented can be found in the physics/movement section.)
+
+### Stage 4: Wind and Snow
+The final stage of *Teleporting Over It* also introduces a new mechanic: wind gusts. The player can make their choice of where and how hard to throw their pearl, but are still subject to the randomness of the wind. The stakes are at their highest as the player now has the most to lose, but if they are able to persevere through this difficult stage, they will be rewarded.
 
 
 ### Level Design Resources
@@ -337,6 +341,8 @@ The volume slider allows players to conveniently adjust the audio to their level
 ## Narrative Design (Devin Ly)
 
 The narrative goal of this project was to create a game that truly encompassed the famous first sentence of *A Tale of Two Cities*: "It was the best of times, it was the worst of times..." With inspiration from games like *Getting Over It* and *Jump King*, we decided to create a "rage" game. We believe the unforgiving nature of such games allows users to experience both high highs when they successfully traverse a difficult section, and low lows when they fall off a cliff immediately after. With this in mind, we designed *Teleporting Over It* to emphasize its gameplay experience rather than its aesthetics, meaning the visual style of the game is very simple. The interactive parts of the map are mostly low-poly models of houses, rocks, and trees. There are several portions of the map that contain more complex models such as traffic signs and the crown finish line, but these are only to act as signifiers. Instead of being presented with hyper-realistic models of people, weapons, or landscapes, players are encouraged to focus on navigating the map -- on enjoying the journey. We designed the gameplay system to consist only of throwing a pearl towards your destination for the very same reason: to allow our users to feel the elatedness and frustration that comes along with an adventure.
+
+As mentioned earlier, the level design reflects our narrative as well. The types of obstacles, the color scheme, and the danger the player faces very much reflect the feelings someone has as they embark on a journey.
 
 ## Press Kit and Trailer
 
