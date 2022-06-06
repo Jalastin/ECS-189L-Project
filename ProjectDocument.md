@@ -158,11 +158,44 @@ Icons:
 - [Sprite Mask tutorial for Dark Zone](https://youtu.be/EfXLi6AWc_4)
 
 
-## Animation and Visuals
+## Animation and Visuals (Eric Ni)
+### Assets Used
+Level design:
+- [Getting Started Mods Asset Pack](https://assetstore.unity.com/packages/3d/props/clothing/getting-started-mods-asset-pack-141501) by Unity Technologies licensed under [Standard Unity Asset Store EULA](https://unity3d.com/legal/as_terms)
+- [Flat Platformer Template](https://assetstore.unity.com/packages/2d/environments/flat-platformer-template-108101) by Bulat licensed under [Standard Unity Asset Store EULA](https://unity3d.com/legal/as_terms) 
+- [3LE Low Poly Cloud Pack](https://assetstore.unity.com/packages/3d/3le-low-poly-cloud-pack-65911) by The Fallout Nerd licensed under [Standard Unity Asset Store EULA](https://unity3d.com/legal/as_terms)
+- [Free Hand Painted Rocks 'N' Boulders](https://assetstore.unity.com/packages/3d/free-hand-painted-rocks-n-boulders-80634) by Poly Ninja licensed under [Standard Unity Asset Store EULA](https://unity3d.com/legal/as_terms)
+- [Hats pack - 3D Microgames Add-Ons](https://assetstore.unity.com/packages/3d/hats-pack-3d-microgames-add-ons-163011) by Unity Technologies licensed under [Standard Unity Asset Store EULA](https://unity3d.com/legal/as_terms)
+- [Low Poly Rock Pack](https://assetstore.unity.com/packages/3d/environments/low-poly-rock-pack-57874) by Broken Vector licensed under [Standard Unity Asset Store EULA](https://unity3d.com/legal/as_terms)
+- [Snowy Low-Poly Trees](https://assetstore.unity.com/packages/3d/vegetation/trees/snowy-low-poly-trees-76796) by False Wisp Studios licensed under [Standard Unity Asset Store EULA](https://unity3d.com/legal/as_terms)
+- [US Road Signs Free](https://assetstore.unity.com/packages/3d/props/exterior/us-road-signs-free-164941) by Covalence Studios licensed under [Standard Unity Asset Store EULA](https://unity3d.com/legal/as_terms)
 
-**List your assets including their sources and licenses.**
+Character design:
+- [Free 2D Fantasy Characters Easy to Rig](https://assetstore.unity.com/packages/2d/characters/free-2d-fantasy-characters-easy-to-rig-214009) by ThunderCube Games licensed under [Standard Unity Asset Store EULA](https://unity3d.com/legal/as_terms)
 
-**Describe how your work intersects with game feel, graphic design, and world-building. Include your visual style guide if one exists.**
+### Visual Style
+For our game, we wanted a visual style that would involve simple, yet nice-looking graphics. As a result, I found some Unity assets that fit our needs and they were applied to our level design. Furthermore, since our game relies heavily on aiming and landing the ball on platforms, I thought that a less-intrusive visual style would make the game experience better for players. Another visual style decision we decided to make was to use 3D objects in a 2D platformer, similar to Getting Over It, because it adds more depth to our game’s graphics. As for the playable character, I found a [sprite](https://assetstore.unity.com/packages/2d/characters/free-2d-fantasy-characters-easy-to-rig-214009) on the Unity store that could seamlessly integrate skeletal animations as opposed to making one. This decision was influenced by the time constraint and my lack of experience with pixel art. 
+
+### Animation System
+To create the animations for this game, I utilized Unity’s skeletal animations for 2D sprites. Skeletal animation, also known as rigging, is an easy to pick up method of animation for beginners. Unity’s skeletal animation system is very intuitive to use and does not require a lot of setup to get started. The first step that I did to create an animation was adding a set of individual, controllable “bones” to a 2D sprite. 
+
+![](./ExampleImages/Bones.PNG)
+
+Once this was done, Unity’s animation tab provided an interactive timeline to create keyframes, which are essentially the start and end points of the sprite’s action. After these start and end points are created, Unity will interpolate the movement between the two points to allow the sprite to reach its target position. I created three main animations for our game: idling, throwing, and falling. 
+
+![](./ExampleImages/AnimationTab.PNG)
+
+Next, I had to utilize Unity’s animation state machine to create transitions between the different animations. In the picture below, idling is the entry state, and there are two additional ones: Throwing and ActualFalling. Idling is able to reach Throwing if the Throw boolean parameter is true and the same is for ActualFalling and Fall. Throwing and ActualFalling can transition back to idling if Throw or Fall, respectively, are false. An additional transition from ActualFalling to Throwing based on Throw is necessary to account for throwing while falling.
+
+![](./ExampleImages/AnimationStateMachine.PNG)
+
+In the code, the transitions are handled like so: 
+
+`player.GetComponent<Animator>().SetBool(String parameterName, bool value);`
+
+The name of the boolean parameter is the first argument and the value you wish to change it to is the second. For example, this line of code is used with `parameterName=“Throw”` and `value=true` whenever fire1 is detected so that the animation state machine can transition to Throwing.
+
+[This YouTube video](https://www.youtube.com/watch?v=eXIuizGzY2A) provided an excellent foundation for us to learn skeletal animations. 
 
 ## Input (Cameron Yee)
 
@@ -241,12 +274,25 @@ The volume slider allows players to conveniently adjust the audio to their level
 
 [Audio Mute](https://www.youtube.com/watch?v=AFcHsKd_aMo)
 
-## Gameplay Testing
+## Gameplay Testing (Eric Ni)
+### Full Results
+[Here](https://docs.google.com/spreadsheets/d/1l5B2j9orXCkTKH-3FpbBYp7sOwFQe5DOvdGOhTJv9Fs/edit?usp=sharing) are the full results of our gameplay testing (done via Google forms because of COVID exposure).
 
-**Add a link to the full results of your gameplay tests.**
-
-**Summarize the key findings from your gameplay tests.**
-
+### Key Findings
+#### **Game Feel and Experience:**
+- In our demo version, many players were confused as to which direction they needed to move in upon spawning. As a result, we have added road signs that should solve this issue.
+- The instructions provided at the beginning of the game seemed to give players a good idea about what would happen when they launched a pearl projectile.
+- Most players think the game controls feel good and were intuitive as well. The only concern was with the pearl's launch speed, and we have addressed this by adding more force to it when throwing.
+- Similar to the previous point, players were mostly frustrated with the sluggish speed of the pearl because it takes a long time for it to collide with a platform. 
+- The shape of some platforms also caused unintentional sliding, which may have caused unnecessary frustration.
+#### **Game Concept:**
+- Most playertesters had a good first impression of the game. They thoroughly enjoyed the art style, gameplay, and the game's concept. Upon playing the demo, playtesters felt that our game did fit the rage-game genre.
+- The level transitions were smooth, but some playtesters believe there should be more distinct differences in difficulty between stages.
+- When asked about the appeal of the game, playtesters responded by describing the game as a casual, but rage-inducing, game that had satisfying gameplay elements.
+#### **Player Feedback:**
+- Aside from a more fleshed out options menu that has more settings to change, playtesters did not have any additional game controls or interface features that they wanted to see implemented.
+- As mentioned previously, a majority of the playtesters would like to see a faster moving pearl, so that is something we have improved. Some players also wanted to remove the ability for the player to slide on angled surfaces.
+- The only interface-related concern we received was that the pause and mute buttons would sometimes be covered by the level. Since conducting user testing, we have resolved this issue.
 ## Narrative Design
 
 **Document how the narrative is present in the game via assets, gameplay systems, and gameplay.** 
@@ -259,7 +305,7 @@ The volume slider allows players to conveniently adjust the audio to their level
 
 
 
-## Game Feel
+## Game Feel (Justin)
 
 - Majority of the content related to game feel are SerializeField’s, which makes it significantly easier to modify later during playtesting.
 
@@ -271,7 +317,7 @@ The volume slider allows players to conveniently adjust the audio to their level
 
 - I kept the gravity of both the Projectile and Player the same: 1. The only thing I changed was their masses. I settled on a mass of 2 for the Player and 0.2 for the Pearl. Any more felt too sluggish, and any less felt too light / floaty.
 
-- One design choice I kept was the fact that the Player keeps it's velocity as it continually falls, even after repeated teleportation. This makes vertically climbing sections of the map much more difficult, which comes into play in the final area of the level with the tree.
+- One design choice I kept was the fact that the Player keeps its velocity as it continually falls, even after repeated teleportation. This makes vertically climbing sections of the map much more difficult, as the Player falls harder and harder when spamming pearls up vertical sections. This comes into play in the final area of the level with the final area's tree.
 
 ![](./ExampleImages/VerticalClimbDemonstration.gif)
 
