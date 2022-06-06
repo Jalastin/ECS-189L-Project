@@ -16,6 +16,8 @@ When using a gamepad controller, the left joystick is used to aim and clicking t
 
 ![](./ExampleImages/TeleportationDemonstration.gif)
 
+[Here is a link to our project's Google Drive folder. This contains prototypes, builds of the game, and other miscellaneous files.](https://drive.google.com/drive/folders/1rM_QW05-l4RFF0tphhjMGotStppP4UKm?usp=sharing)
+
 # Main Roles #
 
 - User Interface + Camera: [Alex Long](https://github.com/ale-long)
