@@ -503,6 +503,12 @@ As mentioned earlier, the level design reflects our narrative as well. The types
 
 - Menu traversal on console / controllers could be improved. Instead of using a cursor, having the controller simply hover the different menu options may be a better choice. 
 
+## Game Logic
+
+- Could use better namespacing, i.e. having access to stats with `GameManager.Instance.Stats.PearlsThrown` rather than `GameManager.Instance.PearlsThrown`, which could be useful if our game is expanded.
+  - I did try this initially by creating a data-only class called GameStats (file is still in this repository); however, I could not find a way to keep some of GameStats' setters (CompletionTime) available to only the GameManager but private to other classes.
+- Figure out a way to store player data and progress after the game is fully closed. This most likely would require a database.
+
 ## Level Design
 
 - Our background is currently a static color. In a future version of this game, we could have a gradient so the color of the sky changes with the player's altitude (e.g. light blue in the beginning, overcast in the forest, a cave background in the cave, a darker blue for the storm, and a pink sunset for the crown/finish line)
