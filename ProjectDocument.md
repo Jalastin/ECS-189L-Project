@@ -502,6 +502,7 @@ As mentioned earlier, the level design reflects our narrative as well. The types
 ## Input + Cross-Platform
 
 - Menu traversal on console / controllers could be improved. Instead of using a cursor for the gamepad controller, having the joystick iterate through the menu options may be a better choice.
+- In addition, I would add customizable sensitivity to all types of input for launching the pearl.
 
 ## Game Logic
 
