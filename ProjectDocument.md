@@ -243,18 +243,43 @@ The name of the boolean parameter is the first argument and the value you wish t
 
 ## Level Design (Devin Ly)
 
-The defining characteristic of *Teleporting Over It*'s level design is how the entire game is contained in one level. While there are thematic boundaries between certain sections of the map, there exists only one scene which contains all of the assets that make up the game. In designing the game as such, we provide a smooth gameplay experience to the players because they do not have to wait different maps to load
+The defining characteristic of *Teleporting Over It*'s level design is how the entire game is contained in one level. While there are thematic boundaries between certain sections of the map, there exists only one scene which contains all of the assets that make up the game. In designing the game as such, we provide a smooth gameplay experience to the players because they do not have to wait for different maps/scenes to load. Additionally, by making the entire map interconnected, we allow players to experience the "rage" factor of being setback to the beginning.
 
-- 4 sub sections
+### Using the Assets
+*Teleporting Over It* is a 2D game, but contains both 2D and 3D assets in its level design. To make sure the appearance of 3D objects did not change as the camera followed our player, I set the camera type to orthographic, meaning all objects would appear the same in size, despite their distance from the lens.
+
+![](./ExampleImages/Perspective.PNG)
+
+![](./ExampleImages/Orthographic.PNG)
+
+In order for our player to be able to traverse the map, its pearl needed to be able to collide with objects, so every object the player can interact with is equipped with a collider. For simple objects, like these trees, the pre-made colliders provided by Unity were enough to make a hitbox that accurately reflected the shape of the object.
+
+![](./ExampleImages/CapsuleCollider.PNG)
+
+However, our map also consists of more complex objects. To encompass these, I utilized Unity's Polygon Collider. With this, I was provided an array of points that I could manipulate to suit the shape of any specific object. For complex 2D objects, the Polygon Collider was often able to automate outlining the shape. For 3D objects however, this was never the case. (This is because Polygon Colliders are the general collider for complex 2D objects, whereas 3D objects usually use Mesh Colliders. To suit our 2D game, I needed to modify how I used the Polygon Collider for 3D objects.)
+
+![](./ExampleImages/PolyCollider.PNG)
+
+### Stages
+*Teleporting Over It* can be thought of as being split into 4 stages, each with its own distinct theme.
+
+### Stage 1: City
+This simple stage constructed of familiar objects and buildings is the players introduction to the game. There is a billboard explaining how to operate our game, and the player is introduced to signs which tell them where to go. The obstacles/platforms to navigate are not too far apart, and the drops are still easy to come back from.
+
+### Stage 2: Mountain and Forest
+
 - Different themes
 - different textures
 - dark zone and wind zone
 - relate to school and 
 
+
 ### Level Design Resources
 
 - [Game Design Interview with Bennet Foddy](https://www.youtube.com/watch?v=QbpMYH-8g54)
 - [Unity Documentation for Polygon Collider 2D](https://docs.unity3d.com/Manual/class-PolygonCollider2D.html)
+
+Assets used can be found in the previous Animation and Visuals section.
 
 # Sub-Roles
 
