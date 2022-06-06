@@ -4,6 +4,7 @@ Learn more about how to play our game [here!](https://github.com/Jalastin/ECS-18
 
 - Windows version can be found [here](https://drive.google.com/file/d/1I7al-RpbXixVXkiDadG0ToZApOgyfaLy/view?usp=sharing)
 - Mac version can be found [here](https://drive.google.com/drive/folders/112PHEbaHF7dDoIA01U_98n1RYTsCkBor?usp=sharing)
+- IOS version can be found [here](https://drive.google.com/file/d/1mwNApjL_EAnLEHehwpmaMFj0RlB7TMiJ/view?usp=sharing)
 - Web version can be played [here](https://jalastin.github.io/ECS-189L-Project/)
 
 # Credits

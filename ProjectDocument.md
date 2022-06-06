@@ -18,6 +18,8 @@ When using a gamepad controller, the left joystick is used to aim and clicking t
 
 [Here is a link to our project's Google Drive folder. This contains prototypes, builds of the game, and other miscellaneous files.](https://drive.google.com/drive/folders/1rM_QW05-l4RFF0tphhjMGotStppP4UKm?usp=sharing)
 
+[Here is the Project Pitch document.](https://docs.google.com/document/d/1H2ySF7vzezc6XifKAaHX74k3fVtIudEc9DBGZGaahqU/edit)
+
 # Main Roles #
 
 - User Interface + Camera: [Alex Long](https://github.com/ale-long)
@@ -406,4 +408,5 @@ As mentioned earlier, the level design reflects our narrative as well. The types
 
 - Windows version can be found [here](https://drive.google.com/file/d/1I7al-RpbXixVXkiDadG0ToZApOgyfaLy/view?usp=sharing)
 - Mac version can be found [here](https://drive.google.com/drive/folders/112PHEbaHF7dDoIA01U_98n1RYTsCkBor?usp=sharing)
+- IOS version can be found [here](https://drive.google.com/file/d/1mwNApjL_EAnLEHehwpmaMFj0RlB7TMiJ/view?usp=sharing)
 - Web version can be played [here](https://jalastin.github.io/ECS-189L-Project/)
