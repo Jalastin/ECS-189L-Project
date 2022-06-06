@@ -244,18 +244,49 @@ The name of the boolean parameter is the first argument and the value you wish t
 
 ## Level Design (Devin Ly)
 
-The defining characteristic of *Teleporting Over It*'s level design is how the entire game is contained in one level. While there are thematic boundaries between certain sections of the map, there exists only one scene which contains all of the assets that make up the game. In designing the game as such, we provide a smooth gameplay experience to the players because they do not have to wait different maps to load
+The defining characteristic of *Teleporting Over It*'s level design is how the entire game is contained in one level. While there are thematic boundaries between certain sections of the map, there exists only one scene which contains all of the assets that make up the game. In designing the game as such, we provide a smooth gameplay experience to the players because they do not have to wait for different maps/scenes to load. Additionally, by making the entire map interconnected, we allow players to experience the "rage" factor of being setback to the beginning.
 
-- 4 sub sections
-- Different themes
-- different textures
-- dark zone and wind zone
-- relate to school and 
+### Using the Assets
+*Teleporting Over It* is a 2D game, but contains both 2D and 3D assets in its level design. To make sure the appearance of 3D objects did not change as the camera followed our player, I set the camera type to orthographic, meaning all objects would appear the same in size, despite their distance from the lens.
+
+![](./ExampleImages/Perspective.png)
+**Perspective Camera**
+
+![](./ExampleImages/Orthographic.png)
+**Orthographic Camera**
+
+In order for our player to be able to traverse the map, its pearl needed to be able to collide with objects, so every object the player can interact with is equipped with a collider. For simple objects, like these trees, the pre-made colliders provided by Unity were enough to make a hitbox that accurately reflected the shape of the object.
+
+![](./ExampleImages/CapsuleCollider.png)
+
+However, our map also consists of more complex objects. To encompass these, I utilized Unity's Polygon Collider. With this, I was provided an array of points that I could manipulate to suit the shape of any specific object. For complex 2D objects, the Polygon Collider was often able to automate outlining the shape. For 3D objects however, this was never the case. (This is because Polygon Colliders are the general collider for complex 2D objects, whereas 3D objects usually use Mesh Colliders. To suit our 2D game, I needed to modify how I used the Polygon Collider for 3D objects.)
+
+![](./ExampleImages/PolyCollider.png)
+
+With the interactions between our level and the camera/player intact, all that was left was to design the actual level. Using free assets from the Unity Asset Store, as well as the prefabs for the different types of zones created by Justin, I put together a map. The overall shape of the map mimics that of *Getting Over It*, with the later stages of the game looming over the beginning. This shape allows for the player to drop if they are not careful. As for the aesthetics (and narrative design) of the map, they are broken up into stages.
+
+### Stages
+*Teleporting Over It* can be thought of as being split into 4 stages, each with its own distinct theme.
+
+### Stage 1: City
+This simple stage constructed of familiar objects and buildings is the players introduction to the game. There is a billboard explaining how to operate our game, and the player is introduced to signs which tell them where to go. The obstacles/platforms to navigate are not too far apart, and the drops are still easy to come back from.
+
+### Stage 2: Mountain and Forest
+The second stage of the game brings the player out of the city and into a mountainous forest region. The platforms the player needs to traverse start to become farther apart, and the risk they take with each throw of the pearl becomes greater as they have more to lose.
+
+### Stage 3: Cave
+The third stage introduces a new mechanic to the game: the dark zone. With limited visibilty, the player must throw their pearl to see where they are going. This, of course, presents its own dangers because they can over-throw, and end up right where they started. The player can easily become lost in the darkness of this area, but the signs that guide them are always visible. (The specifics of how the dark zone is implemented can be found in the physics/movement section.)
+
+### Stage 4: Wind and Snow
+The final stage of *Teleporting Over It* also introduces a new mechanic: wind gusts. The player can make their choice of where and how hard to throw their pearl, but are still subject to the randomness of the wind. The stakes are at their highest as the player now has the most to lose, but if they are able to persevere through this difficult stage, they will be rewarded.
+
 
 ### Level Design Resources
 
 - [Game Design Interview with Bennet Foddy](https://www.youtube.com/watch?v=QbpMYH-8g54)
 - [Unity Documentation for Polygon Collider 2D](https://docs.unity3d.com/Manual/class-PolygonCollider2D.html)
+
+Assets used can be found in the previous Animation and Visuals section.
 
 # Sub-Roles
 
@@ -321,6 +352,8 @@ The volume slider allows players to conveniently adjust the audio to their level
 ## Narrative Design (Devin Ly)
 
 The narrative goal of this project was to create a game that truly encompassed the famous first sentence of *A Tale of Two Cities*: "It was the best of times, it was the worst of times..." With inspiration from games like *Getting Over It* and *Jump King*, we decided to create a "rage" game. We believe the unforgiving nature of such games allows users to experience both high highs when they successfully traverse a difficult section, and low lows when they fall off a cliff immediately after. With this in mind, we designed *Teleporting Over It* to emphasize its gameplay experience rather than its aesthetics, meaning the visual style of the game is very simple. The interactive parts of the map are mostly low-poly models of houses, rocks, and trees. There are several portions of the map that contain more complex models such as traffic signs and the crown finish line, but these are only to act as signifiers. Instead of being presented with hyper-realistic models of people, weapons, or landscapes, players are encouraged to focus on navigating the map -- on enjoying the journey. We designed the gameplay system to consist only of throwing a pearl towards your destination for the very same reason: to allow our users to feel the elatedness and frustration that comes along with an adventure.
+
+As mentioned earlier, the level design reflects our narrative as well. The types of obstacles, the color scheme, and the danger the player faces very much reflect the feelings someone has as they embark on a journey.
 
 ## Press Kit and Trailer
 
