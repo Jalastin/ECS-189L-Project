@@ -250,6 +250,7 @@ The name of the boolean parameter is the first argument and the value you wish t
 * Implemented a game manager using the singleton pattern; it can be accessed throughout our project's scripts using [GameManager.Instance](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/GameState.cs).
 * Also made use of the PubSub pattern to allow scripts to subscribe to certain events in the game manager which may affect what is being displayed to the player.
 * The manager handles a lot of the logic used throughout different scripts, such as scene switching, game state updating, keep tracking of stats, and notifying other scripts of changes.
+* ![GameManagerDiagram](./ExampleImages/GameManagerDiagram.png)
 
 ### State Management
 
