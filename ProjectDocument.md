@@ -254,17 +254,11 @@ The name of the boolean parameter is the first argument and the value you wish t
 ### State Management
 
 * Our game consists of 6 different states, which are all defined as an enum in [GameState.cs](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/GameState.cs):
-
   * Main Menu
-
   * Starting
-
   * Playing
-
   * Paused
-
   * Won
-
   * Credits
 
 * The state of the game is changed with public method [`UpdateGameState(GameState newState)`](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L95), which loads scenes for certain game states, and notifies all subscribed scripts of the change with the new game state.
