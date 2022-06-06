@@ -297,6 +297,9 @@ The name of the boolean parameter is the first argument and the value you wish t
 ### Resources Used
 
 * [Game Manager - Controlling the flow of your game [Unity Tutorial] by Tarodev](https://www.youtube.com/watch?v=4I0vonyqMi8) - inspired the starting steps of the GameManager class.
+* [SINGLETON - Keeping one script between many Scenes by SpeedTutor](https://www.youtube.com/watch?v=5p2JlI7PV1w) - helped with implementing Singleton across different scenes.
+* [event (C# reference)](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/event)
+* [How to subscribe to and unsubscribe from events (C# Programming Guide)](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-subscribe-to-and-unsubscribe-from-events)
 
 ## Level Design (Devin Ly)
 
