@@ -141,11 +141,11 @@ Icons:
 
 ### Wind Zone
 
-- There is also a Wind Zone that adds a wind force to increase the difficulty of the game. Every GameObject within the Zone (besides Platforms and the Player) has its velocity affected by a specified wind force. I utilized [OnTriggerStay2D](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindZoneController.cs#L22) to apply the wind force to any objects with a Rigidbody2D within the zone.
+- There is also a [Wind Zone](https://github.com/Jalastin/ECS-189L-Project/tree/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts) that adds a wind force to increase the difficulty of the game. Every GameObject within the Zone (besides Platforms and the Player) has its velocity affected by a specified wind force. I utilized [OnTriggerStay2D](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindZoneController.cs#L22) to apply the wind force to any objects with a Rigidbody2D within the zone.
 
 - The wind force varies based on an [Attack, Decay, Sustain, Release curve.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/ADSRManager.cs) While the base code was based off of [Professor McCoy’s original ADSR Manager,](https://github.com/dr-jam/GameplayProgramming/blob/master/Projects/ADSR/Assets/Scripts/ADSRManager.cs) I heavily modified the Start() and Update() portion of the code. During the ADSR curve, I calculate the wind force based off of an initial force and the position in the curve. After the ADSR ends, I wait timeBeforeRestart time before I restart the ADSR curve (by switching to Attack phase) and flipping the direction of the wind force.
 
-- The Wind Zone also has a Factory attached to it that creates WindSprites. [These WindSprites simply spawn for a specified time, and are used to visualize the current wind force on the screen.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteController.cs) The position they spawn at is randomized to be [somewhere within the Wind Zone.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteSpec.cs#L18)
+- The Wind Zone also has a Factory attached to it that creates WindSprites. [These WindSprites simply spawn for a specified time, and are used to visualize the current wind force on the screen.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteController.cs) The position they spawn at is randomized to be [somewhere within the Wind Zone.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindSpriteSpec.cs#L18) You can see the WindSprite cloud at the very top of the gif shown below.
 
 ![](./ExampleImages/WindZoneDemonstration.gif)
 
@@ -236,6 +236,10 @@ The volume slider allows players to conveniently adjust the audio to their level
 - Originally I picked an arbitrary max force for the pearls, 250f. However after the majority of play testers reported that the pearl was too slow, I increased the max force to 350f. Any force higher than this however was too much, as it made the majority of our levels too trivial. At 400f I was able to throw a pearl hard enough to skip the first zone entirely!
 
 - I kept the gravity of both the Projectile and Player the same: 1. The only thing I changed was their masses. I settled on a mass of 2 for the Player and 0.2 for the Pearl. Any more felt too sluggish, and any less felt too light / floaty.
+
+- One design choice I kept was the fact that the Player keeps it's velocity as it continually falls, even after repeated teleportation. This makes vertically climbing sections of the map much more difficult, which comes into play in the final area of the level with the tree.
+
+![](./ExampleImages/VerticalClimbDemonstration.gif)
 
 ### Physics Materials
 
