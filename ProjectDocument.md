@@ -406,4 +406,4 @@ As mentioned earlier, the level design reflects our narrative as well. The types
 
 - Windows version can be found [here](https://drive.google.com/file/d/1I7al-RpbXixVXkiDadG0ToZApOgyfaLy/view?usp=sharing)
 - Mac version can be found [here](https://drive.google.com/drive/folders/112PHEbaHF7dDoIA01U_98n1RYTsCkBor?usp=sharing)
-- Web version can be played [here](https://jalastin.github.io/ECS-189L-Project/)
+- WebGL version can be played [here](https://jalastin.github.io/ECS-189L-Project/)
