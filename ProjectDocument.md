@@ -248,17 +248,17 @@ The defining characteristic of *Teleporting Over It*'s level design is how the e
 ### Using the Assets
 *Teleporting Over It* is a 2D game, but contains both 2D and 3D assets in its level design. To make sure the appearance of 3D objects did not change as the camera followed our player, I set the camera type to orthographic, meaning all objects would appear the same in size, despite their distance from the lens.
 
-![](./ExampleImages/Perspective.PNG)
+![](./ExampleImages/Perspective.png)
 
-![](./ExampleImages/Orthographic.PNG)
+![](./ExampleImages/Orthographic.png)
 
 In order for our player to be able to traverse the map, its pearl needed to be able to collide with objects, so every object the player can interact with is equipped with a collider. For simple objects, like these trees, the pre-made colliders provided by Unity were enough to make a hitbox that accurately reflected the shape of the object.
 
-![](./ExampleImages/CapsuleCollider.PNG)
+![](./ExampleImages/CapsuleCollider.png)
 
 However, our map also consists of more complex objects. To encompass these, I utilized Unity's Polygon Collider. With this, I was provided an array of points that I could manipulate to suit the shape of any specific object. For complex 2D objects, the Polygon Collider was often able to automate outlining the shape. For 3D objects however, this was never the case. (This is because Polygon Colliders are the general collider for complex 2D objects, whereas 3D objects usually use Mesh Colliders. To suit our 2D game, I needed to modify how I used the Polygon Collider for 3D objects.)
 
-![](./ExampleImages/PolyCollider.PNG)
+![](./ExampleImages/PolyCollider.png)
 
 With the interactions between our level and the camera/player intact, all that was left was to design the actual level. Using free assets from the Unity Asset Store, as well as the prefabs for the different types of zones created by Justin, I put together a map. The overall shape of the map mimics that of *Getting Over It*, with the later stages of the game looming over the beginning. This shape allows for the player to drop if they are not careful. As for the aesthetics (and narrative design) of the map, they are broken up into stages.
 
