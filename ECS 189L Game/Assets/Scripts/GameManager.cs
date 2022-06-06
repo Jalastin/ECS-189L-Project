@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
             this.completionTime = value;
 
             // Notify only after 1 second has passed.
-            if (Mathf.Floor(previousTime) != Mathf.Floor(this.completionTime))
+            if (value == 0f || (int)value - (int)previousTime > 0)
             {
                 OnCompletionTimeChanged?.Invoke(this.completionTime);
             }
