@@ -16,7 +16,7 @@ When using a gamepad controller, the left joystick is used to aim and clicking t
 
 ![](./ExampleImages/TeleportationDemonstration.gif)
 
-If you want to get better at the game, try to learn different platform shortcuts you can take. As you play the map more, you'll learn whether you can shortcut from platform A to platformB! You can also try to exploit pearl teleportation to skip past certain sections of the map. Have fun finding them!
+If you want to get better at the game, try to learn different platform shortcuts you can take. As you play the map more, you'll learn whether you can shortcut from platform A to platform B! You can also try to exploit pearl teleportation to skip past certain sections of the map. Have fun finding them!
 
 [Here is a link to our project's Google Drive folder. This contains prototypes, builds of the game, and other miscellaneous files.](https://drive.google.com/drive/folders/1rM_QW05-l4RFF0tphhjMGotStppP4UKm?usp=sharing)
 
