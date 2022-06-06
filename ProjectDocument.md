@@ -340,5 +340,5 @@ The volume slider allows players to conveniently adjust the audio to their level
 ![](./ExampleImages/ADSRCurve.png)
 
 
-## Cross-Platform
+## Cross-Platform (Cameron Yee)
 - Our game currently builds for desktop, console, and mobile with the input system updating correctly for each. The input system is implemented such that you have access to all input functionality at once, meaning you are able to use any controller and it will act based on the type of controller you use to make inputs. In addition, since gamepad controllers need the virtual cursor to show up on screen, and when you switch to a platform that isn't a console, this virtual cursor will not be in the way and will disappear since it's not needed. However, it will come back once you plug in a gamepad controller (as long as the platform supports gamepad controllers). This shows that our game is compatiable with multiple platforms and has the input functionality to support it.
