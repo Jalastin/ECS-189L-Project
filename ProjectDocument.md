@@ -414,13 +414,16 @@ The narrative goal of this project was to create a game that truly encompassed t
 
 As mentioned earlier, the level design reflects our narrative as well. The types of obstacles, the color scheme, and the danger the player faces very much reflect the feelings someone has as they embark on a journey.
 
-## Press Kit and Trailer
+## Press Kit and Trailer (Alec)
 
-**Include links to your presskit materials and trailer.**
+### Press Kit
 
-**Describe how you showcased your work. How did you choose what to show in the trailer? Why did you choose your screenshots?**
+- 
 
+### Trailer
 
+- [Link to trailer](https://drive.google.com/file/d/1PEF3CugHlFp5i7MgDZVDZZ7jZYlOrZlb/view?usp=sharing)
+- 
 
 ## Game Feel (Justin)
 

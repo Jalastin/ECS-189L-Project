@@ -65,20 +65,18 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        // https://www.youtube.com/watch?v=5p2JlI7PV1w
+        // Keeps the manager alive across scenes. Taken from
+        // https://www.youtube.com/watch?v=5p2JlI7PV1w.
         if (Instance != null)
         {
             Destroy(gameObject);
         }
         else 
         {
-            // stats = new GameStats();
             Instance = this;
             this.CurrentState = GameState.MainMenu;
             this.VolumeChanged = false;
             DontDestroyOnLoad(gameObject);
-            // OnCompletionTimeChanged += OnTimeChanged;
-            // OnPearlsThrownChanged += OnPearlsChanged;
         }
     }
 
@@ -100,15 +98,10 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Prob don't need this.
-        var prevState = this.CurrentState;
-        this.CurrentState = newState;
-
         switch (newState)
         {
             case GameState.MainMenu:
                 SceneManager.LoadScene("MainMenu");
-                Time.timeScale = 1f;
                 break;
 
             case GameState.Starting:
@@ -123,6 +116,9 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Paused:
+                // Used to change timeScale to 0f, but there are issues with
+                // controller input in pause menu using this method of pausing.
+                // Leaving this here as a reminder to find a better solution.
                 Time.timeScale = 1f;
                 break;
 
@@ -137,14 +133,4 @@ public class GameManager : MonoBehaviour
         // Run respective callbacks of subscribed components.
         OnGameStateChanged?.Invoke(newState);
     }
-
-    // public void OnPearlsChanged(int pearls)
-    // {
-    //     Debug.Log(pearls);
-    // }
-
-    // public void OnTimeChanged(float time)
-    // {
-    //     Debug.Log(time);
-    // }
 }
