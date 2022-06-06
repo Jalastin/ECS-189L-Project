@@ -16,6 +16,8 @@ When using a gamepad controller, the left joystick is used to aim and clicking t
 
 ![](./ExampleImages/TeleportationDemonstration.gif)
 
+If you want to get better at the game, try to learn different platform shortcuts you can take. As you play the map more, you'll learn whether you can shortcut from platform A to platformB! You can also try to exploit pearl teleportation to skip past certain sections of the map. Have fun finding them!
+
 [Here is a link to our project's Google Drive folder. This contains prototypes, builds of the game, and other miscellaneous files.](https://drive.google.com/drive/folders/1rM_QW05-l4RFF0tphhjMGotStppP4UKm?usp=sharing)
 
 [Here is the Project Pitch document.](https://docs.google.com/document/d/1H2ySF7vzezc6XifKAaHX74k3fVtIudEc9DBGZGaahqU/edit)
@@ -120,7 +122,7 @@ Icons:
 
 ### Player and Pearls
 
-- The player cannot move themselves. Instead, all traversal is done by throwing a teleportation pearl. Once a pearl is thrown and contacts a platform, [there is a short delay before the player is teleported to the pearl’s current position.](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L10)
+- The [Player](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs) cannot move themselves. Instead, all traversal is done by throwing a teleportation pearl. Once a pearl is thrown and contacts a platform, [there is a short delay before the player is teleported to the pearl’s current position.](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L10)
 
 ![](./ExampleImages/TeleportationDemonstration.gif)
 
