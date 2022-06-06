@@ -193,7 +193,7 @@ In the code, the transitions are handled like so:
 
 `player.GetComponent<Animator>().SetBool(String parameterName, bool value);`
 
-The name of the boolean parameter is the first argument and the value you wish to change it to is the second. For example, this line of code is used with `parameterName=“Throw”` and `value=true` whenever fire1 is detected so that the animation state machine can transition to Throwing.
+The name of the boolean parameter is the first argument and the value you wish to change it to is the second. For example, this line of code is used with `parameterName=“Throw”` and `value=true` whenever fire1 is detected so that the animation state machine can transition to Throwing. [Here is an example](https://github.com/Jalastin/ECS-189L-Project/blob/ca5de50ae675feefa4e1c7ec9d979ae68c04e6c0/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L421-L422)
 
 [This YouTube video](https://www.youtube.com/watch?v=eXIuizGzY2A) provided an excellent foundation for us to learn skeletal animations. 
 
