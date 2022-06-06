@@ -237,7 +237,7 @@ The volume slider allows players to conveniently adjust the audio to their level
 
 - I kept the gravity of both the Projectile and Player the same: 1. The only thing I changed was their masses. I settled on a mass of 2 for the Player and 0.2 for the Pearl. Any more felt too sluggish, and any less felt too light / floaty.
 
-- One design choice I kept was the fact that the Player keeps it's velocity as it continually falls, even after repeated teleportation. This makes vertically climbing sections of the map much more difficult, which comes into play in the final area of the level with the tree.
+- One design choice I kept was the fact that the Player keeps its velocity as it continually falls, even after repeated teleportation. This makes vertically climbing sections of the map much more difficult, as the Player falls harder and harder when spamming pearls up vertical sections. This comes into play in the final area of the level with the final area's tree.
 
 ![](./ExampleImages/VerticalClimbDemonstration.gif)
 
