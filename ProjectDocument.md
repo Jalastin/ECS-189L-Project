@@ -443,7 +443,7 @@ As mentioned earlier, the level design reflects our narrative as well. The types
 
 ### Player and Pearls
 
-- There is a 0.3s [teleportDelay](https://github.com/Jalastin/ECS-189L-Project/blob/8a662e6616189e13f05c00a901992035c699f5c2/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L10) before the Player is teleported to the location of a Pearl. This was added so that teleportation wasn't completely trivial (ie. when there is no delay), while still being short enough to not have too long of a lag time between pearl collision and player teleportation.
+- There is a 0.3s [teleportDelay](https://github.com/Jalastin/ECS-189L-Project/blob/8a662e6616189e13f05c00a901992035c699f5c2/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L10) before the Player is teleported to the location of a Pearl. This was added so that certain mistakes/misplays could occur in gameplay. For example, if the Pearl hits an Ice platform, in the 0.3s of teleportDelay there is a chance for the Pearl to slide off, resulting in the Player's downfall. However I still made sure that the teleportDelay was short enough to not have too long of a lag time between pearl collision and player teleportation.
 
 - Originally I picked an arbitrary [max force](https://github.com/Jalastin/ECS-189L-Project/blob/8a662e6616189e13f05c00a901992035c699f5c2/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L9) for the pearls, 250f. However after the majority of play testers reported that the pearl was too slow, I increased the max force to 350f. Any force higher than this however was too much, as it made the majority of our levels too trivial. At 400f I was able to throw a pearl hard enough to skip the first zone entirely!
 
