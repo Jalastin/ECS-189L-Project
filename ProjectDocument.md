@@ -151,6 +151,8 @@ Icons:
 
 ### Resources Used
 
+- [Professor McCoy's original Factory Design Pattern implementation](https://github.com/dr-jam/GameplayProgramming/tree/master/Projects/Factory/Assets/Scripts)
+
 - [Professor McCoy’s original ADSR Manager](https://github.com/dr-jam/GameplayProgramming/blob/master/Projects/ADSR/Assets/Scripts/ADSRManager.cs)
 
 - [Sprite Mask tutorial for Dark Zone](https://youtu.be/EfXLi6AWc_4)
@@ -229,9 +231,15 @@ The volume slider allows players to conveniently adjust the audio to their level
 
 ### Player and Pearls
 
+- There is a 0.3s teleportDelay before the Player is teleported to the location of a Pearl. This was added so that teleportation wasn't completely trivial (ie. when there is no delay), while still being short enough to not have too long of a lag time between pearl collision and player teleportation.
+
 - Originally I picked an arbitrary max force for the pearls, 250f. However after the majority of play testers reported that the pearl was too slow, I increased the max force to 350f. Any force higher than this however was too much, as it made the majority of our levels too trivial. At 400f I was able to throw a pearl hard enough to skip the first zone entirely!
 
 - I kept the gravity of both the Projectile and Player the same: 1. The only thing I changed was their masses. I settled on a mass of 2 for the Player and 0.2 for the Pearl. Any more felt too sluggish, and any less felt too light / floaty.
+
+### Physics Materials
+
+- As a baseline, Default material has 0.4 friction and 0 bounciness. I wanted the Pearl and Player to be able to "grip" onto normal surfaces without bouncing. Slime material has the same amount of friction but 0.6 bounciness. This lets pearls have a slight bounce on objects without fully redirecting their motion (in the case of 1 bounciness). Ice material, however, has 0.1 friction and 0 bounciness. Since the final section of the level is the ice + wind zone, I wanted to make the platforms their significantly more difficult to land on. Having 0.1 friction made it so that collisions are still predictable, but create a slippier surface for potential misplays during gameplay.
 
 ### Dark Zone
 
