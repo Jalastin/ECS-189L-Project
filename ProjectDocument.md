@@ -259,7 +259,7 @@ The volume slider allows players to conveniently adjust the audio to their level
 
 
 
-## Game Feel
+## Game Feel (Justin)
 
 - Majority of the content related to game feel are SerializeField’s, which makes it significantly easier to modify later during playtesting.
 
