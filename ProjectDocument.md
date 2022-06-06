@@ -241,6 +241,21 @@ The name of the boolean parameter is the first argument and the value you wish t
 
 **Document what game states and game data you managed and what design patterns you used to complete your task.**
 
+## Level Design (Devin Ly)
+
+The defining characteristic of *Teleporting Over It*'s level design is how the entire game is contained in one level. While there are thematic boundaries between certain sections of the map, there exists only one scene which contains all of the assets that make up the game. In designing the game as such, we provide a smooth gameplay experience to the players because they do not have to wait different maps to load
+
+- 4 sub sections
+- Different themes
+- different textures
+- dark zone and wind zone
+- relate to school and 
+
+### Level Design Resources
+
+- [Game Design Interview with Bennet Foddy](https://www.youtube.com/watch?v=QbpMYH-8g54)
+- [Unity Documentation for Polygon Collider 2D](https://docs.unity3d.com/Manual/class-PolygonCollider2D.html)
+
 # Sub-Roles
 
 ## Audio (Alex Long)
@@ -293,9 +308,10 @@ The volume slider allows players to conveniently adjust the audio to their level
 - Aside from a more fleshed out options menu that has more settings to change, playtesters did not have any additional game controls or interface features that they wanted to see implemented.
 - As mentioned previously, a majority of the playtesters would like to see a faster moving pearl, so that is something we have improved. Some players also wanted to remove the ability for the player to slide on angled surfaces.
 - The only interface-related concern we received was that the pause and mute buttons would sometimes be covered by the level. Since conducting user testing, we have resolved this issue.
-## Narrative Design
 
-**Document how the narrative is present in the game via assets, gameplay systems, and gameplay.** 
+## Narrative Design (Devin Ly)
+
+The narrative goal of this project was to create a game that truly encompassed the famous first sentence of *A Tale of Two Cities*: "It was the best of times, it was the worst of times..." With inspiration from games like *Getting Over It* and *Jump King*, we decided to create a "rage" game. We believe the unforgiving nature of such games allows users to experience both high highs when they successfully traverse a difficult section, and low lows when they fall off a cliff immediately after. With this in mind, we designed *Teleporting Over It* to emphasize its gameplay experience rather than its aesthetics, meaning the visual style of the game is very simple. The interactive parts of the map are mostly low-poly models of houses, rocks, and trees. There are several portions of the map that contain more complex models such as traffic signs and the crown finish line, but these are only to act as signifiers. Instead of being presented with hyper-realistic models of people, weapons, or landscapes, players are encouraged to focus on navigating the map -- on enjoying the journey. We designed the gameplay system to consist only of throwing a pearl towards your destination for the very same reason: to allow our users to feel the elatedness and frustration that comes along with an adventure.
 
 ## Press Kit and Trailer
 
