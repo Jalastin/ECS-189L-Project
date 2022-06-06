@@ -243,10 +243,65 @@ The name of the boolean parameter is the first argument and the value you wish t
 - [Reading gamepad controller input tutorial](https://youtu.be/p-3S73MaDP8)
 - [Unity Manual: Mobile device input](https://docs.unity3d.com/2020.3/Documentation/Manual/MobileInput.html)
 
+## Game Logic (Alec Atienza)
 
-## Game Logic
+### Game Manager Overview
 
-**Document what game states and game data you managed and what design patterns you used to complete your task.**
+* Implemented a game manager using the singleton pattern; it can be accessed throughout our project's scripts using [GameManager.Instance](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/GameState.cs).
+* Also made use of the PubSub pattern to allow scripts to subscribe to certain events in the game manager which may affect what is being displayed to the player.
+* The manager handles a lot of the logic used throughout different scripts, such as scene switching, game state updating, keep tracking of stats, and notifying other scripts of changes.
+
+### State Management
+
+* Our game consists of 6 different states, which are all defined as an enum in [GameState.cs](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/GameState.cs):
+
+  * Main Menu
+
+  * Starting
+
+  * Playing
+
+  * Paused
+
+  * Won
+
+  * Credits
+
+* The state of the game is changed with public method [`UpdateGameState(GameState newState)`](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L95), which loads scenes for certain game states, and notifies all subscribed scripts of the change with the new game state.
+* Any script can access the current game state with property [CurrentState](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L15).
+  * For example, [PlayerController.cs](https://github.com/Jalastin/ECS-189L-Project/blob/c86ea43ebe2ed2c45de416870d337114f3072473/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L134) checks if the current state is Paused on each `Update()`, to ensure input is not allowed.
+* Scripts can subscribe to state changes by attaching an Action<GameState> delegate to the event [`OnGameStateChanged`](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L62), i.e. `GameManager.OnGameStateChanged += MyCallback` where `MyCallback` has function signature `void MyCallback(GameState state)`.
+* [PauseMenu.cs](https://github.com/Jalastin/ECS-189L-Project/blob/c86ea43ebe2ed2c45de416870d337114f3072473/ECS%20189L%20Game/Assets/Scripts/UI%20Scripts/PauseMenu.cs#L21) makes extensive use of the game's state, both by changing it when the user selects a certain option on the menu, and by subscribing to changes to determine when its active state should be toggled. 
+  * [MainMenu.cs](https://github.com/Jalastin/ECS-189L-Project/blob/c86ea43ebe2ed2c45de416870d337114f3072473/ECS%20189L%20Game/Assets/Scripts/UI%20Scripts/MainMenu.cs#L35) also frequently updates the game's state.
+
+### Scene Switching
+
+* When the state of the game is updated, the GameManager is responsible for switching the scene if needed. Scene switches are required for the following:
+  * [MainMenu](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L110) - switches to MainMenu scene in this state.
+  * [Starting](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L115) - switches to LevelDesign scene in this state.
+  * [Credits](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L132) - switches to CreditsScene scene in this state.
+
+### Game Stats
+
+* The GameManager also keeps track of two key player stats in our game, [PearlsThrown](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L22), and [CompletionTime](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L32). 
+  * PearlsThrown is only updated outside of the GameManager script, most notably in [PlayerController.cs](https://github.com/Jalastin/ECS-189L-Project/blob/c86ea43ebe2ed2c45de416870d337114f3072473/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L247), where pearl throwing is handled.
+  * CompletionTime is solely updated within the GameManager itself, hence the private setter.
+    * This field is updated on every `Update()`; however, subscribers are only notified if one second passes. This is just to ensure events aren't being raised too often (though I'm not too sure if that would have been a problem, I just wanted to be safe).
+* Any changes made to either stat will notify any subscribers with the specified change.
+  * Scripts can subscribe to stat changes by attaching an Action<int> delegate to the event [`OnPearlsThrownChanged`](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L63), and an Action<float> delegate to the event [`OnCompletionTimeChanged`](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L64) using the same `+=` syntax described above for `OnGameStateChanged`.
+  * For example, our UI scripts subscribed to the [`OnPearlsThrownChanged`](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L63) and [`OnCompletionTimeChanged`](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L64) event in order to display accuarate statistics to the player as soon as they are updated.
+
+### Audio Properties
+
+* The GameManager keeps track of two properties concerning the in-game audio:
+  * [VolumeChanged](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L50) - a bool which determines whether or not the player had changed the volume during their playtime.
+    * [VolumeSlider.cs](https://github.com/Jalastin/ECS-189L-Project/blob/c86ea43ebe2ed2c45de416870d337114f3072473/ECS%20189L%20Game/Assets/Scripts/AudioScripts/VolumeSlider.cs#L17) checks this property on Start() to ensure the volume is set to whatever the user left it at before they left the game scene.
+  * [CurrentVolume](https://github.com/Jalastin/ECS-189L-Project/blob/007b333aa2a8912c7f18abc586cd07ac1404d99c/ECS%20189L%20Game/Assets/Scripts/GameManager.cs#L55) - a float which keeps track of the current in-game audio volume.
+    * [VolumeSlider.cs](https://github.com/Jalastin/ECS-189L-Project/blob/c86ea43ebe2ed2c45de416870d337114f3072473/ECS%20189L%20Game/Assets/Scripts/AudioScripts/VolumeSlider.cs#L26) sets this property if the volume slider in the pause menu is moved. That value can be accessed later on to re-set the volume if the user leaves the game scene and comes back.
+
+### Resources Used
+
+* [Game Manager - Controlling the flow of your game [Unity Tutorial] by Tarodev](https://www.youtube.com/watch?v=4I0vonyqMi8) - inspired the starting steps of the GameManager class.
 
 ## Level Design (Devin Ly)
 
@@ -317,7 +372,7 @@ There are three in-game sound effects that are generated based on different scen
 - When the player releases the pearl 
 - When the pearl collides with the surface 
 - When the player teleports 
- 
+
 To manage the different sound effects, I created a [SoundEffectManager](https://github.com/Jalastin/ECS-189L-Project/blob/fmain/ECS%20189L%20Game/Assets/Scripts/AudioScripts/SoundEffectManager.cs) script which was attached to the SoundManager game object. The SoundManager object is used in both the PlayerController and the Pearl Controller script to play the corresponding sound effects by calling the functions within the SoundEffectManager script. For [example](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L36), when the pearl collides with a surface, the sound manager object will call the function to play the corresponding sound. 
 
 ### Volume Slider
