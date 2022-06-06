@@ -2,27 +2,28 @@
 
 ## Summary ##
 
-**A paragraph-length pitch for your game.**
+Teleporting Over It is a rage platforming game similar to games such as [Getting Over It with Bennet Foddy](https://store.steampowered.com/app/240720/Getting_Over_It_with_Bennett_Foddy/), [Jump King](https://store.steampowered.com/app/1061090/Jump_King/), and [Pogostuck](https://store.steampowered.com/app/688130/Pogostuck_Rage_With_Your_Friends/). However, our unique mechanic is that the player moves by using teleportation pearls, inspired by [Minecraft's Ender Pearls](https://minecraft.fandom.com/wiki/Ender_Pearl). Players will have to traverse several different zones until they can reach the crown waiting for them at the top! Race against your friends, and see who can make it to the crown with the least amount of pearls thrown and in the shortest time.
 
 ## Gameplay Explanation ##
 
-**In this section, explain how the game should be played. Treat this as a manual within a game. It is encouraged to explain the button mappings and the most optimal gameplay strategy.**
+The objective of the game is to get through all the obstacles and platforms to reach the top of the level, and hit the crown with a pearl. To move your player, throw a pearl in the direction you want to go and you will teleport wherever the pearl lands.
 
+When using a mouse, press and hold the left click button and then drag in the direction opposite of where you want the pearl to go. Releasing the left click button will cause the pearl to be thrown. Dragging the mouse in the opposite direction simulates a slingshot launch for throwing the pearl, which is demonstrated in the gif below.
 
-**If you did work that should be factored in to your grade that does not fit easily into the proscribed roles, add it here! Please include links to resources and descriptions of game-related material that does not fit into roles here.**
+When using touchscreen, the inputs are similar to that of the mouse except instead of clicking, it uses a touch and drag input. Then, after touching and dragging, release the finger (or whatever you are using to touch the screen) from the screen to throw. 
+
+When using a gamepad controller, the left joystick is used to aim and clicking the east button will launch the pearl. The joystick inputs are reversed to simulate the slingshot (move left on the joystick to aim right). 
+
+![](./ExampleImages/TeleportationDemonstration.gif)
 
 # Main Roles #
 
-Your goal is to relate the work of your role and sub-role in terms of the content of the course. Please look at the role sections below for specific instructions for each role.
-
-Below is a template for you to highlight items of your work. These provide the evidence needed for your work to be evaluated. Try to have at least 4 such descriptions. They will be assessed on the quality of the underlying system and how they are linked to course content. 
-
-*Short Description* - Long description of your work item that includes how it is relevant to topics discussed in class. [link to evidence in your repository](https://github.com/dr-jam/ECS189L/edit/project-description/ProjectDocumentTemplate.md)
-
-Here is an example:  
-*Procedural Terrain* - The background of the game consists of procedurally-generated terrain that is produced with Perlin noise. This terrain can be modified by the game at run-time via a call to its script methods. The intent is to allow the player to modify the terrain. This system is based on the component design pattern and the procedural content generation portions of the course. [The PCG terrain generation script](https://github.com/dr-jam/CameraControlExercise/blob/513b927e87fc686fe627bf7d4ff6ff841cf34e9f/Obscura/Assets/Scripts/TerrainGenerator.cs#L6).
-
-You should replay any **bold text** with your relevant information. Liberally use the template when necessary and appropriate.
+- User Interface + Camera: [Alex Long](https://github.com/ale-long)
+- Physics + Movement: [Justin Rusit](https://github.com/Jalastin)
+- Animation + Visuals: [Eric Ni](https://github.com/ecni19)
+- Input: [Cameron Yee](https://github.com/Cameron327)
+- Game Logic: [Alec Atienza](https://github.com/alecF2)
+- Level Design: [Devin Ly](https://github.com/devin177)
 
 ## User Interface (Alex Long)
 
@@ -131,11 +132,11 @@ Icons:
 
 ### Physics Materials
 
-- Using Physics 2D Materials, I created three different materials - an ice, slime, and normal material. Ice has decreased friction, slime has increased bounciness, and normal has standard friction and no bounciness. These three materials were utilized in level design to increase the difficulty of certain sections of the level.
+- Using Physics 2D Materials, I created three different materials - an [ice](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Resources/Ice%20Material.physicsMaterial2D), [slime](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Resources/Slime%20Material.physicsMaterial2D), and [default](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Resources/Default%20Material.physicsMaterial2D) material. Ice has decreased friction, slime has increased bounciness, and normal has standard friction and no bounciness. These three materials were utilized in level design to increase the difficulty of certain sections of the level.
 
 ### Dark Zone
 
-- I created a “Dark Zone” using Sprite Masks following [this tutorial.](https://youtu.be/EfXLi6AWc_4) In my case, both the player and pearl have a “flashlight” zone around them which lets them see within a close vicinity of those GameObjects. [I also added some extra code so that when the Player enters the Dark Zone, it slowly becomes darker until it hits the specified darknessStrength.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/DarkZoneController.cs)
+- I created a “Dark Zone” using Sprite Masks following [this tutorial.](https://youtu.be/EfXLi6AWc_4) In my case, both the player and pearl have a “flashlight” child object which lets them see through darkness within a close vicinity of the respective parent GameObjects. [I also added some extra code so that when the Player enters the Dark Zone, it slowly becomes darker until it hits the specified darknessStrength.](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/DarkZoneController.cs)
 
 ![](./ExampleImages/DarkZoneDemonstration.gif)
 
@@ -174,10 +175,10 @@ Character design:
 - [Free 2D Fantasy Characters Easy to Rig](https://assetstore.unity.com/packages/2d/characters/free-2d-fantasy-characters-easy-to-rig-214009) by ThunderCube Games licensed under [Standard Unity Asset Store EULA](https://unity3d.com/legal/as_terms)
 
 ### Visual Style
-For our game, we wanted a visual style that would involve simple, yet nice-looking graphics. As a result, I found some Unity assets that fit our needs and they were applied to our level design. Furthermore, since our game relies heavily on aiming and landing the ball on platforms, I thought that a less-intrusive visual style would make the game experience better for players. Another visual style decision we decided to make was to use 3D objects in a 2D platformer, similar to Getting Over It, because it adds more depth to our game’s graphics. As for the playable character, I found a [sprite](https://assetstore.unity.com/packages/2d/characters/free-2d-fantasy-characters-easy-to-rig-214009) on the Unity store that could seamlessly integrate skeletal animations as opposed to making one. This decision was influenced by the time constraint and my lack of experience with pixel art. 
+For our game, we wanted a visual style that would involve simple, yet nice-looking graphics. As a result, I found some Unity assets that fit our needs and they were applied to our level design. Furthermore, since our game relies heavily on aiming and landing the ball on platforms, I thought that a less-intrusive visual style would make the game experience better for players. Another visual style decision we decided to make was to use 3D objects in a 2D platformer, similar to Getting Over It with Bennett Foddy, because it adds a sense of depth. As for the playable character, I found a [sprite](https://assetstore.unity.com/packages/2d/characters/free-2d-fantasy-characters-easy-to-rig-214009) on the Unity store that could seamlessly integrate skeletal animations as opposed to making one. This decision was influenced by the time constraint and my lack of experience with pixel art. 
 
 ### Animation System
-To create the animations for this game, I utilized Unity’s skeletal animations for 2D sprites. Skeletal animation, also known as rigging, is an easy to pick up method of animation for beginners. Unity’s skeletal animation system is very intuitive to use and does not require a lot of setup to get started. The first step that I did to create an animation was adding a set of individual, controllable “bones” to a 2D sprite. 
+To create the animations for this game, I utilized Unity’s skeletal animations for 2D sprites. Skeletal animation, also known as rigging, is an easy to pick up method of animation for beginners. Unity’s skeletal animation system is very intuitive to use and does not require a lot of setup to get started. The first step that I did to create an animation was adding a set of individual, controllable “bones” to a 2D sprite.
 
 ![](./ExampleImages/Bones.PNG)
 
@@ -185,7 +186,7 @@ Once this was done, Unity’s animation tab provided an interactive timeline to 
 
 ![](./ExampleImages/AnimationTab.PNG)
 
-Next, I had to utilize Unity’s animation state machine to create transitions between the different animations. In the picture below, idling is the entry state, and there are two additional ones: Throwing and ActualFalling. Idling is able to reach Throwing if the Throw boolean parameter is true and the same is for ActualFalling and Fall. Throwing and ActualFalling can transition back to idling if Throw or Fall, respectively, are false. An additional transition from ActualFalling to Throwing based on Throw is necessary to account for throwing while falling.
+Next, I had to utilize Unity’s animation state machine to create transitions between the different animations. In the picture below, idling is the entry state, and there are two additional ones: Throwing and ActualFalling. Idling is able to reach Throwing if the Throw boolean parameter is true and the same is for ActualFalling and Fall. Throwing or ActualFalling can transition back to idling if Throw or Fall, respectively, are false. An additional transition from ActualFalling to Throwing based on Throw is necessary to account for throwing while falling.
 
 ![](./ExampleImages/AnimationStateMachine.PNG)
 
@@ -203,13 +204,13 @@ The name of the boolean parameter is the first argument and the value you wish t
 - The default input configuration to interact with this game changes depending on which device the game is reading input from. 
 
 ### Desktop
-- When using a mouse, the left button is used to click and drag. Then, release the left click to actually launch. This is to simulate a slingshot launch for throwing the pearl in our game. In addition, on any of the scenes, you can use the mouse and left click to interact with any of the UI elements. 
+- When using a mouse, press and hold the left click button and then drag in the direction opposite of where you want the pearl to go. Releasing the left click button will cause the pearl to be thrown. Dragging the mouse in the opposite direction simulates a slingshot launch for throwing the pearl. In addition, on any of the scenes, you can use the left mouse button to interact with any of the UI elements. 
 
 ### Mobile
-- When using touchscreen, the inputs are similar to that of the mouse except instead of clicking, it uses a touch and drag input. Then, take the finger (or whatever you are using to touch the screen) off the screen to actually launch. In addition, on any of the scenes, you can use touch to interact with any of the UI elements. 
+- When using touchscreen, the inputs are similar to that of the mouse except instead of clicking, it uses a touch and drag input. Then, after touching and dragging, take the finger (or whatever you are using to touch the screen) off the screen to actually launch. In addition, on any of the scenes, you can use touch to interact with any of the UI elements. 
 
 ### Console
-- When using a gamepad controller, the left joystick is used to aim and clicking the “B” button will launch the pearl. The joystick inputs are reversed to simulate a slingshot (move left on the joystick to aim right). In addition, press the start button on the controller to open the pause menu. When interacting with any of the menu screens, use the left joystick to move the gamepad cursor and press the “B” button to click the UI elements. 
+- When using a gamepad controller, the left joystick is used to aim and clicking the east button will launch the pearl. The joystick inputs are reversed to simulate a slingshot (move left on the joystick to aim right). In addition, press the start button on the controller to open the pause menu. When interacting with any of the menu screens, use the left joystick to move the gamepad cursor and press the “B” button to click the UI elements. 
 
 ## Input Implementation (How it Works)
 - All input that controls the pearl is done in the `PlayerController.cs` script. Specifically for the gamepad, to interact with the UI, the logic is done in the `GamepadCursor.cs` script.
@@ -225,9 +226,9 @@ The name of the boolean parameter is the first argument and the value you wish t
 - Interacting with the UI: The touch and UI compatibility is built-in so no extra code was needed to get the touch to interact with the UI elements.
 
 ### Console
-- Launching the pearl: For the console version, launching the pearl uses a different method. To get its equivalent starting position, we initialize a variable vector with a value of 0. Then, we get the joystick input through the input system ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L83)) and add that value to the variable vector ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L269)). This value gets updated every frame so that our variable will always be updated based on the input given by the left joystick. Since this variable is a vector, we can get a direction and a magnitude for the pearl launch and the trajectory line. To actually launch the pearl, the user will click the “B” button which will pass those values into the pearl factory function ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L334)). 
+- Launching the pearl: For the console version, launching the pearl uses a different method. To get its equivalent starting position, we initialize a variable vector with a value of 0. Then, we get the joystick input through the input system ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L83)) and add that value to the variable vector ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L269)). This value gets updated every frame so that our variable will always be updated based on the input given by the left joystick. Since this variable is a vector, we can get a direction and a magnitude for the pearl launch and the trajectory line. To actually launch the pearl, the user will click the “B” button which will pass those values (magnitude and direction) into the pearl factory function ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L334)). 
 
-- Interacting with the UI: To interact with the UI elements using a console controller, I had to create a virtual mouse that would work in sync with the input action given by the controller. This is because the gamepad controller doesn’t have a default cursor to interact with the UI like the mouse and touch do. So, to implement this, I created a separate game object with a script (`GamepadCursor.cs`) that would control a cursor UI element on every scene (with the help of Alex Long (User Interface)). This script will move this virtual cursor or simulate a click for this virtual cursor depending on the input action from the gamepad controller.
+- Interacting with the UI: To interact with the UI elements using a console controller, I created a virtual mouse that would work in sync with the input action given by the controller. This is because the gamepad controller doesn’t have a default cursor to interact with the UI like the mouse and touch do. So, to implement this, I created a separate game object with a script (`GamepadCursor.cs`) that would control a cursor UI element which is put on every scene (with the help of Alex Long (User Interface)). This script will move this virtual cursor or it will simulate a click for this virtual cursor depending on the input action from the gamepad controller.
 
 ## Input References
 - [Gamepad Cursor Tutorial](https://youtu.be/Y3WNwl1ObC8)
@@ -257,6 +258,13 @@ The defining characteristic of *Teleporting Over It*'s level design is how the e
 - [Unity Documentation for Polygon Collider 2D](https://docs.unity3d.com/Manual/class-PolygonCollider2D.html)
 
 # Sub-Roles
+
+- Audio: [Alex Long](https://github.com/ale-long)
+- Gameplay Testing: [Eric Ni](https://github.com/ecni19)
+- Narrative Design: [Devin Ly](https://github.com/devin177)
+- Press Kit + Trailer: [Alec Atienza](https://github.com/alecF2)
+- Game Feel: [Justin Rusit](https://github.com/Jalastin)
+- Cross-Platform: [Cameron Yee](https://github.com/Cameron327)
 
 ## Audio (Alex Long)
 
@@ -299,7 +307,7 @@ The volume slider allows players to conveniently adjust the audio to their level
 - The instructions provided at the beginning of the game seemed to give players a good idea about what would happen when they launched a pearl projectile.
 - Most players think the game controls feel good and were intuitive as well. The only concern was with the pearl's launch speed, and we have addressed this by adding more force to it when throwing.
 - Similar to the previous point, players were mostly frustrated with the sluggish speed of the pearl because it takes a long time for it to collide with a platform. 
-- The shape of some platforms also caused unintentional sliding, which may have caused unnecessary frustration.
+- Playtesters commented on the shape of some platforms causing the player to slide. However, this was intential to our level's design, as this created another layer of difficulty for the game.
 #### **Game Concept:**
 - Most playertesters had a good first impression of the game. They thoroughly enjoyed the art style, gameplay, and the game's concept. Upon playing the demo, playtesters felt that our game did fit the rage-game genre.
 - The level transitions were smooth, but some playtesters believe there should be more distinct differences in difficulty between stages.
@@ -308,6 +316,7 @@ The volume slider allows players to conveniently adjust the audio to their level
 - Aside from a more fleshed out options menu that has more settings to change, playtesters did not have any additional game controls or interface features that they wanted to see implemented.
 - As mentioned previously, a majority of the playtesters would like to see a faster moving pearl, so that is something we have improved. Some players also wanted to remove the ability for the player to slide on angled surfaces.
 - The only interface-related concern we received was that the pause and mute buttons would sometimes be covered by the level. Since conducting user testing, we have resolved this issue.
+- An overwhleming number of playtesters wanted different music for the game, and we agreed. We changed the music to be more calming and less intrusive for players.
 
 ## Narrative Design (Devin Ly)
 
@@ -324,14 +333,15 @@ The narrative goal of this project was to create a game that truly encompassed t
 ## Game Feel (Justin)
 
 - Majority of the content related to game feel are SerializeField’s, which makes it significantly easier to modify later during playtesting.
+- **Disclaimer**: In this section, I link variables related to game feel to their corresponding SerializeField variables in the code. The numbers in the code **do not** match up with their actual values, which have been modified in the Unity Inspector.
 
 ### Player and Pearls
 
-- There is a 0.3s teleportDelay before the Player is teleported to the location of a Pearl. This was added so that teleportation wasn't completely trivial (ie. when there is no delay), while still being short enough to not have too long of a lag time between pearl collision and player teleportation.
+- There is a 0.3s [teleportDelay](https://github.com/Jalastin/ECS-189L-Project/blob/8a662e6616189e13f05c00a901992035c699f5c2/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L10) before the Player is teleported to the location of a Pearl. This was added so that teleportation wasn't completely trivial (ie. when there is no delay), while still being short enough to not have too long of a lag time between pearl collision and player teleportation.
 
-- Originally I picked an arbitrary max force for the pearls, 250f. However after the majority of play testers reported that the pearl was too slow, I increased the max force to 350f. Any force higher than this however was too much, as it made the majority of our levels too trivial. At 400f I was able to throw a pearl hard enough to skip the first zone entirely!
+- Originally I picked an arbitrary [max force](https://github.com/Jalastin/ECS-189L-Project/blob/8a662e6616189e13f05c00a901992035c699f5c2/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L9) for the pearls, 250f. However after the majority of play testers reported that the pearl was too slow, I increased the max force to 350f. Any force higher than this however was too much, as it made the majority of our levels too trivial. At 400f I was able to throw a pearl hard enough to skip the first zone entirely!
 
-- I kept the gravity of both the Projectile and Player the same: 1. The only thing I changed was their masses. I settled on a mass of 2 for the Player and 0.2 for the Pearl. Any more felt too sluggish, and any less felt too light / floaty.
+- I kept the gravity of both the Projectile and Player's Rigidbody2D's the same: 1. The only thing I changed was their masses. I settled on a mass of 2 for the Player and 0.2 for the Pearl. Any more felt too sluggish, and any less felt too light / floaty.
 
 - One design choice I kept was the fact that the Player keeps its velocity as it continually falls, even after repeated teleportation. This makes vertically climbing sections of the map much more difficult, as the Player falls harder and harder when spamming pearls up vertical sections. This comes into play in the final area of the level with the final area's tree.
 
@@ -339,17 +349,17 @@ The narrative goal of this project was to create a game that truly encompassed t
 
 ### Physics Materials
 
-- As a baseline, Default material has 0.4 friction and 0 bounciness. I wanted the Pearl and Player to be able to "grip" onto normal surfaces without bouncing. Slime material has the same amount of friction but 0.6 bounciness. This lets pearls have a slight bounce on objects without fully redirecting their motion (in the case of 1 bounciness). Ice material, however, has 0.1 friction and 0 bounciness. Since the final section of the level is the ice + wind zone, I wanted to make the platforms there significantly more difficult to land on. Having 0.1 friction made it so that collisions are still predictable, but create a slippier surface for potential misplays during gameplay.
+- As a baseline, [Default](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Resources/Default%20Material.physicsMaterial2D) material has 0.4 friction and 0 bounciness. I wanted the Pearl and Player to be able to "grip" onto normal surfaces without bouncing. [Slime](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Resources/Slime%20Material.physicsMaterial2D) material has the same amount of friction but 0.6 bounciness. This lets pearls have a slight bounce on objects without fully redirecting their motion (in the case of 1 bounciness). [Ice](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Resources/Ice%20Material.physicsMaterial2D) material, however, has 0.1 friction and 0 bounciness. Since the final section of the level is the ice + wind zone, I wanted to make the platforms there significantly more difficult to land on. Having 0.1 friction made it so that collisions are still predictable, but create a slippier surface for potential misplays during gameplay.
 
 ### Dark Zone
 
-- I set darknessStrength of the Dark Zone to 1 so that it was pure darkness, because this increased game difficulty. However I increased the flashlight area of the Player and Pearl so that they were big enough to see where to go next without giving away the entire level.
+- I set [darknessStrength](https://github.com/Jalastin/ECS-189L-Project/blob/16b3ddf5ff2ace8d83b21997d1a76273899d12d0/ECS%20189L%20Game/Assets/Scripts/DarkZoneController.cs#L11) of the Dark Zone to 1 so that it was pure darkness, because this increased game difficulty. However I increased the flashlight area of the Player and Pearl so that they were big enough to see where to go next without giving away the entire level.
 
 ### Wind Zone
 
-- I chose the Wind Zone’s wind force to have an initial force of 10f so that it could be an active obstacle within the game. Originally I had it at 5f, but this was barely noticeable in the actual level.
+- I chose the Wind Zone’s wind force to have an [initial force](https://github.com/Jalastin/ECS-189L-Project/blob/16b3ddf5ff2ace8d83b21997d1a76273899d12d0/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/ADSRManager.cs#L12) of 10f so that it could be an active obstacle within the game. Originally I had it at 5f, but this was barely noticeable in the actual level.
 
-- WindSprites have a minimum spawn time of 0.25s and a max spawn time of 0.5s. This way they consistently spawn so that the player knows the direction + force of the wind, while also not cluttering the screen too much.
+- WindSprites have a [minimum spawn time](https://github.com/Jalastin/ECS-189L-Project/blob/16b3ddf5ff2ace8d83b21997d1a76273899d12d0/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindZoneController.cs#L8) of 0.25s and a [max spawn time](https://github.com/Jalastin/ECS-189L-Project/blob/16b3ddf5ff2ace8d83b21997d1a76273899d12d0/ECS%20189L%20Game/Assets/Scripts/Wind%20Scripts/WindZoneController.cs#L11) of 0.5s. This way they consistently spawn so that the player knows the direction + force of the wind, while also not cluttering the screen too much.
 
 - The ADSR for the wind force looks like the figure below. The attack and release phases are exactly the same (just a poor drawing on my part) and last for 2 seconds each. Both the decay and sustain are a straight line to maintain the maximum wind force for a time, and last for 0.25s and 3s respectfully. I was greatly inspired by the wind in Jump King, which slowly increases to a max, stays at the max for a time, then decreases down at the same rate. After the entire curve ends, it takes 3 seconds before it restarts at the Attack phase again. This gives a brief gap for the player that allows them to move without being affected by any kind of wind. And to make the game more difficult, right before every restart the wind force flips direction.
 
