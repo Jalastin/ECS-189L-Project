@@ -16,7 +16,7 @@ When using a gamepad controller, the left joystick is used to aim and clicking t
 
 ![](./ExampleImages/TeleportationDemonstration.gif)
 
-If you want to get better at the game, try to learn different platform shortcuts you can take. As you play the map more, you'll learn whether you can shortcut from platform A to platformB! You can also try to exploit pearl teleportation to skip past certain sections of the map. Have fun finding them!
+If you want to get better at the game, try to learn different platform shortcuts you can take. As you play the map more, you'll learn whether you can shortcut from platform A to platform B! You can also try to exploit pearl teleportation to skip past certain sections of the map. Have fun finding them!
 
 [Here is a link to our project's Google Drive folder. This contains prototypes, builds of the game, and other miscellaneous files.](https://drive.google.com/drive/folders/1rM_QW05-l4RFF0tphhjMGotStppP4UKm?usp=sharing)
 
@@ -443,7 +443,7 @@ As mentioned earlier, the level design reflects our narrative as well. The types
 
 ### Player and Pearls
 
-- There is a 0.3s [teleportDelay](https://github.com/Jalastin/ECS-189L-Project/blob/8a662e6616189e13f05c00a901992035c699f5c2/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L10) before the Player is teleported to the location of a Pearl. This was added so that teleportation wasn't completely trivial (ie. when there is no delay), while still being short enough to not have too long of a lag time between pearl collision and player teleportation.
+- There is a 0.3s [teleportDelay](https://github.com/Jalastin/ECS-189L-Project/blob/8a662e6616189e13f05c00a901992035c699f5c2/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlController.cs#L10) before the Player is teleported to the location of a Pearl. This was added so that certain mistakes/misplays could occur in gameplay. For example, if the Pearl hits an Ice platform, in the 0.3s of teleportDelay there is a chance for the Pearl to slide off, resulting in the Player's downfall. However I still made sure that the teleportDelay was short enough to not have too long of a lag time between pearl collision and player teleportation.
 
 - Originally I picked an arbitrary [max force](https://github.com/Jalastin/ECS-189L-Project/blob/8a662e6616189e13f05c00a901992035c699f5c2/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L9) for the pearls, 250f. However after the majority of play testers reported that the pearl was too slow, I increased the max force to 350f. Any force higher than this however was too much, as it made the majority of our levels too trivial. At 400f I was able to throw a pearl hard enough to skip the first zone entirely!
 
@@ -501,7 +501,7 @@ As mentioned earlier, the level design reflects our narrative as well. The types
 
 ## Input + Cross-Platform
 
-- Menu traversal on console / controllers could be improved. Instead of using a cursor, having the controller simply hover the different menu options may be a better choice. 
+- Menu traversal on console / controllers could be improved. Instead of using a cursor for the gamepad controller, having the joystick iterate through the menu options may be a better choice.
 
 ## Game Logic
 
