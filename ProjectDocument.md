@@ -121,7 +121,7 @@ Icons:
 
 - Projectile instantiation is done [using the Factory design pattern](https://github.com/Jalastin/ECS-189L-Project/tree/main/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts) as seen in exercise 4. The strength of the pearl’s force and the pearl’s direction are dependent on player input (which will be explained further in the input section) and [is passed in as the spec](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L375) for the newly instantiated pearl. [I use AddForce](https://github.com/Jalastin/ECS-189L-Project/blob/27cb90eab9e09bc26799145d52d03a31f66e6ad1/ECS%20189L%20Game/Assets/Scripts/Pearl%20Scripts/PearlMotion.cs#L23) to add the specified force to the pearl on instantiation.
 
-- The force a pearl can be is also restricted by [the Player’s maxForce.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L340) This is visualized by the Pearl Arc Line, which visualizes the current strength and direction of the user's current throw.
+- The force a pearl can be is also restricted by [the Player’s maxForce.](https://github.com/Jalastin/ECS-189L-Project/blob/46f1f5efad5605ec99dda076db785dbdd49e43b7/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L340) This is visualized by the [Pearl Arc Line](https://github.com/Jalastin/ECS-189L-Project/blob/5c3e441ac8dfb8ed8a66e1fde5f78096d9b36cd0/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L455), which visualizes the current strength and direction of the user's current throw.
 
 ![](./ExampleImages/LineDemonstration.gif)
 
