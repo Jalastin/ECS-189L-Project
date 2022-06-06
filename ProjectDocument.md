@@ -412,3 +412,31 @@ As mentioned earlier, the level design reflects our narrative as well. The types
 - Mac version can be found [here](https://drive.google.com/drive/folders/112PHEbaHF7dDoIA01U_98n1RYTsCkBor?usp=sharing)
 - IOS version can be found [here](https://drive.google.com/file/d/1mwNApjL_EAnLEHehwpmaMFj0RlB7TMiJ/view?usp=sharing)
 - WebGL version can be played [here](https://jalastin.github.io/ECS-189L-Project/)
+
+# Further Improvements + Fixes #
+
+## User Interface + Audio
+
+- More settings could be created to allow more user control. We could add different audio sliders for music and sound effects, and add an option for fullscreen, windowed, or borderless windowed views of the game.
+- More sound effects could be added, such as when charging pearls or falling.
+
+## Movement/Physics + Game Feel
+
+- The Dark Zone could be improved so that it turns on/off when a Pearl goes past it, so it's not just dependent on the Player going through it.
+- The Wind Zone could be improved so that WindSprites always spawn somewhere on the screen, giving clearer visualization of the current wind force.
+- Further research could be done on a different ADSR curve that may better fit the feel of the game.
+
+## Animation + Visuals
+
+- Visual style could be more uniform, as currently we have a mix of different Unity assets and packages.
+- We could make our own character sprite to better match our desired visual style.
+- Animations could be further refined to look smoother and fit better in the game.
+
+## Input + Cross-Platform
+
+- Menu traversal on console / controllers could be improved. Instead of using a cursor, having the controller simply hover the different menu options may be a better choice. 
+
+## Level Design
+
+- Our background is currently a static color. In a future version of this game, we could have a gradient so the color of the sky changes with the player's altitude (e.g. light blue in the beginning, overcast in the forest, a cave background in the cave, a darker blue for the storm, and a pink sunset for the crown/finish line)
+- Sections of the map could be fixed/hidden. Occasionally when the camera follows the pearl, unfinished / unreachable sections of the map are visible.
