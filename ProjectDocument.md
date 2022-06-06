@@ -193,9 +193,9 @@ In the code, the transitions are handled like so:
 
 `player.GetComponent<Animator>().SetBool(String parameterName, bool value);`
 
-The name of the boolean parameter is the first argument and the value you wish to change it to is the second. For example, this line of code is used with `parameterName=“Throw”` and `value=true` whenever fire1 is detected so that the animation state machine can transition to Throwing.
+The name of the boolean parameter is the first argument and the value you wish to change it to is the second. For example, this line of code is used with `parameterName=“Throw”` and `value=true` whenever fire1 is detected so that the animation state machine can transition to Throwing. [Here is an example from our code that demonstrates this](https://github.com/Jalastin/ECS-189L-Project/blob/ca5de50ae675feefa4e1c7ec9d979ae68c04e6c0/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L421-L422).
 
-[This YouTube video](https://www.youtube.com/watch?v=eXIuizGzY2A) provided an excellent foundation for us to learn skeletal animations. 
+[This YouTube video](https://www.youtube.com/watch?v=eXIuizGzY2A) provided an excellent foundation for me to learn skeletal animations. 
 
 ## Input (Cameron Yee)
 
@@ -364,7 +364,7 @@ The narrative goal of this project was to create a game that truly encompassed t
 
 ### Physics Materials
 
-- As a baseline, Default material has 0.4 friction and 0 bounciness. I wanted the Pearl and Player to be able to "grip" onto normal surfaces without bouncing. Slime material has the same amount of friction but 0.6 bounciness. This lets pearls have a slight bounce on objects without fully redirecting their motion (in the case of 1 bounciness). Ice material, however, has 0.1 friction and 0 bounciness. Since the final section of the level is the ice + wind zone, I wanted to make the platforms their significantly more difficult to land on. Having 0.1 friction made it so that collisions are still predictable, but create a slippier surface for potential misplays during gameplay.
+- As a baseline, Default material has 0.4 friction and 0 bounciness. I wanted the Pearl and Player to be able to "grip" onto normal surfaces without bouncing. Slime material has the same amount of friction but 0.6 bounciness. This lets pearls have a slight bounce on objects without fully redirecting their motion (in the case of 1 bounciness). Ice material, however, has 0.1 friction and 0 bounciness. Since the final section of the level is the ice + wind zone, I wanted to make the platforms there significantly more difficult to land on. Having 0.1 friction made it so that collisions are still predictable, but create a slippier surface for potential misplays during gameplay.
 
 ### Dark Zone
 
