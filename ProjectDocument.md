@@ -206,37 +206,37 @@ The name of the boolean parameter is the first argument and the value you wish t
 
 ## Input (Cameron Yee)
 
-## Input Configuration
+### Input Configuration
 - The default input configuration to interact with this game changes depending on which device the game is reading input from. 
 
-### Desktop
+#### Desktop
 - When using a mouse, press and hold the left click button and then drag in the direction opposite of where you want the pearl to go. Releasing the left click button will cause the pearl to be thrown. Dragging the mouse in the opposite direction simulates a slingshot launch for throwing the pearl. In addition, on any of the scenes, you can use the left mouse button to interact with any of the UI elements. 
 
-### Mobile
+#### Mobile
 - When using touchscreen, the inputs are similar to that of the mouse except instead of clicking, it uses a touch and drag input. Then, after touching and dragging, take the finger (or whatever you are using to touch the screen) off the screen to actually launch. In addition, on any of the scenes, you can use touch to interact with any of the UI elements. 
 
-### Console
+#### Console
 - When using a gamepad controller, the left joystick is used to aim and clicking the east button will launch the pearl. The joystick inputs are reversed to simulate a slingshot (move left on the joystick to aim right). In addition, press the start button on the controller to open the pause menu. When interacting with any of the menu screens, use the left joystick to move the gamepad cursor and press the “B” button to click the UI elements. 
 
-## Input Implementation (How it Works)
+### Input Implementation (How it Works)
 - All input that controls the pearl is done in the `PlayerController.cs` script. Specifically for the gamepad, to interact with the UI, the logic is done in the `GamepadCursor.cs` script.
 
-### Desktop
+#### Desktop
 - Launching the pearl: The input works by first getting the position of the cursor whenever the user clicks and holds on the screen ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L349)). While still not letting go of the click, the user can move the cursor in any direction to aim the pearl (if the user moves to the left, it will aim to the right). We use this distance traveled from the current mouse position to where the user first clicked to calculate the force and direction that the player will throw the pearl ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L361)). Then, a pearl trajectory line is drawn based on force magnitude and direction to depict the force and direction of the throw once the player releases the click ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L455)). In addition, we have to account for a maximum force value to balance the game (which was refined upon by Justin Rusit (Movement/Physics and Game Feel)) ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L380)). So, even if the user moves the mouse really far away from the starting click position, the force will be capped at a certain value and the pearl trajectory line will reflect this maxed value. Finally, when the user releases the click, the force will be passed into a factory that creates the pearl according to the direction and force values that we gathered ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L426)). 
 
 - Interacting with the UI: The mouse and UI compatibility is built-in so no extra code was needed to get the mouse to interact with the UI elements.
 
-### Mobile
+#### Mobile
 - Launching the pearl: The mobile version of launching the pearl works almost exactly the same as the desktop version except instead of looking for a mouse click event, it will look for a single touch on the screen. Touch and hold to get the starting point ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L167)), move your finger (or whatever you are using to touch the screen) to affect force and direction ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L182)), then release the touch to launch the pearl ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L245)). 
 
 - Interacting with the UI: The touch and UI compatibility is built-in so no extra code was needed to get the touch to interact with the UI elements.
 
-### Console
+#### Console
 - Launching the pearl: For the console version, launching the pearl uses a different method. To get its equivalent starting position, we initialize a variable vector with a value of 0. Then, we get the joystick input through the input system ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L83)) and add that value to the variable vector ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L269)). This value gets updated every frame so that our variable will always be updated based on the input given by the left joystick. Since this variable is a vector, we can get a direction and a magnitude for the pearl launch and the trajectory line. To actually launch the pearl, the user will click the “B” button which will pass those values (magnitude and direction) into the pearl factory function ([here](https://github.com/Jalastin/ECS-189L-Project/blob/29c14b7ea9d6afa84fbf7ef76ab77b8625241f32/ECS%20189L%20Game/Assets/Scripts/PlayerController.cs#L334)). 
 
 - Interacting with the UI: To interact with the UI elements using a console controller, I created a virtual mouse that would work in sync with the input action given by the controller. This is because the gamepad controller doesn’t have a default cursor to interact with the UI like the mouse and touch do. So, to implement this, I created a separate game object with a script (`GamepadCursor.cs`) that would control a cursor UI element which is put on every scene (with the help of Alex Long (User Interface)). This script will move this virtual cursor or it will simulate a click for this virtual cursor depending on the input action from the gamepad controller.
 
-## Input References
+### Input References
 - [Gamepad Cursor Tutorial](https://youtu.be/Y3WNwl1ObC8)
 - [Connecting a wireless controller](https://youtu.be/adJM4Ps44z0)
 - [Mouse, Touch, and Controller Input System Tutorial](https://youtu.be/Yjee_e4fICc)
