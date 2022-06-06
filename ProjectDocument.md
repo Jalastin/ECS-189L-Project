@@ -250,7 +250,10 @@ The name of the boolean parameter is the first argument and the value you wish t
 * Implemented a game manager using the singleton pattern; it can be accessed throughout our project's scripts using [GameManager.Instance](https://github.com/Jalastin/ECS-189L-Project/blob/main/ECS%20189L%20Game/Assets/Scripts/GameState.cs).
 * Also made use of the PubSub pattern to allow scripts to subscribe to certain events in the game manager which may affect what is being displayed to the player.
 * The manager handles a lot of the logic used throughout different scripts, such as scene switching, game state updating, keep tracking of stats, and notifying other scripts of changes.
-* ![GameManagerDiagram](./ExampleImages/GameManagerDiagram.png)
+
+![](./ExampleImages/GameManagerDiagram.png)
+
+- A rough diagram showcasing what the game manager is in charge of.
 
 ### State Management
 
@@ -424,7 +427,7 @@ As mentioned earlier, the level design reflects our narrative as well. The types
 ### Trailer
 
 - [Link to trailer](https://drive.google.com/file/d/1PEF3CugHlFp5i7MgDZVDZZ7jZYlOrZlb/view?usp=sharing)
-- 
+- I wanted to center the trailer around two core features of the game: its simplicity and its yet ironic difficulty. To showcase this, I started the trailer showing the basic game mechanic, emphasizing its simplicity through accompanying text. But as the trailer moves forward, I begin to show the implications of the simple mechanic through frustrating scenarios that players will most likely run into in-game — including micalculating a pearl throw which loss of all progress and wind zones altering the direction of the pearl. By the end of the trailer, the hope is that viewers are interested by a game that has extremely easy mechanics that anyone can pick up; yet still poses an difficult challenge.
 
 ## Game Feel (Justin)
 
